@@ -1248,6 +1248,15 @@ footer.site-footer h4 {
   margin-bottom: 14px;
 }
 
+/* Smaller version of the header logo */
+.footer-logo {
+  display: block;
+  height: 22px;
+  width: auto;
+  filter: invert(1);
+  margin-bottom: 12px;
+}
+
 .footer-grid {
   display: grid;
   grid-template-columns: 2fr 1fr 1.4fr;
