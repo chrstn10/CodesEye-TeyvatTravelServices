@@ -1,0 +1,1385 @@
+/* ---------- 1. Colors and basic page setup ---------- */
+
+/* Colors and sizes used everywhere, defined once here as variables. */
+:root {
+  --ink: #2b2620;           /* main text color */
+  --ink-soft: #423b30;      /* softer/secondary text color */
+  --paper: #faf7f0;         /* main page background (cream) */
+  --paper-alt: #f1ead9;     /* slightly darker cream, for alternating sections */
+  --card: #ffffff;          /* white card background */
+  --line: #e4dbc7;          /* light border color */
+  --brand: #f0b429;         /* main gold brand color (buttons, logo) */
+  --brand-dark: #b9820a;    /* darker gold, for hover states and text */
+  --accent: #c9962c;        /* gets overridden per-nation below */
+  --accent-soft: #f1e3c2;
+  --accent-dark: #a5761c;
+  --charcoal: #2e333d;      /* dark navy used on "dark" cards and the footer */
+  --charcoal-soft: #c9ccd3;
+  --shadow: 0 12px 30px -14px rgba(43, 38, 32, 0.35);
+  --radius: 14px;           /* standard rounded-corner size */
+  --maxw: 1120px;           /* max width of page content */
+}
+
+/* Each nation's own colors */
+
+/* Mondstadt - Sky Blue & Emerald Green (medieval-Europe inspiration) */
+body[data-theme="mondstadt"] {
+  --accent: #2f9e5c;
+  --accent-soft: #dcf1ea;
+  --accent-dark: #1f7a44;
+  --nc-a: #8fd0ef;
+  --nc-b: #2f9e5c;
+}
+
+/* Liyue - Gold & Red (ancient-China inspiration) */
+body[data-theme="liyue"] {
+  --accent: #a4302a;
+  --accent-soft: #f6e6c2;
+  --accent-dark: #7a211d;
+  --nc-a: #e8b64c;
+  --nc-b: #a4302a;
+}
+
+/* Inazuma - Electric Violet & Deep Indigo (feudal-Japan inspiration) */
+body[data-theme="inazuma"] {
+  --accent: #6a3fd6;
+  --accent-soft: #eae3fb;
+  --accent-dark: #34237a;
+  --nc-a: #9b7bef;
+  --nc-b: #34237a;
+}
+
+/* Sumeru - Gold & Dark Green (Middle East / ancient India-Egypt) */
+body[data-theme="sumeru"] {
+  --accent: #3f6b2e;
+  --accent-soft: #eef0d3;
+  --accent-dark: #2c4a1f;
+  --nc-a: #cdb46a;
+  --nc-b: #3f6b2e;
+}
+
+/* Fontaine - Aqua Blue & Clean White (Victorian-France inspiration) */
+body[data-theme="fontaine"] {
+  --accent: #1f9db5;
+  --accent-soft: #e3f6f7;
+  --accent-dark: #146670;
+  --nc-a: #cdf4f7;
+  --nc-b: #1f9db5;
+}
+
+/* Natlan - Sunset Orange & Volcanic Charcoal (tribal inspiration) */
+body[data-theme="natlan"] {
+  --accent: #d9622b;
+  --accent-soft: #fbe3d2;
+  --accent-dark: #7a3418;
+  --nc-a: #f2965a;
+  --nc-b: #a8391c;
+}
+
+/* Snezhnaya - Ice White & Slate Gray (Russia / Siberia inspiration) */
+body[data-theme="snezhnaya"] {
+  --accent: #5b7480;
+  --accent-soft: #eaf1f3;
+  --accent-dark: #35474e;
+  --nc-a: #bfe0ee;
+  --nc-b: #5b7480;
+}
+
+/* Make padding/border not add extra width, so sizes stay predictable. */
+* {
+  box-sizing: border-box;
+}
+
+/* Smooth scrolling when a link jumps to another part of the same page. */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: "Lora", Georgia, "Times New Roman", serif;
+  color: var(--ink);
+  line-height: 1.65;
+  /* Faint grain texture layered over the cream background. */
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E"),
+    var(--paper);
+}
+
+/* Genshin Impact display font for h1 and h2 */
+@font-face {
+  font-family: "Genshin Impact";
+  src: url("../fonts/zh-cn.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+h1, h2, h3, h4, .brand-word {
+  font-family: "Cinzel", "Times New Roman", serif;
+  letter-spacing: 0.02em;
+  color: var(--ink);
+  margin: 0 0 0.5em;
+}
+
+h1, h2 {
+  font-family: "Genshin Impact", "Cinzel", "Times New Roman", serif;
+}
+
+p {
+  margin: 0 0 1em;
+  color: var(--ink-soft);
+}
+
+a {
+  color: var(--accent-dark);
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* Centers page content and stops it from getting too wide on big screens. */
+.container {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* Small rounded label used above headings, e.g. "OUR STORY". */
+.eyebrow {
+  display: inline-block;
+  font-family: "Cinzel", serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent-dark);
+  background: var(--accent-soft);
+  padding: 6px 14px;
+  border-radius: 999px;
+  margin-bottom: 14px;
+}
+
+/* ---------- 2. Header / navigation bar ---------- */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(250, 247, 240, 0.94);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid var(--line);
+}
+
+.nav-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 24px;
+  max-width: var(--maxw);
+  margin: 0 auto;
+  gap: 20px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: "Cinzel", serif;
+  font-weight: 700;
+  font-size: 1.02rem;
+  text-decoration: none;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+/* The round gold logo badge next to the site name. */
+.logo-mark {
+  height: 34px;
+  width: auto;
+  flex-shrink: 0;
+  filter: drop-shadow(0 0 5px rgba(240, 180, 41, 0.75)) drop-shadow(0 0 11px rgba(240, 180, 41, 0.4));
+  transition: filter 0.2s;
+}
+
+.logo:hover .logo-mark {
+  filter: drop-shadow(0 0 8px rgba(240, 180, 41, 0.9)) drop-shadow(0 0 16px rgba(240, 180, 41, 0.55));
+}
+
+nav.primary-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 1px;
+  justify-content: flex-end;
+}
+
+nav.primary-nav a {
+  text-decoration: none;
+  font-family: "Cinzel", serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.015em;
+  color: var(--ink-soft);
+  padding: 8px 8px;
+  border-radius: 8px;
+  transition: background 0.15s, color 0.15s;
+}
+
+nav.primary-nav a:hover {
+  background: var(--paper-alt);
+  color: var(--ink);
+}
+
+/* Highlights whichever page link matches the page you're on. */
+nav.primary-nav a.active {
+  color: var(--accent-dark);
+  background: var(--accent-soft);
+}
+
+/* ---------- 3. Hero sections ---------- */
+
+/* Base hero look shared by every page (soft gradient background). */
+.hero {
+  position: relative;
+  padding: 90px 24px 70px;
+  background:
+    radial-gradient(1200px 500px at 10% -10%, var(--accent-soft), transparent 60%),
+    radial-gradient(900px 500px at 100% 0%, var(--paper-alt), transparent 55%),
+    var(--paper);
+  border-bottom: 1px solid var(--line);
+  overflow: hidden;
+}
+
+/* Nation-page hero: full-bleed photo, with a frosted glass panel over
+   the title so the photo stays sharp everywhere else. */
+.hero-split {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(320px, 1fr) 1.15fr;
+  align-items: stretch;
+  min-height: 540px;
+  padding: 0;
+  background: var(--paper);
+  border-bottom: 1px solid var(--line);
+  overflow: hidden;
+}
+
+/* The photo fills the whole hero, both columns, behind everything. */
+.hero-split .hero-media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.hero-split .hero-media .media-sharp {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.hero-split .hero-media.animate-pan .media-sharp {
+  animation: heroPan 22s ease-in-out infinite alternate;
+}
+
+/* Slow zoom and pan, so a still photo feels like it's gently moving. */
+@keyframes heroPan {
+  0%   { transform: scale(1.08) translate(0, 0); }
+  100% { transform: scale(1.18) translate(-2%, -1%); }
+}
+
+/* Frosted glass card holding the title, sitting over the left side of
+   the photo. The rest of the photo stays uncovered and sharp. */
+.hero-split .hero-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 64px 48px;
+}
+
+/* The frosted glass sits on its own layer, wider than the text column,
+   and fades out gradually instead of stopping at a hard edge. */
+.hero-split .hero-content::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  right: -220px;
+  z-index: -1;
+  background: rgba(250, 247, 240, 0.62);
+  backdrop-filter: blur(20px) saturate(1.3);
+  -webkit-backdrop-filter: blur(20px) saturate(1.3);
+  mask-image: linear-gradient(to right, #000 0%, #000 55%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, #000 0%, #000 55%, transparent 100%);
+}
+
+@media (max-width: 860px) {
+  .hero-split .hero-content::before {
+    display: none;
+  }
+  /* On narrow screens, stack the sharp photo above a plain text block
+     instead of overlapping them with a glass panel. */
+  .hero-split {
+    grid-template-columns: 1fr;
+  }
+  .hero-split .hero-media {
+    position: relative;
+    inset: auto;
+    min-height: 260px;
+    order: -1;
+  }
+  .hero-split .hero-content {
+    padding: 40px 24px;
+    background: var(--paper);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border-right: none;
+  }
+}
+
+/* Homepage hero: full-width photo, header stays the same as other pages. */
+.hero-full {
+  position: relative;
+  min-height: 640px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 0;
+  border-bottom: none;
+}
+
+.hero-full .hero-media {
+  position: absolute;
+  inset: 0;
+}
+
+.hero-full .hero-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.hero-full .hero-media.animate-pan img {
+  animation: heroPan 24s ease-in-out infinite alternate;
+}
+
+/* Dark gradient over the photo so the white headline stays readable. */
+.hero-full .hero-media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(15, 13, 8, 0.28) 0%, rgba(15, 13, 8, 0.4) 55%, rgba(15, 13, 8, 0.62) 100%);
+}
+
+.hero-full .hero-content-full {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  max-width: 780px;
+  min-width: 0;
+  margin: 0 auto;
+  padding: 120px 24px;
+  color: #fff;
+}
+
+.hero-full h1 {
+  color: #fff;
+  font-size: clamp(2.3rem, 5vw, 3.4rem);
+  text-shadow: 0 6px 28px rgba(0, 0, 0, 0.45);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.hero-full .lede {
+  color: rgba(255, 255, 255, 0.94);
+  max-width: 90vw;
+  margin-left: auto;
+  margin-right: auto;
+  font-family: "Genshin Impact", "Cinzel", serif;
+  font-size: clamp(0.6rem, 2.1vw, 0.92rem);
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+@media (max-width: 600px) {
+  .hero-full .lede {
+    white-space: normal;
+  }
+}
+
+.hero-full .btn-row {
+  justify-content: center;
+}
+
+.hero-full .btn,
+.hero-full .btn-outline {
+  background: var(--brand);
+  color: #2a2210;
+  border-color: var(--brand);
+}
+
+.hero-full .btn:hover,
+.hero-full .btn-outline:hover {
+  background: var(--brand-dark);
+  border-color: var(--brand-dark);
+}
+
+/* Bouncing arrow hinting there's more content below the hero. */
+.scroll-cue {
+  position: absolute;
+  bottom: 22px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  color: #fff;
+  font-size: 1.3rem;
+  text-decoration: none;
+  opacity: 0.85;
+  animation: scrollCueBounce 2.2s ease-in-out infinite;
+}
+
+.scroll-cue:hover {
+  opacity: 1;
+}
+
+@keyframes scrollCueBounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50%      { transform: translateX(-50%) translateY(8px); }
+}
+
+.hero-inner {
+  max-width: var(--maxw);
+  margin: 0 auto;
+}
+
+.hero h1 {
+  font-size: clamp(2.1rem, 4vw, 3.2rem);
+  max-width: 16ch;
+}
+
+/* Two-tone nation title, using that nation's own light/dark accent pair. */
+.nation-title-a {
+  color: var(--accent-dark);
+}
+
+.nation-title-b {
+  color: var(--accent);
+}
+
+.hero .lede {
+  font-size: 1.1rem;
+  max-width: 56ch;
+}
+
+.hero-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 22px;
+}
+
+/* Keeps the 3 nation-hero chips on a single row instead of wrapping. */
+@media (min-width: 861px) {
+  .hero-split .hero-meta {
+    flex-wrap: nowrap;
+    gap: 6px;
+  }
+  .hero-split .hero-meta .pill {
+    padding: 7px 10px;
+    font-size: 0.68rem;
+    white-space: nowrap;
+  }
+}
+
+/* ---------- 4. Buttons and small UI bits ---------- */
+
+/* Small rounded chip, used for duration/price/package-code in the hero. */
+.pill {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 8px 16px;
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  box-shadow: var(--shadow);
+}
+
+.pill strong {
+  color: var(--ink);
+}
+
+.btn {
+  display: inline-block;
+  font-family: "Cinzel", serif;
+  font-size: 0.85rem;
+  letter-spacing: 0.03em;
+  text-decoration: none;
+  padding: 13px 26px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #fff;
+  box-shadow: var(--shadow);
+  border: 1px solid transparent;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--accent-dark);
+  border: 1px solid var(--accent);
+}
+
+.btn-row {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-top: 28px;
+}
+
+/* Visible outline for keyboard users tabbing through the page. */
+a:focus-visible,
+button:focus-visible {
+  outline: 3px solid var(--accent-dark);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.btn:focus-visible,
+.btn-outline:focus-visible {
+  outline: 3px solid var(--ink);
+  outline-offset: 3px;
+}
+
+nav.primary-nav a:focus-visible {
+  outline-offset: -2px;
+}
+
+.hero-full .btn:focus-visible,
+.hero-full .btn-outline:focus-visible {
+  outline-color: #fff;
+}
+
+.nation-card:focus-visible {
+  outline: 3px solid var(--accent-dark);
+  outline-offset: 3px;
+}
+
+/* Gold color for the second half of a two-tone heading. */
+.accent-gold {
+  color: var(--brand-dark);
+}
+
+/* ---------- 5. Page sections and grids ---------- */
+
+section.block {
+  padding: 64px 24px;
+  position: relative;
+  /* Keeps the sticky header from covering a section when a link jumps to it. */
+  scroll-margin-top: 84px;
+}
+
+section.block.alt {
+  background: var(--paper-alt);
+}
+
+.section-head {
+  max-width: 62ch;
+  margin-bottom: 36px;
+  position: relative;
+}
+
+.section-head h2 {
+  font-size: clamp(1.6rem, 3vw, 2.1rem);
+}
+
+/* Centers one intro paragraph instead of following the left edge. */
+.lede-center {
+  max-width: 68ch;
+  margin: -10px auto 36px;
+  text-align: center;
+  font-size: 1.25rem;
+  font-weight: 700;
+  font-style: italic;
+  color: var(--ink);
+}
+
+/* Centered single column of body text */
+.story-body {
+  max-width: 70ch;
+  margin: 0 auto;
+  text-align: center;
+}
+
+/* Keeps a heading on a single line at every screen size. */
+.nowrap-heading {
+  font-size: clamp(1.05rem, 4vw, 2.1rem);
+  white-space: nowrap;
+}
+
+#nations .section-head,
+#director .section-head,
+#stops .section-head {
+  max-width: none;
+}
+
+/* Soft blurred color blob behind a heading, only where .with-glow is added. */
+.section-head.with-glow::before {
+  content: "";
+  position: absolute;
+  top: -60px;
+  left: -40px;
+  width: 220px;
+  height: 220px;
+  background: radial-gradient(circle, var(--accent-soft), transparent 65%);
+  filter: blur(30px);
+  opacity: 0.8;
+  z-index: -1;
+}
+
+.grid {
+  display: grid;
+  gap: 22px;
+}
+
+.grid-3 {
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.grid-2 {
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+/* Flex-wrap grid so the leftover row centers itself. */
+.nations-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.nations-grid .nation-card {
+  flex: 1 1 225px;
+  max-width: 250px;
+}
+
+@media (max-width: 620px) {
+  .nations-grid .nation-card {
+    flex: 1 1 100%;
+    max-width: 320px;
+  }
+}
+
+/* ---------- 6. Cards ---------- */
+
+/* Plain light card (white background). */
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 26px;
+  box-shadow: var(--shadow);
+  transition: transform 0.18s, box-shadow 0.18s;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 18px 34px -16px rgba(43, 38, 32, 0.4);
+}
+
+.card h3 {
+  font-size: 1.05rem;
+  margin-bottom: 10px;
+}
+
+.card .tag {
+  display: inline-block;
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent-dark);
+  background: var(--accent-soft);
+  padding: 4px 10px;
+  border-radius: 999px;
+  margin-bottom: 12px;
+}
+
+/* Small numbered circle used above each "Featured Stop" card. */
+.stop-number {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Cinzel", serif;
+  font-size: 0.85rem;
+  margin-bottom: 14px;
+}
+
+/* Featured Stops */
+.stop-banner-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.stop-banner {
+  position: relative;
+  border-radius: var(--radius);
+  overflow: hidden;
+  aspect-ratio: 16 / 7;
+  box-shadow: var(--shadow);
+  isolation: isolate;
+}
+
+.stop-banner-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.stop-banner:hover .stop-banner-img {
+  transform: scale(1.045);
+}
+
+.stop-banner-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  padding: 6%;
+}
+
+.stop-left .stop-banner-overlay {
+  justify-content: flex-start;
+  background: linear-gradient(100deg, rgba(20, 16, 8, 0.7) 0%, rgba(20, 16, 8, 0.28) 48%, rgba(20, 16, 8, 0) 78%);
+}
+
+.stop-right .stop-banner-overlay {
+  justify-content: flex-end;
+  background: linear-gradient(260deg, rgba(20, 16, 8, 0.7) 0%, rgba(20, 16, 8, 0.28) 48%, rgba(20, 16, 8, 0) 78%);
+}
+
+.stop-banner-text {
+  max-width: 420px;
+  background: rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(12px) saturate(1.2);
+  -webkit-backdrop-filter: blur(12px) saturate(1.2);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: var(--radius);
+  padding: 22px 26px;
+}
+
+.stop-banner-text h3 {
+  margin: 0 0 8px;
+  font-size: 1.35rem;
+  color: #fff;
+}
+
+.stop-banner-text p {
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.94);
+}
+
+@media (max-width: 720px) {
+  .stop-banner {
+    aspect-ratio: 4 / 5;
+  }
+  .stop-left .stop-banner-overlay,
+  .stop-right .stop-banner-overlay {
+    justify-content: flex-end;
+    align-items: flex-end;
+    background: linear-gradient(0deg, rgba(20, 16, 8, 0.75) 0%, rgba(20, 16, 8, 0.3) 45%, rgba(20, 16, 8, 0) 75%);
+  }
+  .stop-banner-text {
+    max-width: 100%;
+  }
+}
+
+/* A sharp photo sitting on top of a soft, blurred color glow. */
+.photo-frame-wrap {
+  position: relative;
+  isolation: isolate; /* keeps the glow from bleeding into nearby content */
+}
+
+.photo-frame-wrap::before {
+  content: "";
+  position: absolute;
+  inset: -32px;
+  background:
+    radial-gradient(circle at 25% 30%, var(--accent-soft), transparent 60%),
+    radial-gradient(circle at 80% 75%, var(--accent), transparent 55%);
+  filter: blur(48px);
+  opacity: 0.6;
+  z-index: -1;
+}
+
+.photo-frame {
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  aspect-ratio: 16 / 10;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+
+.photo-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+/* Gentle zoom-in on the photo when hovering the card around it. */
+.photo-frame-wrap:hover .photo-frame img {
+  transform: scale(1.05);
+}
+
+/* Taller, portrait-shaped version, used for the director's photo. */
+.photo-frame.portrait {
+  aspect-ratio: 4 / 5;
+}
+
+/* "Traveler's Journal" text block, styled like a parchment page. */
+.lore-block {
+  position: relative;
+  background:
+    repeating-linear-gradient(0deg, transparent, transparent 30px, rgba(43, 38, 32, 0.045) 31px),
+    var(--paper-alt);
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--accent);
+  border-radius: 4px 12px 12px 4px;
+  padding: 34px 38px;
+  box-shadow: var(--shadow);
+}
+
+.lore-block .lore-label {
+  display: block;
+  font-family: "Cinzel", serif;
+  font-style: italic;
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent-dark);
+  margin-bottom: 10px;
+}
+
+.lore-block p {
+  font-style: italic;
+  color: var(--ink);
+  margin: 0;
+  font-size: 1.02rem;
+}
+
+/* ---------- 7. Package price panel, itinerary, FAQ ---------- */
+
+.price-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 28px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 30px 32px;
+  box-shadow: var(--shadow);
+}
+
+.price-panel .amount {
+  font-family: "Cinzel", serif;
+  font-size: 2rem;
+  color: var(--accent-dark);
+}
+
+.price-panel .amount span {
+  font-size: 0.95rem;
+  color: var(--ink-soft);
+  font-family: "Lora", serif;
+}
+
+.spec-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.spec-list li {
+  font-size: 0.92rem;
+  color: var(--ink-soft);
+}
+
+.spec-list strong {
+  color: var(--ink);
+}
+
+/* Day-by-day itinerary, styled like a timeline with a "Day N" tag each line. */
+.itinerary {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  counter-reset: day;
+}
+
+.itinerary li {
+  counter-increment: day;
+  position: relative;
+  padding: 4px 0 22px 44px;
+  border-left: 2px solid var(--line);
+  margin-left: 14px;
+}
+
+.itinerary li:last-child {
+  border-color: transparent;
+  padding-bottom: 0;
+}
+
+.itinerary li::before {
+  content: "Day " counter(day);
+  position: absolute;
+  left: -14px;
+  top: 0;
+  transform: translateX(-100%);
+  font-family: "Cinzel", serif;
+  font-size: 0.7rem;
+  color: var(--accent-dark);
+  background: var(--accent-soft);
+  padding: 4px 8px;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+
+.itinerary li::after {
+  content: "";
+  position: absolute;
+  left: -6px;
+  top: 4px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.itinerary strong {
+  color: var(--ink);
+  display: block;
+  margin-bottom: 3px;
+}
+
+/* Small "Day" / "Night" label above each half of a day's entry. */
+.itinerary .time-label {
+  display: block;
+  font-family: "Cinzel", serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent-dark);
+  margin-bottom: 3px;
+}
+
+/* The night half of a day, set off from the day half above it. */
+.itinerary .night-activity {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--line);
+}
+.itinerary .night-activity .time-label {
+  color: var(--ink-soft);
+}
+
+.faq-item {
+  border-bottom: 1px solid var(--line);
+  padding: 18px 0;
+}
+
+.faq-item:last-child {
+  border-bottom: none;
+}
+
+.faq-item h4 {
+  font-size: 1rem;
+  margin-bottom: 8px;
+  color: var(--ink);
+  font-family: "Lora", serif;
+  font-weight: 700;
+}
+
+.faq-item p {
+  margin: 0;
+}
+
+/* ---------- 8. Nation cards (homepage "Explore the Seven Nations") ---------- */
+
+.nation-card {
+  position: relative;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: var(--card);
+  box-shadow: var(--shadow);
+  text-decoration: none;
+  display: block;
+  transition: transform 0.18s, box-shadow 0.18s;
+}
+
+.nation-card:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 20px 38px -16px rgba(43, 38, 32, 0.3),
+    0 0 0 1px color-mix(in srgb, var(--nc-b) 45%, transparent);
+}
+
+.nation-card .swatch {
+  height: 130px;
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.4s ease;
+}
+
+/* Gentle zoom-in on the photo when hovering the card. */
+.nation-card:hover .swatch {
+  transform: scale(1.07);
+}
+
+/* Fades the bottom of the photo into the white card body beneath it. */
+.nation-card .swatch::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 60%, var(--card) 100%);
+}
+
+/* Thin colored stripe between the photo and text, using that nation's colors. */
+.nation-card .swatch::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--nc-a), var(--nc-b));
+  z-index: 2;
+}
+
+.nation-card .body {
+  padding: 16px 20px 20px;
+}
+
+/* Nation name colored with that nation's own accent. */
+.nation-card h3 {
+  font-size: 1.05rem;
+  margin-bottom: 4px;
+  color: var(--nc-b);
+}
+
+.nation-card .region {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+/* Small colored dot next to the duration/price line. */
+.nation-card .region::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--nc-b);
+  flex-shrink: 0;
+}
+
+.nation-card p {
+  font-size: 0.9rem;
+  margin: 10px 0 0;
+  color: var(--ink-soft);
+}
+
+/* ---------- 9. Director profile, contact cards, footer ---------- */
+
+.profile-wrap {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 44px;
+  align-items: start;
+}
+
+@media (max-width: 720px) {
+  .profile-wrap {
+    grid-template-columns: 1fr;
+    max-width: 320px;
+    margin: 0 auto;
+  }
+}
+
+.profile-wrap .photo-frame-wrap {
+  margin: 0 auto;
+  width: 100%;
+}
+
+blockquote {
+  margin: 22px 0;
+  padding: 18px 22px;
+  border-left: 3px solid var(--accent);
+  background: var(--accent-soft);
+  border-radius: 0 10px 10px 0;
+  font-style: italic;
+  color: var(--ink);
+}
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+/* Contact card: same plain white card style used everywhere else. */
+.contact-item {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 22px;
+  box-shadow: var(--shadow);
+  transition: transform 0.18s, box-shadow 0.18s;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.contact-item:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 18px 34px -16px rgba(43, 38, 32, 0.4);
+}
+
+/* Round icon badge above each contact method. */
+.contact-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--accent-soft);
+  color: var(--accent-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.contact-icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.contact-item .label {
+  display: block;
+  margin-bottom: 6px;
+  font-family: "Cinzel", serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent-dark);
+}
+
+.contact-item p {
+  margin: 0 0 8px;
+  overflow-wrap: break-word;
+}
+
+/* Helper line, pinned to the bottom so short and long cards line up. */
+.contact-item .hint {
+  display: block;
+  margin-top: auto;
+  padding-top: 8px;
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+  font-style: italic;
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: "Cinzel", serif;
+  font-size: 0.78rem;
+  text-decoration: none;
+  color: var(--ink-soft);
+  margin-bottom: 18px;
+}
+
+.back-link:hover {
+  color: var(--accent-dark);
+}
+
+footer.site-footer {
+  background: #161a21;
+  color: #c7cbd4;
+  padding: 50px 24px 26px;
+}
+
+footer.site-footer .container {
+  max-width: var(--maxw);
+}
+
+footer.site-footer h4 {
+  color: #f1e3c2;
+  font-size: 0.85rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1.4fr;
+  gap: 32px;
+  padding-bottom: 30px;
+  border-bottom: 1px solid #2c313c;
+}
+
+@media (max-width: 720px) {
+  .footer-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+footer.site-footer a {
+  color: #cfc6b3;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+footer.site-footer a:hover {
+  color: #f1e3c2;
+}
+
+footer.site-footer ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 8px;
+}
+
+footer.site-footer li {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.footer-icon {
+  display: inline-flex;
+  width: 15px;
+  height: 15px;
+  margin-top: 3px;
+  flex-shrink: 0;
+  color: var(--brand);
+}
+
+.footer-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.footer-note {
+  padding-top: 18px;
+  font-size: 0.78rem;
+  color: #7c8291;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+  justify-content: space-between;
+}
+
+.disclosure {
+  font-size: 0.72rem;
+  color: #7c8291;
+  max-width: 70ch;
+  line-height: 1.6;
+}
+
+/* ---------- 10. Small screens and printing ---------- */
+
+@media (max-width: 640px) {
+  .nav-wrap {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  nav.primary-nav {
+    justify-content: flex-start;
+  }
+  .price-panel {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+/* Strips photos/nav/decoration when printed, so it's just readable text. */
+@media print {
+  body {
+    background: #fff;
+  }
+  .site-header,
+  .scroll-cue,
+  .btn-row,
+  footer.site-footer {
+    display: none;
+  }
+  .hero,
+  .hero-full,
+  .hero-split {
+    min-height: auto;
+  }
+  .hero-full .hero-media,
+  .hero-split .hero-media,
+  .hero .hero-bg,
+  .hero .hero-scrim {
+    display: none;
+  }
+  .hero-full .hero-content-full,
+  .hero-split .hero-content {
+    color: var(--ink);
+    position: static;
+    padding: 20px 0;
+  }
+  .hero-full h1,
+  .hero-full .lede {
+    color: var(--ink);
+    text-shadow: none;
+  }
+  section.block {
+    padding: 20px 0;
+  }
+  .card,
+  .nation-card,
+  .lore-block,
+  .price-panel,
+  .photo-frame-wrap::before {
+    box-shadow: none !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  a {
+    color: var(--ink);
+    text-decoration: underline;
+  }
+}

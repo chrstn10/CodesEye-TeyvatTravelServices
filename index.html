@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Home | Teyvat Travel Services</title>
+<meta name="description" content="Teyvat Travel Services is an independent travel agency founded by a former traveler, offering guided tours across all seven nations of Teyvat.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Home | Teyvat Travel Services">
+<meta property="og:description" content="Teyvat Travel Services is an independent travel agency founded by a former traveler, offering guided tours across all seven nations of Teyvat.">
+<meta property="og:image" content="assets/img/home-hero.png">
+<link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link
+  href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap"
+  rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="home-page">
+
+  <!-- Logo + navigation bar, same on every page -->
+  <header class="site-header">
+    <div class="nav-wrap">
+      <a href="index.html" class="logo" title="Return to Home">
+        <img class="logo-mark" src="assets/img/logo-emblem.png" alt="Teyvat Travel Services">Teyvat Travel Services</a>
+      <nav class="primary-nav">
+      <a href="index.html" class="active">Home</a>
+      <a href="mondstadt.html">Mondstadt</a>
+      <a href="liyue.html">Liyue</a>
+      <a href="inazuma.html">Inazuma</a>
+      <a href="sumeru.html">Sumeru</a>
+      <a href="fontaine.html">Fontaine</a>
+      <a href="natlan.html">Natlan</a>
+      <a href="snezhnaya.html">Snezhnaya</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+  <!-- Hero: full-width photo with the main headline and two buttons -->
+  <section class="hero hero-full">
+    <div class="hero-media animate-pan">
+      <img src="assets/img/home-hero.png" alt="Scenic view of Teyvat">
+    </div>
+    <div class="hero-content-full">
+      <h1>Your Journey Across Seven Nations Begins Here</h1>
+      <p class="lede">Independent Travel Agency &middot; Founded by a Former Traveler</p>
+      <div class="btn-row">
+        <a href="#nations" class="btn">Explore Teyvat</a>
+        <a href="#contact" class="btn btn-outline">Contact Us</a>
+      </div>
+    </div>
+    <a href="#about" class="scroll-cue" aria-label="Scroll down to learn more">&#9660;</a>
+  </section>
+
+  <!-- Our Story: how the agency started and why this site exists -->
+  <section class="block" id="about">
+    <div class="container">
+      <div class="section-head with-glow">
+        <span class="eyebrow">Our Story</span>
+        <h2>From Solo Traveler <span class="accent-gold">to Sole Proprietor</span></h2>
+      </div>
+      <p class="lede-center">Welcome to Teyvat, a land shaped by seven elements and watched
+      over by seven Archons, where every nation carries its own customs, landscape, and story.
+      Teyvat Travel Services designs and guides tours through all seven of them.</p>
+      <div class="story-body">
+        <p>Teyvat Travel Services began as a notebook of hand-drawn maps and travel notes,
+        gathered over years of independent journeys across all seven nations. What started as
+        word-of-mouth trip planning for friends grew into a full-time agency, though it is still
+        run single-handedly by its Director, who now juggles every inquiry, itinerary, and
+        booking by hand across Messenger, SMS, and email.</p>
+        <p>With seven nations to cover, each with its own pricing and seasonal details, the same
+        questions keep coming in one at a time: What are the packages for Liyue? How much for a
+        group of four? Is this date open? This website is the agency's first step toward a
+        single, organized home for its brand, its packages, and the answers clients ask for
+        most.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Meet the Director: Lumine's photo and bio -->
+  <section class="block alt" id="director">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Meet the Director</span>
+        <h2 class="nowrap-heading">A Traveler First, <span class="accent-gold">now an Owner</span></h2>
+      </div>
+      <div class="profile-wrap">
+        <div class="photo-frame-wrap">
+          <div class="photo-frame portrait">
+            <img src="assets/img/founder-portrait.jpg" alt="Lumine, Founder and Director of Teyvat Travel Services" style="object-position:50% 8%;">
+          </div>
+        </div>
+        <div>
+          <h3 style="font-family:'Lora',serif;font-size:1.3rem;">Lumine, Founder &amp; Director</h3>
+          <p>Before founding Teyvat Travel Services, Lumine spent the better part of a decade
+          traveling independently across all seven nations. She slept in countryside inns
+          near Mondstadt, learned trade routes through Liyue Harbor, joined shrine rituals in
+          Inazuma, studied in the academic quarters of Sumeru, watched opera performances in
+          Fontaine, followed festival crowds in Natlan, and ventured into the frontier of
+          Snezhnaya.</p>
+          <blockquote>"I never wanted to build a travel agency that sells destinations it's never
+          seen. Every route on this site is one I've walked myself. I just happen to also
+          handle the invoices now."</blockquote>
+          <p>That hands-on, seen-it-herself approach has always been the foundation of how Lumine
+          runs the agency. It is also why this website carries her voice throughout, not as a
+          generic agency page, but with the same personal touch she has built her business on, now
+          available to answer the questions she used to field one message at a time.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Explore the Seven Nations: one card per nation -->
+  <section class="block" id="nations">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Tour Packages</span>
+        <h2 class="nowrap-heading">Explore the <span class="accent-gold">Seven Nations of Teyvat</span></h2>
+      </div>
+      <div class="nations-grid">
+        <a class="nation-card" href="mondstadt.html" style="--nc-a:#8fd0ef;--nc-b:#2f9e5c;">
+          <div class="swatch" style="background-image:url('assets/img/mondstadt-hero.png');"></div>
+          <div class="body">
+            <span class="region">3D2N &middot; &#8369;12,500</span>
+            <h3>Mondstadt</h3>
+            <p>Windmills, rolling hills, and the City of Freedom.</p>
+          </div>
+        </a>
+        <a class="nation-card" href="liyue.html" style="--nc-a:#e8b64c;--nc-b:#a4302a;">
+          <div class="swatch" style="background-image:url('assets/img/liyue-hero.png');"></div>
+          <div class="body">
+            <span class="region">4D3N &middot; &#8369;15,000</span>
+            <h3>Liyue</h3>
+            <p>Harbor markets, mountain folklore, and world-class cuisine.</p>
+          </div>
+        </a>
+        <a class="nation-card" href="inazuma.html" style="--nc-a:#9b7bef;--nc-b:#34237a;">
+          <div class="swatch" style="background-image:url('assets/img/inazuma-hero.png');"></div>
+          <div class="body">
+            <span class="region">4D3N &middot; &#8369;18,000</span>
+            <h3>Inazuma</h3>
+            <p>Storm-touched islands and centuries-old shrines.</p>
+          </div>
+        </a>
+        <a class="nation-card" href="sumeru.html" style="--nc-a:#cdb46a;--nc-b:#3f6b2e;">
+          <div class="swatch" style="background-image:url('assets/img/sumeru-hero.png');"></div>
+          <div class="body">
+            <span class="region">3D3N &middot; &#8369;14,000</span>
+            <h3>Sumeru</h3>
+            <p>Academic halls meet a mystical rainforest canopy.</p>
+          </div>
+        </a>
+        <a class="nation-card" href="fontaine.html" style="--nc-a:#cdf4f7;--nc-b:#1f9db5;">
+          <div class="swatch" style="background-image:url('assets/img/fontaine-hero.png');"></div>
+          <div class="body">
+            <span class="region">5D4N &middot; &#8369;20,000</span>
+            <h3>Fontaine</h3>
+            <p>Canals, courtrooms, and clockwork elegance.</p>
+          </div>
+        </a>
+        <a class="nation-card" href="natlan.html" style="--nc-a:#f2965a;--nc-b:#a8391c;">
+          <div class="swatch" style="background-image:url('assets/img/natlan-hero.png');"></div>
+          <div class="body">
+            <span class="region">4D3N &middot; &#8369;16,500</span>
+            <h3>Natlan</h3>
+            <p>Volcanic ridgelines, hot springs, and tribal festivals.</p>
+          </div>
+        </a>
+        <a class="nation-card" href="snezhnaya.html" style="--nc-a:#bfe0ee;--nc-b:#5b7480;">
+          <div class="swatch" style="background-image:url('assets/img/snezhnaya-hero.png');"></div>
+          <div class="body">
+            <span class="region">5D4N &middot; &#8369;22,000</span>
+            <h3>Snezhnaya</h3>
+            <p>Frost-bound valleys beneath the aurora.</p>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Book With Us: 3 plain cards, same style as every other card -->
+  <section class="block">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Why Book With Us</span>
+        <h2>Personal Service, <span class="accent-gold">From Someone Who's Been There</span></h2>
+      </div>
+      <div class="grid grid-3">
+        <div class="card">
+          <span class="tag">Firsthand Routes</span>
+          <h3>Traveler-Tested Itineraries</h3>
+          <p>Every stop on every package has been personally visited and vetted by the Director,
+          with no third-party guesswork.</p>
+        </div>
+        <div class="card">
+          <span class="tag">One Point of Contact</span>
+          <h3>No Middlemen, No Hand-Offs</h3>
+          <p>You work directly with the person planning your trip from your first inquiry to your
+          final payment follow-up.</p>
+        </div>
+        <div class="card">
+          <span class="tag">Seven Nations, One Agency</span>
+          <h3>Full Coverage of Teyvat</h3>
+          <p>Whether it's a weekend in Mondstadt or a five-day expedition to Snezhnaya, every
+          region is planned with the same level of care.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ: general booking questions -->
+  <section class="block" id="faq">
+    <div class="container" style="max-width:820px;">
+      <div class="section-head with-glow">
+        <span class="eyebrow">Frequently Asked Questions</span>
+        <h2>General <span class="accent-gold">Booking Questions</span></h2>
+      </div>
+      <div class="faq-item">
+        <h4>How do I book a tour?</h4>
+        <p>Send us a message through Facebook Messenger, SMS, or email with your preferred nation,
+        travel dates, and group size. We'll reply with availability and next steps, typically
+        within 24 hours.</p>
+      </div>
+      <div class="faq-item">
+        <h4>How much would a package cost for a group of 4?</h4>
+        <p>All package prices are listed per person on each nation's page. Multiply the base price
+        by your group size for an estimate. For example, the Liyue package (&#8369;15,000 per person)
+        would total &#8369;60,000 for a group of 4. Let us know your group size when you inquire and
+        we will confirm the exact total.</p>
+      </div>
+      <div class="faq-item">
+        <h4>Is my preferred date available?</h4>
+        <p>Availability is confirmed per batch and per nation. Send us your preferred travel dates
+        through any of our contact channels and we will personally confirm whether a slot is open.</p>
+      </div>
+      <div class="faq-item">
+        <h4>What payment methods do you accept?</h4>
+        <p>We currently accept bank transfer, GCash, and cash payment for down payments and full
+        balances. Payment details are shared directly once your itinerary is confirmed.</p>
+      </div>
+      <div class="faq-item">
+        <h4>Can an itinerary be customized?</h4>
+        <p>Minor adjustments (meal preferences, added rest days) can often be accommodated on
+        request. Let us know your needs when you inquire and we'll do our best to work them in.</p>
+      </div>
+      <div class="faq-item">
+        <h4>What is your cancellation policy?</h4>
+        <p>Cancellation terms depend on how close to the travel date the request is made. Full
+        terms are shared and confirmed with each client at the time of booking.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact: how to reach the Director, same plain cards as above -->
+  <section class="block alt" id="contact">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Get In Touch</span>
+        <h2>Talk to the <span class="accent-gold">Director Directly</span></h2>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-item">
+          <div class="contact-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <path d="M12 3C7 3 3 6.6 3 11c0 2.5 1.3 4.7 3.4 6.2V21l3-1.7c.8.2 1.7.3 2.6.3 5 0 9-3.6 9-8s-4-8.6-9-8.6Z"/>
+            </svg>
+          </div>
+          <span class="label">Facebook Messenger</span>
+          <p>/TeyvatTravelServices</p>
+          <span class="hint">Fastest for quick questions</span>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <path d="M6 3h9a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"/>
+              <path d="M10 18h1"/>
+            </svg>
+          </div>
+          <span class="label">SMS / Viber</span>
+          <p>+63 900 000 0000</p>
+          <span class="hint">Text us anytime, we reply during business hours</span>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <path d="M4 6h16v12H4z"/>
+              <path d="m4 7 8 6 8-6"/>
+            </svg>
+          </div>
+          <span class="label">Email</span>
+          <p><a href="mailto:bookings@teyvattravel.example">bookings@teyvattravel.example</a></p>
+          <span class="hint">Best for detailed or written inquiries</span>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <circle cx="12" cy="12" r="9"/>
+              <path d="M12 7v5l3.5 2"/>
+            </svg>
+          </div>
+          <span class="label">Business Hours</span>
+          <p>Monday &ndash; Saturday, 9:00 AM &ndash; 6:00 PM</p>
+          <span class="hint">Philippine Standard Time (GMT+8)</span>
+        </div>
+      </div>
+    </div>
+  </section>
+  </main>
+
+  <!-- Footer: same on every page -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <h4>Teyvat Travel Services</h4>
+          <p style="color:#cfc6b3;font-size:0.9rem;max-width:38ch;">
+            An independent travel agency founded by a former traveler, curating
+            guided journeys across all seven nations of Teyvat, from the
+            windswept hills of Mondstadt to the frozen frontier of Snezhnaya.
+          </p>
+        </div>
+        <div>
+          <h4>Our Nations</h4>
+          <ul>
+            <li><a href="mondstadt.html">Mondstadt</a></li>
+            <li><a href="liyue.html">Liyue</a></li>
+            <li><a href="inazuma.html">Inazuma</a></li>
+            <li><a href="sumeru.html">Sumeru</a></li>
+            <li><a href="fontaine.html">Fontaine</a></li>
+            <li><a href="natlan.html">Natlan</a></li>
+            <li><a href="snezhnaya.html">Snezhnaya</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Get In Touch</h4>
+          <ul>
+            <li>
+              <span class="footer-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                  <path d="M12 3C7 3 3 6.6 3 11c0 2.5 1.3 4.7 3.4 6.2V21l3-1.7c.8.2 1.7.3 2.6.3 5 0 9-3.6 9-8s-4-8.6-9-8.6Z"/>
+                </svg>
+              </span>Facebook Messenger: /TeyvatTravelServices</li>
+            <li>
+              <span class="footer-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                  <path d="M6 3h9a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"/>
+                  <path d="M10 18h1"/>
+                </svg>
+              </span>SMS / Viber: +63 900 000 0000</li>
+            <li>
+              <span class="footer-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                  <path d="M4 6h16v12H4z"/>
+                  <path d="m4 7 8 6 8-6"/>
+                </svg>
+              </span>Email: bookings@teyvattravel.example</li>
+            <li>
+              <span class="footer-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                  <path d="M12 21s7-7.5 7-12a7 7 0 1 0-14 0c0 4.5 7 12 7 12Z"/>
+                  <circle cx="12" cy="9" r="2.5"/>
+                </svg>
+              </span>Address: PUPSMB<br>Km. 38, Sitio Gulod, Brgy. Pulong-Buhangin, Sta. Maria, Bulacan</li>
+            <li>
+              <span class="footer-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                  <circle cx="12" cy="12" r="9"/>
+                  <path d="M12 7v5l3.5 2"/>
+                </svg>
+              </span>Office Hours: Monday &ndash; Saturday, 9:00 AM &ndash; 6:00 PM</li>
+            <li><a href="index.html#contact">View full contact details &rarr;</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-note">
+        <span>&copy; 2026 Teyvat Travel Services. Concept project for academic purposes only, not an active commercial booking site.</span>
+        <span>Built with HTML and CSS. Tranche 1 Deliverable.</span>
+      </div>
+      <p class="disclosure" style="margin-top:14px;">
+        Imagery disclosure: nation photos are in-game screenshots used for educational and local
+        presentation purposes only, per the course's content use policy, and are not intended for
+        public deployment. No AI-generated images are used on this site.
+      </p>
+    </div>
+  </footer>
+</body>
+</html>
