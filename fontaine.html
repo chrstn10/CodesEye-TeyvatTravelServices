@@ -23,23 +23,27 @@
         <img class="logo-mark" src="assets/img/logo-emblem.png" alt="Teyvat Travel Services">Teyvat Travel Services</a>
       <nav class="primary-nav">
       <a href="index.html">Home</a>
-      <a href="mondstadt.html">Mondstadt</a>
-      <a href="liyue.html">Liyue</a>
-      <a href="inazuma.html">Inazuma</a>
-      <a href="sumeru.html">Sumeru</a>
-      <a href="fontaine.html" class="active">Fontaine</a>
-      <a href="natlan.html">Natlan</a>
-      <a href="snezhnaya.html">Snezhnaya</a>
+      <div class="nav-dropdown">
+        <button type="button" class="nav-dropdown-toggle" class="active">Nations</button>
+        <div class="nav-dropdown-menu">
+          <a href="mondstadt.html"><svg class="nation-icon nation-icon-mondstadt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><title>Anemo (Wind)</title><path d="M3 8h11a3 3 0 1 0-3-3"/><path d="M3 12h15a3 3 0 1 1-3 3"/><path d="M3 16h8"/></svg>Mondstadt</a>
+          <a href="liyue.html"><svg class="nation-icon nation-icon-liyue" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><title>Geo (Rock)</title><path d="M12 3l7 6-7 12-7-12z"/><path d="M5 9h14"/></svg>Liyue</a>
+          <a href="inazuma.html"><svg class="nation-icon nation-icon-inazuma" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><title>Electro (Lightning)</title><path d="M13 3 6 13h5l-2 8 7-10h-5l2-8z"/></svg>Inazuma</a>
+          <a href="sumeru.html"><svg class="nation-icon nation-icon-sumeru" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><title>Dendro (Nature)</title><path d="M19 5C14 5 8 9 6 15c-1 3 1 5 4 4 6-2 10-8 10-13 0-.5-.5-1-1-1Z"/><path d="M8 18c2-4 6-8 10-10"/></svg>Sumeru</a>
+          <a href="fontaine.html" class="active"><svg class="nation-icon nation-icon-fontaine" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><title>Hydro (Water)</title><path d="M12 3s7 8 7 13a7 7 0 0 1-14 0c0-5 7-13 7-13Z"/></svg>Fontaine</a>
+          <a href="natlan.html"><svg class="nation-icon nation-icon-natlan" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><title>Pyro (Fire)</title><path d="M12 2c2 3-1 4-1 7 0 1.5 1 2 2 2 1.5 0 2-1.5 2-3 2 2 3 5 3 7a6 6 0 0 1-12 0c0-5 4-8 6-13Z"/></svg>Natlan</a>
+          <a href="snezhnaya.html"><svg class="nation-icon nation-icon-snezhnaya" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><title>Cryo (Ice)</title><path d="M12 3v18M4.5 7.5l15 9M19.5 7.5l-15 9"/></svg>Snezhnaya</a>
+        </div>
+      </div>
       </nav>
     </div>
   </header>
 
 <main>
 
-  <!-- Hero: photo and big heading, first thing you see on the page -->
+  <!-- Hero: photo + big heading, first thing you see on the page -->
   <section class="hero hero-split">
     <div class="hero-content">
-      <span class="eyebrow">Nation Tour Package &middot; FONT-05</span>
       <h1>
         <span class="nation-title-a">Fontaine:</span>
         <span class="nation-title-b">The Capital of Justice, Steam, and Aquanics</span>
@@ -49,7 +53,6 @@
       <div class="hero-meta">
         <span class="pill"><strong>5 Days / 4 Nights</strong></span>
         <span class="pill">Base Price: <strong>&#8369;20,000</strong> / person</span>
-        <span class="pill">Package Code: <strong>FONT-05</strong></span>
       </div>
       <div class="btn-row">
         <a href="#package" class="btn">View Package Details</a>
@@ -62,7 +65,7 @@
   </section>
 
   <!-- Traveler's Journal: short lore paragraph next to a photo -->
-  <section class="block">
+  <section class="block journal-section">
     <div class="container">
       <div class="section-head">
         <span class="eyebrow">About Fontaine</span>
@@ -87,33 +90,8 @@
     </div>
   </section>
 
-  <!-- Package Overview: what "View Package Details" scrolls to -->
-  <section class="block alt" id="package">
-    <div class="container">
-      <div class="section-head">
-        <span class="eyebrow">Package Overview</span>
-        <h2>
-          <span class="nation-title-a">What's</span>
-          <span class="nation-title-b">Included</span>
-        </h2>
-      </div>
-      <div class="price-panel">
-        <div>
-          <div class="amount">&#8369;20,000 <span>per person</span></div>
-          <p style="margin-top:6px;">Designed for travelers seeking a longer, more immersive getaway; groups of 2&ndash;6.</p>
-        </div>
-        <ul class="spec-list">
-          <li><strong>Duration:</strong> 5 Days / 4 Nights</li>
-          <li><strong>Package Code:</strong> FONT-05</li>
-          <li><strong>Covers:</strong> Guided stops, local transfers, reserved opera viewing, canal walking tour</li>
-          <li><strong>Not Included:</strong> Airfare, personal expenses, travel insurance</li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
   <!-- Featured Stops: 3 large cinematic landscape banners, alternating text side -->
-  <section class="block" id="stops">
+  <section class="block alt" id="stops">
     <div class="container">
       <div class="section-head">
         <span class="eyebrow">Featured Stops</span>
@@ -164,8 +142,36 @@
     </div>
   </section>
 
+  <!-- Package Overview: what "View Package Details" scrolls to -->
+  <section class="block" id="package">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Package Overview</span>
+        <h2>
+          <span class="nation-title-a">What's</span>
+          <span class="nation-title-b">Included</span>
+        </h2>
+      </div>
+      <div class="price-panel">
+        <div class="price-info">
+          <div>
+            <div class="amount">&#8369;20,000 <span>per person</span></div>
+            <p>Designed for travelers seeking a longer, more immersive getaway; groups of 2&ndash;6.</p>
+          </div>
+          <ul class="spec-list">
+            <li><strong>Duration:</strong> 5 Days / 4 Nights</li>
+            <li><strong>Covers:</strong> Guided stops, local transfers, reserved opera viewing, canal walking tour</li>
+            <li><strong>Not Included:</strong> Airfare, personal expenses, travel insurance</li>
+          </ul>
+        </div>
+        <svg class="nation-stamp" viewBox="0 0 100 100" fill="none" stroke="currentColor" aria-hidden="true"><circle cx="50" cy="50" r="46" stroke-width="2" stroke-dasharray="3.5 3.5"/><circle cx="50" cy="50" r="37" stroke-width="1.2"/><g transform="translate(26,26) scale(2)" stroke-width="0.9"><path d="M12 3s7 8 7 13a7 7 0 0 1-14 0c0-5 7-13 7-13Z"/></g></svg>
+      </div>
+    </div>
+  </section>
+
   <!-- Itinerary: day-by-day timeline -->
-  <section class="block alt">
+  <section class="block alt itinerary-section">
+      <img class="itinerary-decor itinerary-decor-sm" src="assets/img/bg-elements/fountain-fontaine.webp" alt="" aria-hidden="true" loading="lazy">
     <div class="container">
       <div class="section-head">
         <span class="eyebrow">Itinerary</span>
@@ -222,15 +228,16 @@
   </section>
 
   <!-- Common Questions: this nation's own FAQ list -->
-  <section class="block">
-    <div class="container" style="max-width:820px;">
-      <div class="section-head">
-        <span class="eyebrow">Common Questions</span>
-        <h2>
-          <span class="nation-title-a">Fontaine</span>
-          <span class="nation-title-b">Package FAQs</span>
-        </h2>
-      </div>
+  <section class="block faq-section">
+    <div class="container faq-layout">
+      <div class="faq-content">
+        <div class="section-head">
+          <span class="eyebrow">Common Questions</span>
+          <h2>
+            <span class="nation-title-a">Fontaine</span>
+            <span class="nation-title-b">Package FAQs</span>
+          </h2>
+        </div>
         <div class="faq-item">
           <h4>Is the opera performance guaranteed on every travel date?</h4>
           <p>Opera Epiclese follows a seasonal schedule; we confirm show availability for your specific
@@ -246,6 +253,9 @@
           <p>Smart-casual attire is recommended; we share a simple packing guide once your booking is
           confirmed.</p>
         </div>
+      </div>
+      <img class="faq-chibi" src="assets/img/chibis/furina-fontaine.webp"
+           alt="Furina, thinking" loading="lazy">
     </div>
   </section>
 
@@ -264,6 +274,15 @@
     </div>
   </section>
 
+  <!-- Page navigation: back to home, plus the previous/next nation -->
+  <nav class="page-nav-section" aria-label="Nation pages">
+    <div class="container page-nav">
+      <span class="page-nav-prev"><a href="sumeru.html" class="page-nav-link">&larr; Sumeru</a></span>
+      <a href="index.html" class="page-nav-home">&larr; Back to Home</a>
+      <span class="page-nav-next"><a href="natlan.html" class="page-nav-link">Natlan &rarr;</a></span>
+    </div>
+  </nav>
+
 </main>
   <footer class="site-footer">
     <div class="container">
@@ -280,13 +299,13 @@
         <div>
           <h4>Our Nations</h4>
           <ul>
-            <li><a href="mondstadt.html">Mondstadt</a></li>
-            <li><a href="liyue.html">Liyue</a></li>
-            <li><a href="inazuma.html">Inazuma</a></li>
-            <li><a href="sumeru.html">Sumeru</a></li>
-            <li><a href="fontaine.html">Fontaine</a></li>
-            <li><a href="natlan.html">Natlan</a></li>
-            <li><a href="snezhnaya.html">Snezhnaya</a></li>
+            <li><a href="mondstadt.html"><svg class="nation-icon nation-icon-mondstadt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><title>Anemo (Wind)</title><path d="M3 8h11a3 3 0 1 0-3-3"/><path d="M3 12h15a3 3 0 1 1-3 3"/><path d="M3 16h8"/></svg>Mondstadt</a></li>
+            <li><a href="liyue.html"><svg class="nation-icon nation-icon-liyue" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><title>Geo (Rock)</title><path d="M12 3l7 6-7 12-7-12z"/><path d="M5 9h14"/></svg>Liyue</a></li>
+            <li><a href="inazuma.html"><svg class="nation-icon nation-icon-inazuma" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><title>Electro (Lightning)</title><path d="M13 3 6 13h5l-2 8 7-10h-5l2-8z"/></svg>Inazuma</a></li>
+            <li><a href="sumeru.html"><svg class="nation-icon nation-icon-sumeru" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><title>Dendro (Nature)</title><path d="M19 5C14 5 8 9 6 15c-1 3 1 5 4 4 6-2 10-8 10-13 0-.5-.5-1-1-1Z"/><path d="M8 18c2-4 6-8 10-10"/></svg>Sumeru</a></li>
+            <li><a href="fontaine.html"><svg class="nation-icon nation-icon-fontaine" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><title>Hydro (Water)</title><path d="M12 3s7 8 7 13a7 7 0 0 1-14 0c0-5 7-13 7-13Z"/></svg>Fontaine</a></li>
+            <li><a href="natlan.html"><svg class="nation-icon nation-icon-natlan" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><title>Pyro (Fire)</title><path d="M12 2c2 3-1 4-1 7 0 1.5 1 2 2 2 1.5 0 2-1.5 2-3 2 2 3 5 3 7a6 6 0 0 1-12 0c0-5 4-8 6-13Z"/></svg>Natlan</a></li>
+            <li><a href="snezhnaya.html"><svg class="nation-icon nation-icon-snezhnaya" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><title>Cryo (Ice)</title><path d="M12 3v18M4.5 7.5l15 9M19.5 7.5l-15 9"/></svg>Snezhnaya</a></li>
           </ul>
         </div>
         <div>
@@ -318,7 +337,7 @@
                   <path d="M12 21s7-7.5 7-12a7 7 0 1 0-14 0c0 4.5 7 12 7 12Z"/>
                   <circle cx="12" cy="9" r="2.5"/>
                 </svg>
-              </span>Address: PUPSMB<br>Km. 38, Sitio Gulod, Brgy. Pulong-Buhangin, Sta. Maria, Bulacan</li>
+              </span>Address: Mondstadt Office<br>Springvale Road, near the City Gates, Mondstadt, Teyvat</li>
             <li>
               <span class="footer-icon" aria-hidden="true">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">

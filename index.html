@@ -25,13 +25,18 @@
         <img class="logo-mark" src="assets/img/logo-emblem.png" alt="Teyvat Travel Services">Teyvat Travel Services</a>
       <nav class="primary-nav">
       <a href="index.html" class="active">Home</a>
-      <a href="mondstadt.html">Mondstadt</a>
-      <a href="liyue.html">Liyue</a>
-      <a href="inazuma.html">Inazuma</a>
-      <a href="sumeru.html">Sumeru</a>
-      <a href="fontaine.html">Fontaine</a>
-      <a href="natlan.html">Natlan</a>
-      <a href="snezhnaya.html">Snezhnaya</a>
+      <div class="nav-dropdown">
+        <button type="button" class="nav-dropdown-toggle">Nations</button>
+        <div class="nav-dropdown-menu">
+          <a href="mondstadt.html"><svg class="nation-icon nation-icon-mondstadt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><title>Anemo (Wind)</title><path d="M3 8h11a3 3 0 1 0-3-3"/><path d="M3 12h15a3 3 0 1 1-3 3"/><path d="M3 16h8"/></svg>Mondstadt</a>
+          <a href="liyue.html"><svg class="nation-icon nation-icon-liyue" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><title>Geo (Rock)</title><path d="M12 3l7 6-7 12-7-12z"/><path d="M5 9h14"/></svg>Liyue</a>
+          <a href="inazuma.html"><svg class="nation-icon nation-icon-inazuma" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><title>Electro (Lightning)</title><path d="M13 3 6 13h5l-2 8 7-10h-5l2-8z"/></svg>Inazuma</a>
+          <a href="sumeru.html"><svg class="nation-icon nation-icon-sumeru" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><title>Dendro (Nature)</title><path d="M19 5C14 5 8 9 6 15c-1 3 1 5 4 4 6-2 10-8 10-13 0-.5-.5-1-1-1Z"/><path d="M8 18c2-4 6-8 10-10"/></svg>Sumeru</a>
+          <a href="fontaine.html"><svg class="nation-icon nation-icon-fontaine" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><title>Hydro (Water)</title><path d="M12 3s7 8 7 13a7 7 0 0 1-14 0c0-5 7-13 7-13Z"/></svg>Fontaine</a>
+          <a href="natlan.html"><svg class="nation-icon nation-icon-natlan" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><title>Pyro (Fire)</title><path d="M12 2c2 3-1 4-1 7 0 1.5 1 2 2 2 1.5 0 2-1.5 2-3 2 2 3 5 3 7a6 6 0 0 1-12 0c0-5 4-8 6-13Z"/></svg>Natlan</a>
+          <a href="snezhnaya.html"><svg class="nation-icon nation-icon-snezhnaya" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><title>Cryo (Ice)</title><path d="M12 3v18M4.5 7.5l15 9M19.5 7.5l-15 9"/></svg>Snezhnaya</a>
+        </div>
+      </div>
       </nav>
     </div>
   </header>
@@ -54,9 +59,9 @@
   </section>
 
   <!-- Our Story: how the agency started and why this site exists -->
-  <section class="block" id="about">
+  <section class="block story-section" id="about">
     <div class="container">
-      <div class="section-head with-glow">
+      <div class="section-head">
         <span class="eyebrow">Our Story</span>
         <h2>From Solo Traveler <span class="accent-gold">to Sole Proprietor</span></h2>
       </div>
@@ -117,64 +122,81 @@
       <div class="section-head">
         <span class="eyebrow">Tour Packages</span>
         <h2 class="nowrap-heading">Explore the <span class="accent-gold">Seven Nations of Teyvat</span></h2>
+        <p class="nations-caption">Click on a nation to explore its full itinerary.</p>
       </div>
-      <div class="nations-grid">
-        <a class="nation-card" href="mondstadt.html" style="--nc-a:#8fd0ef;--nc-b:#2f9e5c;">
-          <div class="swatch" style="background-image:url('assets/img/mondstadt-hero.png');"></div>
-          <div class="body">
-            <span class="region">3D2N &middot; &#8369;12,500</span>
-            <h3>Mondstadt</h3>
-            <p>Windmills, rolling hills, and the City of Freedom.</p>
-          </div>
-        </a>
-        <a class="nation-card" href="liyue.html" style="--nc-a:#e8b64c;--nc-b:#a4302a;">
-          <div class="swatch" style="background-image:url('assets/img/liyue-hero.png');"></div>
-          <div class="body">
-            <span class="region">4D3N &middot; &#8369;15,000</span>
-            <h3>Liyue</h3>
-            <p>Harbor markets, mountain folklore, and world-class cuisine.</p>
-          </div>
-        </a>
-        <a class="nation-card" href="inazuma.html" style="--nc-a:#9b7bef;--nc-b:#34237a;">
-          <div class="swatch" style="background-image:url('assets/img/inazuma-hero.png');"></div>
-          <div class="body">
-            <span class="region">4D3N &middot; &#8369;18,000</span>
-            <h3>Inazuma</h3>
-            <p>Storm-touched islands and centuries-old shrines.</p>
-          </div>
-        </a>
-        <a class="nation-card" href="sumeru.html" style="--nc-a:#cdb46a;--nc-b:#3f6b2e;">
-          <div class="swatch" style="background-image:url('assets/img/sumeru-hero.png');"></div>
-          <div class="body">
-            <span class="region">3D3N &middot; &#8369;14,000</span>
-            <h3>Sumeru</h3>
-            <p>Academic halls meet a mystical rainforest canopy.</p>
-          </div>
-        </a>
-        <a class="nation-card" href="fontaine.html" style="--nc-a:#cdf4f7;--nc-b:#1f9db5;">
-          <div class="swatch" style="background-image:url('assets/img/fontaine-hero.png');"></div>
-          <div class="body">
-            <span class="region">5D4N &middot; &#8369;20,000</span>
-            <h3>Fontaine</h3>
-            <p>Canals, courtrooms, and clockwork elegance.</p>
-          </div>
-        </a>
-        <a class="nation-card" href="natlan.html" style="--nc-a:#f2965a;--nc-b:#a8391c;">
-          <div class="swatch" style="background-image:url('assets/img/natlan-hero.png');"></div>
-          <div class="body">
-            <span class="region">4D3N &middot; &#8369;16,500</span>
-            <h3>Natlan</h3>
-            <p>Volcanic ridgelines, hot springs, and tribal festivals.</p>
-          </div>
-        </a>
-        <a class="nation-card" href="snezhnaya.html" style="--nc-a:#bfe0ee;--nc-b:#5b7480;">
-          <div class="swatch" style="background-image:url('assets/img/snezhnaya-hero.png');"></div>
-          <div class="body">
-            <span class="region">5D4N &middot; &#8369;22,000</span>
-            <h3>Snezhnaya</h3>
-            <p>Frost-bound valleys beneath the aurora.</p>
-          </div>
-        </a>
+      <div class="nations-carousel">
+        <div class="nations-track">
+          <a id="slide-mondstadt" class="nation-slide" href="mondstadt.html" style="background-image:url('assets/img/mondstadt-hero.png');--nc:#2f9e5c;">
+            <div class="nation-slide-top">
+              <span class="nation-slide-num">1</span>
+              <h3><svg class="nation-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><title>Anemo (Wind)</title><path d="M3 8h11a3 3 0 1 0-3-3"/><path d="M3 12h15a3 3 0 1 1-3 3"/><path d="M3 16h8"/></svg>Mondstadt</h3>
+            </div>
+            <div class="nation-slide-bottom">
+              <span class="region">3D2N &middot; &#8369;12,500</span>
+              <p>Windmills, rolling hills, and the City of Freedom.</p>
+            </div>
+          </a>
+          <a id="slide-liyue" class="nation-slide" href="liyue.html" style="background-image:url('assets/img/liyue-hero.png');--nc:#a4302a;">
+            <div class="nation-slide-top">
+              <span class="nation-slide-num">2</span>
+              <h3><svg class="nation-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><title>Geo (Rock)</title><path d="M12 3l7 6-7 12-7-12z"/><path d="M5 9h14"/></svg>Liyue</h3>
+            </div>
+            <div class="nation-slide-bottom">
+              <span class="region">4D3N &middot; &#8369;15,000</span>
+              <p>Harbor markets, mountain folklore, and world-class cuisine.</p>
+            </div>
+          </a>
+          <a id="slide-inazuma" class="nation-slide" href="inazuma.html" style="background-image:url('assets/img/inazuma-hero.png');--nc:#34237a;">
+            <div class="nation-slide-top">
+              <span class="nation-slide-num">3</span>
+              <h3><svg class="nation-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><title>Electro (Lightning)</title><path d="M13 3 6 13h5l-2 8 7-10h-5l2-8z"/></svg>Inazuma</h3>
+            </div>
+            <div class="nation-slide-bottom">
+              <span class="region">4D3N &middot; &#8369;18,000</span>
+              <p>Storm-touched islands and centuries-old shrines.</p>
+            </div>
+          </a>
+          <a id="slide-sumeru" class="nation-slide" href="sumeru.html" style="background-image:url('assets/img/sumeru-hero.png');--nc:#3f6b2e;">
+            <div class="nation-slide-top">
+              <span class="nation-slide-num">4</span>
+              <h3><svg class="nation-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><title>Dendro (Nature)</title><path d="M19 5C14 5 8 9 6 15c-1 3 1 5 4 4 6-2 10-8 10-13 0-.5-.5-1-1-1Z"/><path d="M8 18c2-4 6-8 10-10"/></svg>Sumeru</h3>
+            </div>
+            <div class="nation-slide-bottom">
+              <span class="region">3D3N &middot; &#8369;14,000</span>
+              <p>Academic halls meet a mystical rainforest canopy.</p>
+            </div>
+          </a>
+          <a id="slide-fontaine" class="nation-slide" href="fontaine.html" style="background-image:url('assets/img/fontaine-hero.png');--nc:#1f9db5;">
+            <div class="nation-slide-top">
+              <span class="nation-slide-num">5</span>
+              <h3><svg class="nation-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><title>Hydro (Water)</title><path d="M12 3s7 8 7 13a7 7 0 0 1-14 0c0-5 7-13 7-13Z"/></svg>Fontaine</h3>
+            </div>
+            <div class="nation-slide-bottom">
+              <span class="region">5D4N &middot; &#8369;20,000</span>
+              <p>Canals, courtrooms, and clockwork elegance.</p>
+            </div>
+          </a>
+          <a id="slide-natlan" class="nation-slide" href="natlan.html" style="background-image:url('assets/img/natlan-hero.png');--nc:#a8391c;">
+            <div class="nation-slide-top">
+              <span class="nation-slide-num">6</span>
+              <h3><svg class="nation-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><title>Pyro (Fire)</title><path d="M12 2c2 3-1 4-1 7 0 1.5 1 2 2 2 1.5 0 2-1.5 2-3 2 2 3 5 3 7a6 6 0 0 1-12 0c0-5 4-8 6-13Z"/></svg>Natlan</h3>
+            </div>
+            <div class="nation-slide-bottom">
+              <span class="region">4D3N &middot; &#8369;16,500</span>
+              <p>Volcanic ridgelines, hot springs, and tribal festivals.</p>
+            </div>
+          </a>
+          <a id="slide-snezhnaya" class="nation-slide" href="snezhnaya.html" style="background-image:url('assets/img/snezhnaya-hero.png');--nc:#5b7480;">
+            <div class="nation-slide-top">
+              <span class="nation-slide-num">7</span>
+              <h3><svg class="nation-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><title>Cryo (Ice)</title><path d="M12 3v18M4.5 7.5l15 9M19.5 7.5l-15 9"/></svg>Snezhnaya</h3>
+            </div>
+            <div class="nation-slide-bottom">
+              <span class="region">5D4N &middot; &#8369;22,000</span>
+              <p>Frost-bound valleys beneath the aurora.</p>
+            </div>
+          </a>
+        </div>
       </div>
     </div>
   </section>
@@ -210,45 +232,49 @@
   </section>
 
   <!-- FAQ: general booking questions -->
-  <section class="block" id="faq">
-    <div class="container" style="max-width:820px;">
-      <div class="section-head with-glow">
-        <span class="eyebrow">Frequently Asked Questions</span>
-        <h2>General <span class="accent-gold">Booking Questions</span></h2>
+  <section class="block faq-section" id="faq">
+    <div class="container faq-layout">
+      <div class="faq-content">
+        <div class="section-head">
+          <span class="eyebrow">Frequently Asked Questions</span>
+          <h2>General <span class="accent-gold">Booking Questions</span></h2>
+        </div>
+        <div class="faq-item">
+          <h4>How do I book a tour?</h4>
+          <p>Send us a message through Facebook Messenger, SMS, or email with your preferred nation,
+          travel dates, and group size. We'll reply with availability and next steps, typically
+          within 24 hours.</p>
+        </div>
+        <div class="faq-item">
+          <h4>How much would a package cost for a group of 4?</h4>
+          <p>All package prices are listed per person on each nation's page. Multiply the base price
+          by your group size for an estimate. For example, the Liyue package (&#8369;15,000 per person)
+          would total &#8369;60,000 for a group of 4. Let us know your group size when you inquire and
+          we will confirm the exact total.</p>
+        </div>
+        <div class="faq-item">
+          <h4>Is my preferred date available?</h4>
+          <p>Availability is confirmed per batch and per nation. Send us your preferred travel dates
+          through any of our contact channels and we will personally confirm whether a slot is open.</p>
+        </div>
+        <div class="faq-item">
+          <h4>What payment methods do you accept?</h4>
+          <p>We currently accept bank transfer, GCash, and cash payment for down payments and full
+          balances. Payment details are shared directly once your itinerary is confirmed.</p>
+        </div>
+        <div class="faq-item">
+          <h4>Can an itinerary be customized?</h4>
+          <p>Minor adjustments (meal preferences, added rest days) can often be accommodated on
+          request. Let us know your needs when you inquire and we'll do our best to work them in.</p>
+        </div>
+        <div class="faq-item">
+          <h4>What is your cancellation policy?</h4>
+          <p>Cancellation terms depend on how close to the travel date the request is made. Full
+          terms are shared and confirmed with each client at the time of booking.</p>
+        </div>
       </div>
-      <div class="faq-item">
-        <h4>How do I book a tour?</h4>
-        <p>Send us a message through Facebook Messenger, SMS, or email with your preferred nation,
-        travel dates, and group size. We'll reply with availability and next steps, typically
-        within 24 hours.</p>
-      </div>
-      <div class="faq-item">
-        <h4>How much would a package cost for a group of 4?</h4>
-        <p>All package prices are listed per person on each nation's page. Multiply the base price
-        by your group size for an estimate. For example, the Liyue package (&#8369;15,000 per person)
-        would total &#8369;60,000 for a group of 4. Let us know your group size when you inquire and
-        we will confirm the exact total.</p>
-      </div>
-      <div class="faq-item">
-        <h4>Is my preferred date available?</h4>
-        <p>Availability is confirmed per batch and per nation. Send us your preferred travel dates
-        through any of our contact channels and we will personally confirm whether a slot is open.</p>
-      </div>
-      <div class="faq-item">
-        <h4>What payment methods do you accept?</h4>
-        <p>We currently accept bank transfer, GCash, and cash payment for down payments and full
-        balances. Payment details are shared directly once your itinerary is confirmed.</p>
-      </div>
-      <div class="faq-item">
-        <h4>Can an itinerary be customized?</h4>
-        <p>Minor adjustments (meal preferences, added rest days) can often be accommodated on
-        request. Let us know your needs when you inquire and we'll do our best to work them in.</p>
-      </div>
-      <div class="faq-item">
-        <h4>What is your cancellation policy?</h4>
-        <p>Cancellation terms depend on how close to the travel date the request is made. Full
-        terms are shared and confirmed with each client at the time of booking.</p>
-      </div>
+      <img class="faq-chibi" src="assets/img/chibis/lumine-home.webp"
+           alt="Lumine, thinking" loading="lazy">
     </div>
   </section>
 
@@ -324,13 +350,13 @@
         <div>
           <h4>Our Nations</h4>
           <ul>
-            <li><a href="mondstadt.html">Mondstadt</a></li>
-            <li><a href="liyue.html">Liyue</a></li>
-            <li><a href="inazuma.html">Inazuma</a></li>
-            <li><a href="sumeru.html">Sumeru</a></li>
-            <li><a href="fontaine.html">Fontaine</a></li>
-            <li><a href="natlan.html">Natlan</a></li>
-            <li><a href="snezhnaya.html">Snezhnaya</a></li>
+            <li><a href="mondstadt.html"><svg class="nation-icon nation-icon-mondstadt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><title>Anemo (Wind)</title><path d="M3 8h11a3 3 0 1 0-3-3"/><path d="M3 12h15a3 3 0 1 1-3 3"/><path d="M3 16h8"/></svg>Mondstadt</a></li>
+            <li><a href="liyue.html"><svg class="nation-icon nation-icon-liyue" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><title>Geo (Rock)</title><path d="M12 3l7 6-7 12-7-12z"/><path d="M5 9h14"/></svg>Liyue</a></li>
+            <li><a href="inazuma.html"><svg class="nation-icon nation-icon-inazuma" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><title>Electro (Lightning)</title><path d="M13 3 6 13h5l-2 8 7-10h-5l2-8z"/></svg>Inazuma</a></li>
+            <li><a href="sumeru.html"><svg class="nation-icon nation-icon-sumeru" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><title>Dendro (Nature)</title><path d="M19 5C14 5 8 9 6 15c-1 3 1 5 4 4 6-2 10-8 10-13 0-.5-.5-1-1-1Z"/><path d="M8 18c2-4 6-8 10-10"/></svg>Sumeru</a></li>
+            <li><a href="fontaine.html"><svg class="nation-icon nation-icon-fontaine" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><title>Hydro (Water)</title><path d="M12 3s7 8 7 13a7 7 0 0 1-14 0c0-5 7-13 7-13Z"/></svg>Fontaine</a></li>
+            <li><a href="natlan.html"><svg class="nation-icon nation-icon-natlan" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><title>Pyro (Fire)</title><path d="M12 2c2 3-1 4-1 7 0 1.5 1 2 2 2 1.5 0 2-1.5 2-3 2 2 3 5 3 7a6 6 0 0 1-12 0c0-5 4-8 6-13Z"/></svg>Natlan</a></li>
+            <li><a href="snezhnaya.html"><svg class="nation-icon nation-icon-snezhnaya" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><title>Cryo (Ice)</title><path d="M12 3v18M4.5 7.5l15 9M19.5 7.5l-15 9"/></svg>Snezhnaya</a></li>
           </ul>
         </div>
         <div>
@@ -362,7 +388,7 @@
                   <path d="M12 21s7-7.5 7-12a7 7 0 1 0-14 0c0 4.5 7 12 7 12Z"/>
                   <circle cx="12" cy="9" r="2.5"/>
                 </svg>
-              </span>Address: PUPSMB<br>Km. 38, Sitio Gulod, Brgy. Pulong-Buhangin, Sta. Maria, Bulacan</li>
+              </span>Address: Mondstadt Office<br>Springvale Road, near the City Gates, Mondstadt, Teyvat</li>
             <li>
               <span class="footer-icon" aria-hidden="true">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">

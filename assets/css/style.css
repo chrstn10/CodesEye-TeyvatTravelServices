@@ -1,3 +1,5 @@
+/* Teyvat Travel Services — shared stylesheet for all 8 pages, numbered sections 1-10 below. */
+
 /* ---------- 1. Colors and basic page setup ---------- */
 
 /* Colors and sizes used everywhere, defined once here as variables. */
@@ -18,71 +20,89 @@
   --shadow: 0 12px 30px -14px rgba(43, 38, 32, 0.35);
   --radius: 14px;           /* standard rounded-corner size */
   --maxw: 1120px;           /* max width of page content */
+  /* A few sparse, minimal dots (not an icon or logo) used to keep flat
+     background areas from reading as totally empty. Gold on the
+     homepage; each nation below recolors it with its own accent. */
+  --pattern: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cg fill='%23c9962c' opacity='0.13'%3E%3Ccircle cx='18' cy='22' r='1.4'/%3E%3Ccircle cx='64' cy='10' r='1'/%3E%3Ccircle cx='92' cy='54' r='1.6'/%3E%3Ccircle cx='38' cy='76' r='1.1'/%3E%3Ccircle cx='104' cy='96' r='1.3'/%3E%3Ccircle cx='8' cy='92' r='1'/%3E%3C/g%3E%3C/svg%3E");
 }
 
-/* Each nation's own colors */
+/* Each nation's own colors — only active on that nation's own page. */
 
-/* Mondstadt - Sky Blue & Emerald Green (medieval-Europe inspiration) */
+/* Mondstadt — Sky Blue & Emerald Green (medieval-Europe inspiration) */
 body[data-theme="mondstadt"] {
   --accent: #2f9e5c;
   --accent-soft: #dcf1ea;
   --accent-dark: #1f7a44;
   --nc-a: #8fd0ef;
   --nc-b: #2f9e5c;
+  /* A few sparse dots in this nation's own color. */
+  --pattern: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cg fill='%232f9e5c' opacity='0.13'%3E%3Ccircle cx='18' cy='22' r='1.4'/%3E%3Ccircle cx='64' cy='10' r='1'/%3E%3Ccircle cx='92' cy='54' r='1.6'/%3E%3Ccircle cx='38' cy='76' r='1.1'/%3E%3Ccircle cx='104' cy='96' r='1.3'/%3E%3Ccircle cx='8' cy='92' r='1'/%3E%3C/g%3E%3C/svg%3E");
 }
 
-/* Liyue - Gold & Red (ancient-China inspiration) */
+/* Liyue — Gold & Red (ancient-China inspiration) */
 body[data-theme="liyue"] {
   --accent: #a4302a;
-  --accent-soft: #f6e6c2;
+  --accent-soft: #f1d2d0;
   --accent-dark: #7a211d;
   --nc-a: #e8b64c;
   --nc-b: #a4302a;
+  /* A few sparse dots in this nation's own color. */
+  --pattern: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cg fill='%23a4302a' opacity='0.13'%3E%3Ccircle cx='18' cy='22' r='1.4'/%3E%3Ccircle cx='64' cy='10' r='1'/%3E%3Ccircle cx='92' cy='54' r='1.6'/%3E%3Ccircle cx='38' cy='76' r='1.1'/%3E%3Ccircle cx='104' cy='96' r='1.3'/%3E%3Ccircle cx='8' cy='92' r='1'/%3E%3C/g%3E%3C/svg%3E");
 }
 
-/* Inazuma - Electric Violet & Deep Indigo (feudal-Japan inspiration) */
+/* Inazuma — Electric Violet & Deep Indigo (feudal-Japan inspiration) */
 body[data-theme="inazuma"] {
   --accent: #6a3fd6;
   --accent-soft: #eae3fb;
   --accent-dark: #34237a;
   --nc-a: #9b7bef;
   --nc-b: #34237a;
+  /* A few sparse dots in this nation's own color. */
+  --pattern: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cg fill='%2334237a' opacity='0.13'%3E%3Ccircle cx='18' cy='22' r='1.4'/%3E%3Ccircle cx='64' cy='10' r='1'/%3E%3Ccircle cx='92' cy='54' r='1.6'/%3E%3Ccircle cx='38' cy='76' r='1.1'/%3E%3Ccircle cx='104' cy='96' r='1.3'/%3E%3Ccircle cx='8' cy='92' r='1'/%3E%3C/g%3E%3C/svg%3E");
 }
 
-/* Sumeru - Gold & Dark Green (Middle East / ancient India-Egypt) */
+/* Sumeru — Gold & Dark Green (Middle East / ancient India-Egypt) */
 body[data-theme="sumeru"] {
   --accent: #3f6b2e;
   --accent-soft: #eef0d3;
   --accent-dark: #2c4a1f;
   --nc-a: #cdb46a;
   --nc-b: #3f6b2e;
+  /* A few sparse dots in this nation's own color. */
+  --pattern: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cg fill='%233f6b2e' opacity='0.13'%3E%3Ccircle cx='18' cy='22' r='1.4'/%3E%3Ccircle cx='64' cy='10' r='1'/%3E%3Ccircle cx='92' cy='54' r='1.6'/%3E%3Ccircle cx='38' cy='76' r='1.1'/%3E%3Ccircle cx='104' cy='96' r='1.3'/%3E%3Ccircle cx='8' cy='92' r='1'/%3E%3C/g%3E%3C/svg%3E");
 }
 
-/* Fontaine - Aqua Blue & Clean White (Victorian-France inspiration) */
+/* Fontaine — Aqua Blue & Clean White (Victorian-France inspiration) */
 body[data-theme="fontaine"] {
   --accent: #1f9db5;
   --accent-soft: #e3f6f7;
   --accent-dark: #146670;
   --nc-a: #cdf4f7;
   --nc-b: #1f9db5;
+  /* A few sparse dots in this nation's own color. */
+  --pattern: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cg fill='%231f9db5' opacity='0.13'%3E%3Ccircle cx='18' cy='22' r='1.4'/%3E%3Ccircle cx='64' cy='10' r='1'/%3E%3Ccircle cx='92' cy='54' r='1.6'/%3E%3Ccircle cx='38' cy='76' r='1.1'/%3E%3Ccircle cx='104' cy='96' r='1.3'/%3E%3Ccircle cx='8' cy='92' r='1'/%3E%3C/g%3E%3C/svg%3E");
 }
 
-/* Natlan - Sunset Orange & Volcanic Charcoal (tribal inspiration) */
+/* Natlan — Sunset Orange & Volcanic Charcoal (tribal inspiration) */
 body[data-theme="natlan"] {
   --accent: #d9622b;
   --accent-soft: #fbe3d2;
   --accent-dark: #7a3418;
   --nc-a: #f2965a;
   --nc-b: #a8391c;
+  /* A few sparse dots in this nation's own color. */
+  --pattern: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cg fill='%23a8391c' opacity='0.13'%3E%3Ccircle cx='18' cy='22' r='1.4'/%3E%3Ccircle cx='64' cy='10' r='1'/%3E%3Ccircle cx='92' cy='54' r='1.6'/%3E%3Ccircle cx='38' cy='76' r='1.1'/%3E%3Ccircle cx='104' cy='96' r='1.3'/%3E%3Ccircle cx='8' cy='92' r='1'/%3E%3C/g%3E%3C/svg%3E");
 }
 
-/* Snezhnaya - Ice White & Slate Gray (Russia / Siberia inspiration) */
+/* Snezhnaya — Ice White & Slate Gray (Russia / Siberia inspiration) */
 body[data-theme="snezhnaya"] {
   --accent: #5b7480;
-  --accent-soft: #eaf1f3;
+  --accent-soft: #cfe2ea;
   --accent-dark: #35474e;
   --nc-a: #bfe0ee;
   --nc-b: #5b7480;
+  /* A few sparse dots in this nation's own color. */
+  --pattern: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cg fill='%235b7480' opacity='0.13'%3E%3Ccircle cx='18' cy='22' r='1.4'/%3E%3Ccircle cx='64' cy='10' r='1'/%3E%3Ccircle cx='92' cy='54' r='1.6'/%3E%3Ccircle cx='38' cy='76' r='1.1'/%3E%3Ccircle cx='104' cy='96' r='1.3'/%3E%3Ccircle cx='8' cy='92' r='1'/%3E%3C/g%3E%3C/svg%3E");
 }
 
 /* Make padding/border not add extra width, so sizes stay predictable. */
@@ -100,13 +120,17 @@ body {
   font-family: "Lora", Georgia, "Times New Roman", serif;
   color: var(--ink);
   line-height: 1.65;
-  /* Faint grain texture layered over the cream background. */
+  /* Faint grain texture, then var(--pattern) — the compass mark on the
+     homepage, or that nation's own element pattern on its page. */
   background:
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E"),
+    var(--pattern),
     var(--paper);
 }
 
-/* Genshin Impact display font for h1 and h2 */
+/* Genshin Impact display font, loaded from the local .ttf below and used
+   only for h1/h2 major section headings. Body text, buttons, nav, and
+   smaller headings (h3/h4) keep the site's existing fonts. */
 @font-face {
   font-family: "Genshin Impact";
   src: url("../fonts/zh-cn.ttf") format("truetype");
@@ -122,6 +146,7 @@ h1, h2, h3, h4, .brand-word {
   margin: 0 0 0.5em;
 }
 
+/* Major section headings only; preserves the color/spacing/margin above. */
 h1, h2 {
   font-family: "Genshin Impact", "Cinzel", "Times New Roman", serif;
 }
@@ -194,7 +219,7 @@ img {
   white-space: nowrap;
 }
 
-/* The round gold logo badge next to the site name. */
+/* The round gold "TT" badge next to the site name. */
 .logo-mark {
   height: 34px;
   width: auto;
@@ -232,6 +257,131 @@ nav.primary-nav a:hover {
 
 /* Highlights whichever page link matches the page you're on. */
 nav.primary-nav a.active {
+  color: var(--accent-dark);
+  background: var(--accent-soft);
+}
+
+/* "Nations" dropdown: CSS-only, no JavaScript. Opens on hover, and on
+   click/tap via :focus-within once the toggle button is focused; closes
+   again once focus or the pointer leaves the whole dropdown. */
+.nav-dropdown {
+  position: relative;
+}
+
+.nav-dropdown-toggle {
+  font: inherit;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  font-family: "Cinzel", serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.015em;
+  color: var(--ink-soft);
+  padding: 8px 8px;
+  border-radius: 8px;
+  transition: background 0.15s, color 0.15s;
+}
+
+/* Triangle points up by default, flips to point down while the
+   "Nations" menu is open (hover or click/tap). */
+.nav-dropdown-toggle::after {
+  content: "\25BE";
+  display: inline-block;
+  margin-left: 4px;
+  font-size: 0.6rem;
+  transition: transform 0.15s ease;
+  transform: rotate(180deg);
+}
+
+.nav-dropdown:hover .nav-dropdown-toggle::after,
+.nav-dropdown:focus-within .nav-dropdown-toggle::after {
+  transform: rotate(0deg);
+}
+
+.nav-dropdown-toggle:hover,
+.nav-dropdown:focus-within .nav-dropdown-toggle {
+  background: var(--paper-alt);
+  color: var(--ink);
+}
+
+.nav-dropdown-toggle.active {
+  color: var(--accent-dark);
+  background: var(--accent-soft);
+}
+
+.nav-dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: 6px;
+  display: none;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 170px;
+  padding: 8px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  z-index: 60;
+}
+
+.nav-dropdown:hover .nav-dropdown-menu,
+.nav-dropdown:focus-within .nav-dropdown-menu {
+  display: flex;
+}
+
+.nav-dropdown-menu a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  font-family: "Cinzel", serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.015em;
+  color: var(--ink-soft);
+  padding: 8px 10px;
+  border-radius: 8px;
+  transition: background 0.15s, color 0.15s;
+}
+
+/* Each nation's classical element (wind/rock/lightning/nature/water/
+   fire/ice) as a small icon. */
+.nation-icon {
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+}
+
+/* Colored with that nation's own palette (the same hue used for its
+   card, theme accent, and page). On the homepage cards this is already
+   handled by the card's own currentColor; these set it explicitly for
+   the nav dropdown and footer, which aren't inside a themed page. */
+.nation-icon-mondstadt { color: #2f9e5c; }
+.nation-icon-liyue     { color: #a4302a; }
+.nation-icon-inazuma   { color: #34237a; }
+.nation-icon-sumeru    { color: #3f6b2e; }
+.nation-icon-fontaine  { color: #1f9db5; }
+.nation-icon-natlan    { color: #a8391c; }
+.nation-icon-snezhnaya { color: #5b7480; }
+
+/* Lighter tone of each nation's palette so the icon stays visible
+   against the footer's dark background. */
+footer.site-footer .nation-icon-mondstadt { color: #8fd0ef; }
+footer.site-footer .nation-icon-liyue     { color: #e8b64c; }
+footer.site-footer .nation-icon-inazuma   { color: #9b7bef; }
+footer.site-footer .nation-icon-sumeru    { color: #cdb46a; }
+footer.site-footer .nation-icon-fontaine  { color: #cdf4f7; }
+footer.site-footer .nation-icon-natlan    { color: #f2965a; }
+footer.site-footer .nation-icon-snezhnaya { color: #bfe0ee; }
+
+.nav-dropdown-menu a:hover {
+  background: var(--paper-alt);
+  color: var(--ink);
+}
+
+.nav-dropdown-menu a.active {
   color: var(--accent-dark);
   background: var(--accent-soft);
 }
@@ -282,7 +432,7 @@ nav.primary-nav a.active {
   animation: heroPan 22s ease-in-out infinite alternate;
 }
 
-/* Slow zoom and pan, so a still photo feels like it's gently moving. */
+/* Slow zoom + pan, so a still photo feels like it's gently moving. */
 @keyframes heroPan {
   0%   { transform: scale(1.08) translate(0, 0); }
   100% { transform: scale(1.18) translate(-2%, -1%); }
@@ -379,6 +529,8 @@ nav.primary-nav a.active {
   z-index: 2;
   text-align: center;
   max-width: 780px;
+  /* Flex items default to min-width: auto, which was letting the
+     non-wrapping button row force this wider than the viewport. */
   min-width: 0;
   margin: 0 auto;
   padding: 120px 24px;
@@ -389,6 +541,8 @@ nav.primary-nav a.active {
   color: #fff;
   font-size: clamp(2.3rem, 5vw, 3.4rem);
   text-shadow: 0 6px 28px rgba(0, 0, 0, 0.45);
+  /* .hero h1 (shared with the nation pages) caps this at max-width: 16ch;
+     center that narrowed box instead of letting it sit flush left. */
   margin-left: auto;
   margin-right: auto;
 }
@@ -406,6 +560,8 @@ nav.primary-nav a.active {
 }
 
 @media (max-width: 600px) {
+  /* Too long to stay on one line at phone widths; wrap instead of
+     overflowing past the edge of the screen. */
   .hero-full .lede {
     white-space: normal;
   }
@@ -567,11 +723,6 @@ nav.primary-nav a:focus-visible {
   outline-color: #fff;
 }
 
-.nation-card:focus-visible {
-  outline: 3px solid var(--accent-dark);
-  outline-offset: 3px;
-}
-
 /* Gold color for the second half of a two-tone heading. */
 .accent-gold {
   color: var(--brand-dark);
@@ -590,6 +741,13 @@ section.block.alt {
   background: var(--paper-alt);
 }
 
+/* Package Overview gets a second layer of the same dotted pattern
+   stacked on top of the page's own, so its dots read more clearly
+   than the faint base texture everywhere else. */
+#package {
+  background: var(--pattern);
+}
+
 .section-head {
   max-width: 62ch;
   margin-bottom: 36px;
@@ -600,7 +758,7 @@ section.block.alt {
   font-size: clamp(1.6rem, 3vw, 2.1rem);
 }
 
-/* Centers one intro paragraph instead of following the left edge. */
+/* Centers this one intro paragraph instead of following the left edge. */
 .lede-center {
   max-width: 68ch;
   margin: -10px auto 36px;
@@ -611,17 +769,27 @@ section.block.alt {
   color: var(--ink);
 }
 
-/* Centered single column of body text */
+/* Centered single column of body text, used instead of the old two-column
+   layout so it reads as one continuous story rather than a grid. */
 .story-body {
   max-width: 70ch;
   margin: 0 auto;
   text-align: center;
 }
 
+/* Keeps this one heading on a single line at every screen size. */
 /* Keeps a heading on a single line at every screen size. */
 .nowrap-heading {
   font-size: clamp(1.05rem, 4vw, 2.1rem);
   white-space: nowrap;
+}
+
+/* Too long to fit one line at phone widths; wrap instead of pushing
+   the page wider than the screen. */
+@media (max-width: 480px) {
+  .nowrap-heading {
+    white-space: normal;
+  }
 }
 
 #nations .section-head,
@@ -644,6 +812,36 @@ section.block.alt {
   z-index: -1;
 }
 
+/* A larger, more visible soft color wash across the whole Journal and
+   FAQ sections — same idea as .with-glow above and the hero's own
+   gradients, just bigger. Plain color only (no shapes, no icons), and
+   automatically that nation's own tint via var(--accent-soft). */
+.journal-section,
+.faq-section,
+.story-section {
+  position: relative;
+}
+
+.journal-section::before,
+.faq-section::before,
+.story-section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(820px 560px at 100% 0%, var(--accent-soft) 0%, var(--accent-soft) 32%, transparent 80%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* The Journal and Our Story sections keep the second, lower-left wash;
+   the FAQ section only gets the top-right one. */
+.journal-section::before,
+.story-section::before {
+  background:
+    radial-gradient(820px 560px at 100% 0%, var(--accent-soft) 0%, var(--accent-soft) 32%, transparent 80%),
+    radial-gradient(680px 500px at 0% 100%, var(--accent-soft) 0%, var(--accent-soft) 28%, transparent 78%);
+}
+
 .grid {
   display: grid;
   gap: 22px;
@@ -657,24 +855,27 @@ section.block.alt {
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
 }
 
-/* Flex-wrap grid so the leftover row centers itself. */
-.nations-grid {
+/* Horizontal scroll-snap carousel, so a tall card per nation can scroll
+   into view (CSS only — no JS — the dots below are plain anchor links
+   to each card's id, and the browser's native anchor scroll brings it
+   into view, including scrolling this track sideways). */
+.nations-track {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 20px;
+  gap: 18px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-padding-left: 4px;
+  padding: 6px 4px 20px;
+  margin: 0 -4px;
 }
 
-.nations-grid .nation-card {
-  flex: 1 1 225px;
-  max-width: 250px;
+.nations-track::-webkit-scrollbar {
+  height: 6px;
 }
 
-@media (max-width: 620px) {
-  .nations-grid .nation-card {
-    flex: 1 1 100%;
-    max-width: 320px;
-  }
+.nations-track::-webkit-scrollbar-thumb {
+  background: var(--line);
+  border-radius: 999px;
 }
 
 /* ---------- 6. Cards ---------- */
@@ -711,6 +912,8 @@ section.block.alt {
   margin-bottom: 12px;
 }
 
+/* "Why Book With Us" cards use the plain .card style above too. */
+
 /* Small numbered circle used above each "Featured Stop" card. */
 .stop-number {
   width: 30px;
@@ -726,7 +929,9 @@ section.block.alt {
   margin-bottom: 14px;
 }
 
-/* Featured Stops */
+/* Featured Stops: large cinematic landscape banners, stacked, with the
+   photo as background and a glassmorphism text panel over one side.
+   Text side alternates left/right/left across the three stops. */
 .stop-banner-stack {
   display: flex;
   flex-direction: column;
@@ -890,15 +1095,25 @@ section.block.alt {
 /* ---------- 7. Package price panel, itinerary, FAQ ---------- */
 
 .price-panel {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 28px;
+  position: relative;
   background: var(--card);
   border: 1px solid var(--line);
   border-radius: var(--radius);
-  padding: 30px 32px;
+  /* Extra right padding reserves the stamp's own lane, so the text
+     never has to share width with it (no forced re-wrapping) and the
+     stamp never has to crowd into whatever the text is doing. */
+  padding: 30px 230px 30px 32px;
   box-shadow: var(--shadow);
+}
+
+.price-info {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.price-info > div > p {
+  margin: 6px 0 0;
 }
 
 .price-panel .amount {
@@ -928,6 +1143,88 @@ section.block.alt {
 
 .spec-list strong {
   color: var(--ink);
+}
+
+/* Circular "stamp" badge in the price panel — a visual mark of that
+   nation's element, like a wax seal or postage stamp. Positioned out of
+   normal flow and vertically centered in the card's right side, so it
+   never affects how the price text wraps or lays out on the left. */
+.nation-stamp {
+  position: absolute;
+  top: 50%;
+  right: 30px;
+  transform: translateY(-50%);
+  width: 200px;
+  height: 200px;
+  color: var(--accent);
+  opacity: 0.92;
+  filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.14));
+}
+
+@media (max-width: 680px) {
+  .price-panel {
+    padding: 30px 32px;
+  }
+
+  .nation-stamp {
+    position: static;
+    transform: none;
+    width: 155px;
+    height: 155px;
+    margin: 20px auto 0;
+  }
+}
+
+/* Itinerary section: a tall silhouette motif filling the whole right
+   edge of the block, behind the content, as visible background texture. */
+.itinerary-section {
+  position: relative;
+  overflow: hidden;
+}
+
+.itinerary-section > .container {
+  position: relative;
+  z-index: 1;
+}
+
+.itinerary-decor {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 44%;
+  object-fit: cover;
+  object-position: center;
+  filter: brightness(0);
+  opacity: 0.06;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Fontaine's fountain silhouette is a much taller/denser shape than the
+   other nations' art, so it reads as oversized at the shared decor
+   height. Anchor it to the bottom-right corner and show the whole
+   uncropped photo (object-fit: contain instead of cover); opacity stays
+   the same as every other nation's decor. */
+.itinerary-decor.itinerary-decor-sm {
+  top: auto;
+  bottom: 0;
+  right: 0;
+  width: 66%;
+  height: 86%;
+  object-fit: contain;
+  object-position: bottom right;
+}
+
+@media (max-width: 560px) {
+  .itinerary-decor {
+    width: 62%;
+  }
+
+  .itinerary-decor.itinerary-decor-sm {
+    width: 82%;
+    height: 66%;
+  }
 }
 
 /* Day-by-day itinerary, styled like a timeline with a "Day N" tag each line. */
@@ -1004,6 +1301,61 @@ section.block.alt {
   color: var(--ink-soft);
 }
 
+/* FAQ section: the question list keeps a readable width and sits flush
+   left (matching every other section on the page), with the chibi
+   mascot filling the space beside it instead of the block looking
+   centered/narrow. */
+.faq-layout {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 28px;
+}
+
+.faq-content {
+  flex: 1 1 560px;
+  min-width: 0;
+  max-width: 760px;
+}
+
+/* A thin colored outline hugging the chibi's own silhouette, built from
+   stacked zero-blur drop-shadows around every direction (a flat glow
+   would blur past the art's edges; this reads as a cartoon-sticker
+   stroke instead). Alternates the nation's light/dark accent pair, the
+   same two colors used by the heading text just above it. */
+.faq-chibi {
+  flex: 0 0 auto;
+  width: 260px;
+  height: auto;
+  align-self: flex-end;
+  pointer-events: none;
+  filter:
+    drop-shadow(1.6px 0 0.4px var(--accent-dark))
+    drop-shadow(-1.6px 0 0.4px var(--accent))
+    drop-shadow(0 1.6px 0.4px var(--accent-dark))
+    drop-shadow(0 -1.6px 0.4px var(--accent))
+    drop-shadow(1.1px 1.1px 0.4px var(--accent-dark))
+    drop-shadow(-1.1px 1.1px 0.4px var(--accent))
+    drop-shadow(1.1px -1.1px 0.4px var(--accent-dark))
+    drop-shadow(-1.1px -1.1px 0.4px var(--accent));
+}
+
+@media (max-width: 760px) {
+  .faq-layout {
+    flex-direction: column-reverse;
+    align-items: center;
+    justify-content: flex-start;
+    text-align: center;
+  }
+  .faq-content {
+    max-width: 100%;
+    text-align: left;
+  }
+  .faq-chibi {
+    width: 180px;
+  }
+}
+
 .faq-item {
   border-bottom: 1px solid var(--line);
   padding: 18px 0;
@@ -1027,93 +1379,202 @@ section.block.alt {
 
 /* ---------- 8. Nation cards (homepage "Explore the Seven Nations") ---------- */
 
-.nation-card {
+/* Tall photo card: the nation's hero photo fills the whole card, with
+   a glassmorphism strip pinned at the top (number + name) and another
+   pinned at the bottom (duration/price + a one-line description). */
+.nation-slide {
   position: relative;
+  flex: 0 0 320px;
+  aspect-ratio: 3 / 4.7;
   border-radius: var(--radius);
   overflow: hidden;
-  border: 1px solid var(--line);
-  background: var(--card);
-  box-shadow: var(--shadow);
-  text-decoration: none;
-  display: block;
-  transition: transform 0.18s, box-shadow 0.18s;
-}
-
-.nation-card:hover {
-  transform: translateY(-4px);
-  box-shadow:
-    0 20px 38px -16px rgba(43, 38, 32, 0.3),
-    0 0 0 1px color-mix(in srgb, var(--nc-b) 45%, transparent);
-}
-
-.nation-card .swatch {
-  height: 130px;
-  position: relative;
+  scroll-snap-align: start;
   background-size: cover;
   background-position: center;
-  transition: transform 0.4s ease;
+  box-shadow: var(--shadow);
+  text-decoration: none;
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 
-/* Gentle zoom-in on the photo when hovering the card. */
-.nation-card:hover .swatch {
-  transform: scale(1.07);
+.nation-slide:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 38px -16px rgba(43, 38, 32, 0.4);
 }
 
-/* Fades the bottom of the photo into the white card body beneath it. */
-.nation-card .swatch::after {
+.nation-slide:focus-visible {
+  outline: 3px solid var(--accent-dark);
+  outline-offset: 3px;
+}
+
+/* Darkens just the top and bottom of the photo so the creamy glass
+   panels stay readable, without dimming the photo itself in the middle
+   (same two-layer approach as the Featured Stops banners). */
+.nation-slide::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, transparent 60%, var(--card) 100%);
+  background:
+    linear-gradient(to bottom, rgba(20, 16, 8, 0.55) 0%, rgba(20, 16, 8, 0) 24%),
+    linear-gradient(to top, rgba(20, 16, 8, 0.6) 0%, rgba(20, 16, 8, 0) 32%);
+  pointer-events: none;
 }
 
-/* Thin colored stripe between the photo and text, using that nation's colors. */
-.nation-card .swatch::before {
-  content: "";
+/* Floating creamy glass chips, same treatment as .stop-banner-text. */
+.nation-slide-top,
+.nation-slide-bottom {
   position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 4px;
-  background: linear-gradient(90deg, var(--nc-a), var(--nc-b));
-  z-index: 2;
+  left: 10px;
+  right: 10px;
+  background: rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(12px) saturate(1.2);
+  -webkit-backdrop-filter: blur(12px) saturate(1.2);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: var(--radius);
+  padding: 10px 14px;
+  color: #fff;
 }
 
-.nation-card .body {
-  padding: 16px 20px 20px;
+.nation-slide-top {
+  top: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-/* Nation name colored with that nation's own accent. */
-.nation-card h3 {
-  font-size: 1.05rem;
-  margin-bottom: 4px;
-  color: var(--nc-b);
+.nation-slide-bottom {
+  bottom: 10px;
 }
 
-.nation-card .region {
+/* Filled with that nation's own color (--nc, set inline per card) so
+   the badge reads as a mark of identity, not just a generic counter. */
+.nation-slide-num {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--nc, rgba(255, 255, 255, 0.22));
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  font-family: "Cinzel", serif;
+  font-size: 0.7rem;
+}
+
+.nation-slide-top h3 {
   display: flex;
   align-items: center;
   gap: 6px;
-  font-size: 0.75rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--ink-soft);
+  font-size: 0.95rem;
+  color: #fff;
 }
 
-/* Small colored dot next to the duration/price line. */
-.nation-card .region::before {
+.nation-slide-bottom .region {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* Small colored dot next to the duration/price line, same touch the
+   old homepage cards used, tying the price line back to that nation's
+   own color. */
+.nation-slide-bottom .region::before {
   content: "";
-  width: 7px;
-  height: 7px;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
-  background: var(--nc-b);
+  background: var(--nc, #fff);
   flex-shrink: 0;
 }
 
-.nation-card p {
-  font-size: 0.9rem;
-  margin: 10px 0 0;
+.nation-slide-bottom p {
+  margin: 4px 0 0;
+  font-size: 0.85rem;
+  line-height: 1.45;
+  color: #fff;
+}
+
+/* Caption under the section heading, telling visitors the cards scroll
+   and are clickable. */
+.nations-caption {
+  margin-top: 6px;
+  font-style: italic;
   color: var(--ink-soft);
+}
+
+@media (max-width: 480px) {
+  .nation-slide {
+    flex-basis: 84vw;
+  }
+}
+
+/* Bottom-of-page nav: back to home, centered, with the previous/next
+   nation (in catalog order) on either side. A 3-column grid keeps
+   "Back to Home" dead-center even when one side has no link (first
+   or last nation). */
+.page-nav-section {
+  padding: 24px 24px;
+  border-top: 1px solid var(--line);
+  /* Same background as the "Ready to Explore" section right above it,
+     so the two read as one continuous block. */
+  background: var(--paper-alt);
+}
+
+.page-nav {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 12px;
+}
+
+.page-nav-prev {
+  justify-self: start;
+}
+
+.page-nav-next {
+  justify-self: end;
+}
+
+.page-nav-home {
+  justify-self: center;
+}
+
+.page-nav a {
+  display: inline-block;
+  font-family: "Cinzel", serif;
+  font-size: 0.78rem;
+  letter-spacing: 0.03em;
+  text-decoration: none;
+  color: var(--accent-dark);
+  /* Same fill as the "Ready to Explore" section right above, so these
+     buttons read as a continuation of it rather than a new block. */
+  background: var(--paper-alt);
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: 1px solid var(--accent);
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.page-nav a:hover {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+
+@media (max-width: 560px) {
+  .page-nav {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    gap: 10px;
+  }
+  .page-nav-prev,
+  .page-nav-next {
+    justify-self: center;
+  }
 }
 
 /* ---------- 9. Director profile, contact cards, footer ---------- */
@@ -1231,7 +1692,11 @@ blockquote {
 }
 
 footer.site-footer {
-  background: #161a21;
+  /* A faint scattered-star pattern, fitting the footer's dark "night
+     sky" tone — brand-wide, not tied to any one nation. */
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cg fill='%23f0b429' opacity='0.14'%3E%3Ccircle cx='18' cy='22' r='1.4'/%3E%3Ccircle cx='64' cy='10' r='1'/%3E%3Ccircle cx='92' cy='54' r='1.6'/%3E%3Ccircle cx='38' cy='76' r='1.1'/%3E%3Ccircle cx='104' cy='96' r='1.3'/%3E%3Ccircle cx='8' cy='92' r='1'/%3E%3C/g%3E%3C/svg%3E"),
+    #161a21;
   color: #c7cbd4;
   padding: 50px 24px 26px;
 }
@@ -1248,7 +1713,8 @@ footer.site-footer h4 {
   margin-bottom: 14px;
 }
 
-/* Smaller version of the header logo */
+/* Smaller version of the header logo; inverted to white since the
+   artwork is solid black and the footer background is dark. */
 .footer-logo {
   display: block;
   height: 22px;
@@ -1279,6 +1745,13 @@ footer.site-footer a {
 
 footer.site-footer a:hover {
   color: #f1e3c2;
+}
+
+/* Lines up the element icon with the nation name in the "Our Nations" list. */
+footer.site-footer ul a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
 }
 
 footer.site-footer ul {
@@ -1336,10 +1809,6 @@ footer.site-footer li {
   nav.primary-nav {
     justify-content: flex-start;
   }
-  .price-panel {
-    flex-direction: column;
-    align-items: flex-start;
-  }
 }
 
 /* Strips photos/nav/decoration when printed, so it's just readable text. */
@@ -1379,7 +1848,7 @@ footer.site-footer li {
     padding: 20px 0;
   }
   .card,
-  .nation-card,
+  .nation-slide,
   .lore-block,
   .price-panel,
   .photo-frame-wrap::before {
