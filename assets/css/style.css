@@ -1,4 +1,4 @@
-/* Teyvat Travel Services — shared stylesheet for all 8 pages, numbered sections 1-10 below. */
+/* Primordial Haven — shared stylesheet for all 8 pages, numbered sections 1-10 below. */
 
 /* ---------- 1. Colors and basic page setup ---------- */
 
@@ -219,9 +219,9 @@ img {
   white-space: nowrap;
 }
 
-/* The round gold "TT" badge next to the site name. */
+/* The Primordial Haven emblem next to the site name. */
 .logo-mark {
-  height: 34px;
+  height: 38px;
   width: auto;
   flex-shrink: 0;
   filter: drop-shadow(0 0 5px rgba(240, 180, 41, 0.75)) drop-shadow(0 0 11px rgba(240, 180, 41, 0.4));
@@ -1713,13 +1713,13 @@ footer.site-footer h4 {
   margin-bottom: 14px;
 }
 
-/* Smaller version of the header logo; inverted to white since the
-   artwork is solid black and the footer background is dark. */
+/* Footer copy of the header emblem, in its own gold and brown colors.
+   A soft cream glow keeps the dark arrows visible on the dark footer. */
 .footer-logo {
   display: block;
-  height: 22px;
+  height: 44px;
   width: auto;
-  filter: invert(1);
+  filter: drop-shadow(0 0 1px rgba(241, 227, 194, 0.55)) drop-shadow(0 0 6px rgba(241, 227, 194, 0.25));
   margin-bottom: 12px;
 }
 
@@ -1811,12 +1811,412 @@ footer.site-footer li {
   }
 }
 
+/* ---------- 11. Tour Packages filters (homepage) ---------- */
+
+.package-filter {
+  margin: -12px 0 26px;
+}
+
+.package-filter-intro {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--ink);
+  margin-bottom: 14px;
+}
+
+/* Duration on the left, Guest Count on the right. */
+.package-filter-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px 28px;
+}
+
+.filter-field label {
+  display: block;
+  font-size: 0.9rem;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+
+.filter-field select {
+  width: 100%;
+  -webkit-appearance: none;
+  appearance: none;
+  font: inherit;
+  font-size: 0.92rem;
+  color: var(--ink);
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232b2620' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m5 9 7 7 7-7'/%3E%3C/svg%3E")
+      no-repeat right 12px center / 18px,
+    #d9d9d9;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  padding: 8px 42px 8px 12px;
+  cursor: pointer;
+  transition: border-color 0.15s, background-color 0.15s;
+}
+
+.filter-field select:hover {
+  border-color: var(--brand-dark);
+}
+
+.filter-field select:focus-visible {
+  outline: 3px solid var(--accent-dark);
+  outline-offset: 2px;
+}
+
+.package-filter-empty {
+  margin: 18px 0 0;
+  padding: 16px 20px;
+  background: var(--card);
+  border: 1px dashed var(--line);
+  border-radius: var(--radius);
+  font-style: italic;
+  color: var(--ink-soft);
+}
+
+.filter-reset {
+  font: inherit;
+  font-style: italic;
+  color: var(--brand-dark);
+  background: none;
+  border: none;
+  padding: 0;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* Cards (and the whole track) hidden by the filter. */
+.nation-slide[hidden],
+.nations-track[hidden] {
+  display: none !important;
+}
+
+/* ---------- 12. Katheryne floating icon (home + nation pages) ---------- */
+
+/* The widget: a round icon that sits at the bottom-right of the hero.
+   katheryne.js moves it to <body> and adds .is-docked once the hero
+   scrolls away, so it stays at the bottom-right of the screen. */
+.kath {
+  position: absolute;
+  right: 28px;
+  bottom: 28px;
+  z-index: 45;
+  width: 88px;
+  height: 88px;
+}
+
+.kath.is-docked {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+}
+
+.kath.kath-pop {
+  animation: kathPop 0.3s ease;
+}
+
+@keyframes kathPop {
+  from { opacity: 0; transform: translateY(10px) scale(0.92); }
+  to   { opacity: 1; transform: none; }
+}
+
+.kath-launcher {
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: #1d3a24;
+  cursor: pointer;
+  overflow: hidden;
+  box-shadow: 0 10px 24px -8px rgba(0, 0, 0, 0.6);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.kath-launcher img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.kath-launcher:hover {
+  transform: scale(1.06);
+  box-shadow: 0 14px 30px -8px rgba(0, 0, 0, 0.65);
+}
+
+.kath-launcher:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 3px;
+  border-radius: 50%;
+}
+
+/* State 2: speech bubble to the left of the icon. */
+.kath-bubble {
+  position: absolute;
+  right: calc(100% + 16px);
+  top: 50%;
+  width: max-content;
+  max-width: min(320px, calc(100vw - 150px));
+  padding: 16px 40px 16px 22px;
+  background: #d9d9d9;
+  border-radius: 24px;
+  box-shadow: var(--shadow);
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transform: translate(10px, -50%);
+  transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+}
+
+.kath[data-state="bubble"] .kath-bubble {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(0, -50%);
+}
+
+.kath-bubble-title {
+  margin: 0 0 4px;
+  font-family: "Lora", Georgia, serif;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--ink);
+}
+
+.kath-bubble-sub {
+  margin: 0;
+  font-size: 0.8rem;
+  line-height: 1.3;
+  color: var(--ink-soft);
+}
+
+.kath-bubble-close {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--ink-soft);
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.kath-bubble-close:hover {
+  background: rgba(0, 0, 0, 0.08);
+  color: var(--ink);
+}
+
+/* State 3: two buttons stacked above the icon. */
+.kath-actions {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 14px);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s;
+}
+
+.kath[data-state="menu"] .kath-actions {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+}
+
+.kath-action {
+  display: block;
+  text-decoration: none;
+  min-width: 210px;
+  padding: 14px 26px;
+  border: none;
+  border-radius: 20px;
+  font-family: "Cinzel", serif;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+  text-align: left;
+  color: var(--ink);
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  transition: transform 0.15s, background-color 0.15s;
+}
+
+.kath-action:hover {
+  transform: translateY(-2px);
+}
+
+.kath-action-inquiry {
+  background: #d9d9d9;
+}
+
+.kath-action-inquiry:hover {
+  background: #cccccc;
+}
+
+/* Same gold as the "Explore Teyvat" button. */
+.kath-action-book {
+  background: var(--brand);
+  color: #2a2210;
+}
+
+.kath-action-book:hover {
+  background: var(--brand-dark);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kath,
+  .kath * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* ---------- 13. Responsive: tablets and phones ---------- */
+
+/* Tablets */
+@media (max-width: 860px) {
+  section.block {
+    padding: 56px 20px;
+  }
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .footer-grid > div:first-child {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 720px) {
+  .footer-grid {
+    grid-template-columns: 1fr;
+  }
+  .profile-wrap {
+    max-width: 420px;
+  }
+}
+
+/* Phones (roughly 360-480px) */
+@media (max-width: 640px) {
+  .nav-wrap {
+    padding: 10px 16px;
+    gap: 6px;
+  }
+  nav.primary-nav {
+    width: 100%;
+  }
+  /* Keep the Nations menu inside the screen. */
+  .nav-dropdown-menu {
+    max-width: calc(100vw - 32px);
+  }
+  .hero-full {
+    min-height: 560px;
+  }
+  .hero-full .hero-content-full {
+    padding: 90px 18px 110px;
+  }
+  .package-filter-row {
+    grid-template-columns: 1fr;
+  }
+  .kath {
+    width: 64px;
+    height: 64px;
+    right: 16px;
+    bottom: 16px;
+  }
+  .kath.is-docked {
+    right: 14px;
+    bottom: 14px;
+  }
+  .kath-bubble {
+    right: calc(100% + 10px);
+    max-width: calc(100vw - 64px - 14px - 10px - 24px);
+    padding: 12px 32px 12px 16px;
+    border-radius: 18px;
+  }
+  .kath-bubble-title {
+    font-size: 0.88rem;
+  }
+  .kath-bubble-sub {
+    font-size: 0.74rem;
+  }
+  .kath-action {
+    min-width: 180px;
+    padding: 12px 20px;
+    font-size: 0.85rem;
+    border-radius: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  section.block {
+    padding: 44px 6px;
+  }
+  .container {
+    padding: 0 12px;
+  }
+  .site-footer {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+  .footer-note {
+    flex-direction: column;
+  }
+  .card {
+    padding: 22px;
+  }
+  .lede-center {
+    font-size: 1.08rem;
+  }
+  .lore-block {
+    padding: 26px 22px;
+  }
+  .price-panel {
+    padding: 24px 20px;
+  }
+  .price-panel .amount {
+    font-size: 1.7rem;
+  }
+  .stop-banner {
+    aspect-ratio: auto;
+    min-height: 420px;
+  }
+  .stop-banner-overlay {
+    padding: 16px;
+  }
+  .stop-banner-text {
+    padding: 18px 18px;
+  }
+  .hero-split .hero-content {
+    padding: 32px 18px;
+  }
+  .faq-chibi {
+    width: 150px;
+  }
+  /* The soft glow behind photos is pulled in so it stays inside the
+     narrower phone margins instead of widening the page. */
+  .photo-frame-wrap::before {
+    inset: -14px;
+  }
+}
+
 /* Strips photos/nav/decoration when printed, so it's just readable text. */
 @media print {
   body {
     background: #fff;
   }
   .site-header,
+  .kath,
   .scroll-cue,
   .btn-row,
   footer.site-footer {
@@ -1859,5 +2259,46 @@ footer.site-footer li {
   a {
     color: var(--ink);
     text-decoration: underline;
+  }
+}
+
+/* ---------- 14. Full-screen hero banners ----------*/ 
+:root {
+  --header-h: 67px;
+}
+
+@media (max-width: 640px) {
+  :root {
+    --header-h: 100px; /* the menu stacks under the logo on phones */
+  }
+}
+
+@media screen {
+  .hero-full,
+  .hero-split {
+    min-height: calc(100vh - var(--header-h));
+  }
+  @supports (height: 100svh) {
+    .hero-full,
+    .hero-split {
+      /* svh = the screen height with phone browser toolbars showing */
+      min-height: calc(100svh - var(--header-h));
+    }
+  }
+}
+
+/* Phones/tablets: on nation pages the photo stacks above the title.
+   Let the photo take up whatever space the text doesn't need. */
+@media screen and (max-width: 860px) {
+  .hero-split {
+    display: flex;
+    flex-direction: column;
+  }
+  .hero-split .hero-media {
+    flex: 1 1 260px;
+  }
+  .hero-split .hero-media .media-sharp {
+    position: absolute;
+    inset: 0;
   }
 }
