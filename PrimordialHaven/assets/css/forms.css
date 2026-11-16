@@ -1,0 +1,701 @@
+/* Primordial Haven — shared form styles (Booking form now, Inquiry form next).
+   Loaded after style.css, so it reuses the site's fonts and color variables.
+   Every form opens inside the same pop-up (.form-modal, from
+   assets/js/form-modal.js) over a blurred view of the current page.
+   Building the Inquiry form: reuse .form-card, .form-head, .form-close,
+   .form-body, .field*, .pill-input, .pill-btn* and .form-actions*; only
+   form-specific layout (like .field-row-package) is unique to a form. */
+
+:root {
+  --form-card-bg: #f0f0f0;        /* light gray card, from the design */
+  --form-field-bg: #fff8c2;       /* pale yellow pill fields, from the design */
+  --form-field-border: #6b6455;
+  --form-field-shadow: 0 3px 4px rgba(43, 38, 32, 0.32);
+  --form-error: #b3261e;
+  --form-gap: 16px;
+}
+
+/* ---------- Pop-up modal ---------- */
+
+/* Covers the whole screen with a light dark tint plus a blur, so the
+   current page stays visible but soft behind the form. It scrolls on its
+   own if a form is taller than the screen. */
+.form-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  padding: 40px 24px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  background: rgba(22, 26, 33, 0.38);
+  -webkit-backdrop-filter: blur(7px);
+  backdrop-filter: blur(7px);
+  animation: formModalFade 0.2s ease;
+}
+
+.form-modal[hidden] {
+  display: none;
+}
+
+/* Centers the card; margin:auto keeps tall cards scrollable from the top. */
+.form-modal-dialog {
+  margin: auto;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  animation: formModalRise 0.25s ease;
+}
+
+/* One wrapper per form; only the open form's wrapper is shown. */
+.form-modal-content {
+  display: contents;
+}
+
+.form-modal-content[hidden] {
+  display: none;
+}
+
+.form-modal-dialog:focus {
+  outline: none;
+}
+
+@keyframes formModalFade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes formModalRise {
+  from { opacity: 0; transform: translateY(14px) scale(0.98); }
+  to   { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .form-modal,
+  .form-modal-dialog {
+    animation: none;
+  }
+}
+
+/* Stops the page behind from scrolling while a form is open. */
+html.form-modal-open,
+html.form-modal-open body {
+  overflow: hidden;
+}
+
+/* ---------- Card ---------- */
+
+.form-card {
+  width: 100%;
+  max-width: 916px;
+  background: var(--form-card-bg);
+  border-radius: 20px;
+  padding: 30px 40px 48px;
+  position: relative;
+  box-shadow: 0 24px 60px -24px rgba(0, 0, 0, 0.55);
+}
+
+/* Round X in the top-right corner of every form card. */
+.form-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--ink-soft);
+  font-size: 1.6rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color 0.15s, color 0.15s;
+}
+
+.form-close:hover {
+  background: rgba(43, 38, 32, 0.08);
+  color: var(--ink);
+}
+
+.form-close:focus-visible {
+  outline: 3px solid var(--brand-dark);
+  outline-offset: 2px;
+}
+
+.form-card[hidden] {
+  display: none;
+}
+
+.form-head {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 26px;
+}
+
+.form-head a {
+  display: block;
+  flex-shrink: 0;
+}
+
+.form-logo {
+  height: 46px;
+  width: auto;
+}
+
+.form-head h2 {
+  margin: 0;
+  font-size: 1.65rem;
+  color: var(--ink);
+}
+
+.form-card h2:focus {
+  outline: none;
+}
+
+/* Centered content column inside the card. */
+.form-body {
+  max-width: 630px;
+  margin: 0 auto;
+}
+
+.form-subhead {
+  margin: 34px 0 14px;
+  font-size: 1.15rem;
+  color: var(--ink);
+}
+
+/* ---------- Fields ---------- */
+
+.field-group {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+}
+
+.field,
+.field-group {
+  margin-bottom: var(--form-gap);
+  min-width: 0;
+}
+
+.field-row .field {
+  margin-bottom: 0;
+}
+
+.field-label {
+  display: block;
+  padding: 0 0 4px 16px;
+  font-size: 0.95rem;
+  color: var(--ink);
+}
+
+legend.field-label {
+  float: left;      /* lets the legend sit like a normal label */
+  width: 100%;
+}
+
+.field-group .field-row {
+  clear: both;
+}
+
+.req {
+  color: #d93025;
+  margin-left: 1px;
+}
+
+.field-row {
+  display: grid;
+  gap: 0 var(--form-gap);
+}
+
+.field-row-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 72px;
+}
+
+.field-row-dates {
+  margin-top: 26px;
+  margin-bottom: var(--form-gap);
+}
+
+/* Pill-shaped text inputs, number inputs and dropdowns. */
+.pill-input {
+  display: block;
+  width: 100%;
+  height: 38px;
+  padding: 0 18px;
+  font: inherit;
+  font-size: 0.92rem;
+  color: var(--ink);
+  background: var(--form-field-bg);
+  border: 1px solid var(--form-field-border);
+  border-radius: 999px;
+  box-shadow: var(--form-field-shadow);
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.pill-input::placeholder {
+  color: #9a8f6e;
+  opacity: 1;
+}
+
+.pill-input:focus {
+  outline: none;
+  border-color: var(--brand-dark);
+  box-shadow: var(--form-field-shadow), 0 0 0 3px rgba(240, 180, 41, 0.45);
+}
+
+.pill-input[aria-invalid="true"] {
+  border-color: var(--form-error);
+  box-shadow: var(--form-field-shadow), 0 0 0 2px rgba(179, 38, 30, 0.2);
+}
+
+.pill-select {
+  -webkit-appearance: none;
+  appearance: none;
+  padding-right: 42px;
+  cursor: pointer;
+  background-color: var(--form-field-bg);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232b2620' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m5 9 7 7 7-7'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  background-size: 18px;
+}
+
+.pill-input[type="number"] {
+  padding-right: 10px;
+}
+
+/* Date fields: typed MM/DD/YYYY plus a small calendar button. */
+.date-wrap {
+  position: relative;
+}
+
+.date-wrap .pill-input {
+  padding-right: 40px;
+}
+
+.date-btn {
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  transform: translateY(-50%);
+  width: 28px;
+  height: 28px;
+  padding: 3px;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--ink-soft);
+  cursor: pointer;
+}
+
+.date-btn:hover {
+  background: rgba(43, 38, 32, 0.08);
+  color: var(--ink);
+}
+
+.date-btn svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* The browser's own date picker, kept invisible under the button. */
+.date-native {
+  position: absolute;
+  right: 8px;
+  bottom: 0;
+  width: 28px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+  border: 0;
+  padding: 0;
+}
+
+/* Visually hidden, still read by screen readers. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.field-error {
+  margin: 6px 0 0;
+  padding-left: 16px;
+  font-size: 0.8rem;
+  line-height: 1.4;
+  color: var(--form-error);
+}
+
+.field-error[hidden] {
+  display: none;
+}
+
+.form-error {
+  margin-top: 18px;
+  padding-left: 0;
+  text-align: center;
+}
+
+/* ---------- Buttons ---------- */
+
+.pill-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 38px;
+  padding: 0 28px;
+  font: inherit;
+  font-size: 0.95rem;
+  color: #2a2210;
+  text-decoration: none;
+  border: 1px solid var(--form-field-border);
+  border-radius: 999px;
+  box-shadow: var(--form-field-shadow);
+  cursor: pointer;
+  transition: background-color 0.15s, transform 0.15s;
+}
+
+.pill-btn:hover {
+  transform: translateY(-1px);
+}
+
+.pill-btn:focus-visible {
+  outline: 3px solid var(--ink);
+  outline-offset: 3px;
+}
+
+.pill-btn:disabled {
+  opacity: 0.65;
+  cursor: wait;
+  transform: none;
+}
+
+/* Same gold as the "Explore Teyvat" button. */
+.pill-btn-gold {
+  background: var(--brand);
+}
+
+.pill-btn-gold:hover {
+  background: var(--brand-dark);
+}
+
+.pill-btn-cream {
+  background: var(--paper-alt);
+}
+
+.pill-btn-cream:hover {
+  background: #e7dcc3;
+}
+
+.pill-btn-light {
+  background: var(--form-field-bg);
+}
+
+.pill-btn-light:hover {
+  background: #fbefa0;
+}
+
+.form-actions {
+  margin-top: 46px;
+}
+
+.form-actions-center {
+  display: flex;
+  justify-content: center;
+}
+
+.form-actions-center .pill-btn {
+  min-width: 258px;
+}
+
+/* Back + Submit side by side on desktop. */
+.form-actions-split {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+}
+
+/* Message box: same pale-yellow field, as a rounded rectangle. */
+.pill-textarea {
+  height: auto;
+  min-height: 136px;
+  padding: 12px 18px;
+  border-radius: 12px;
+  line-height: 1.5;
+  resize: vertical;
+}
+
+/* ---------- Inquiry form only ---------- */
+
+/* Tighter spacing, as in the inquiry design. */
+.form-compact {
+  --form-gap: 12px;
+}
+
+.form-compact .field-label {
+  padding-bottom: 3px;
+}
+
+/* First/Last Name sit close together. */
+.field-row-tight {
+  column-gap: 12px;
+}
+
+.form-compact .form-actions {
+  margin-top: 30px;
+}
+
+/* ---------- Booking form only ---------- */
+
+.field-row-package {
+  grid-template-columns: max-content minmax(0, 260px);
+  column-gap: 42px;
+}
+
+.field-guests .field-label {
+  white-space: nowrap;
+}
+
+.field-guests .pill-input {
+  width: 134px;
+}
+
+/* Confirmation step */
+.confirm-intro {
+  margin: 0 0 18px -54px;
+  color: var(--ink);
+}
+
+.confirm-list {
+  padding-left: 54px;
+}
+
+.confirm-row {
+  margin: 0 0 14px;
+  color: var(--ink);
+}
+
+.confirm-label {
+  margin-right: 4px;
+}
+
+.confirm-dates {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 24px;
+  margin-top: 30px;
+}
+
+.confirm-stack .confirm-label {
+  display: block;
+}
+
+.confirm-list .form-subhead {
+  margin-top: 28px;
+}
+
+/* Submitted notice */
+.form-notice {
+  max-width: 515px;
+  padding: 44px 52px 44px;
+}
+
+.form-notice h2 {
+  margin: 0 0 28px;
+  text-align: center;
+  font-size: 1.5rem;
+}
+
+.form-notice p {
+  font-size: 0.9rem;
+  color: var(--ink);
+  margin: 0 0 22px;
+}
+
+/* Keeps "in 5s...." together on one line. */
+.countdown-tail {
+  white-space: nowrap;
+}
+
+.form-notice .form-actions {
+  margin-top: 36px;
+}
+
+.form-notice .form-actions-center .pill-btn {
+  min-width: 156px;
+  height: 34px;
+}
+
+/* ---------- Tablets and phones ---------- */
+
+@media (max-width: 860px) {
+  .confirm-intro {
+    margin-left: 0;
+  }
+  .confirm-list {
+    padding-left: 22px;
+  }
+}
+
+@media (max-width: 600px) {
+  :root {
+    --form-gap: 14px;
+  }
+  .form-modal {
+    padding: 14px 12px;
+  }
+  /* The X sits just above the title row, so long titles get the full width. */
+  .form-card {
+    display: flex;
+    flex-direction: column;
+    padding: 40px 20px 32px;
+    border-radius: 22px;
+  }
+  .form-close {
+    top: 6px;
+    right: 6px;
+  }
+  .form-card > .form-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+  .form-card .form-actions {
+    margin-top: auto;
+    padding-top: 34px;
+  }
+  .form-head {
+    margin-bottom: 18px;
+    gap: 8px;
+  }
+  .form-logo {
+    height: 40px;
+  }
+  .form-head h2 {
+    font-size: 1.4rem;
+  }
+  .field-label {
+    padding-left: 6px;
+  }
+  .field-error {
+    padding-left: 6px;
+  }
+  /* First/Last name and the two dates stay side by side. */
+  .field-row-2 {
+    column-gap: 14px;
+  }
+  .pill-input {
+    height: 36px;
+    padding: 0 14px;
+    font-size: 16px; /* 16px stops iPhones from zooming in on focus */
+  }
+  .date-wrap .pill-input {
+    padding: 0 30px 0 12px;
+    font-size: 15px;
+  }
+  .date-btn {
+    right: 4px;
+    width: 26px;
+    height: 26px;
+  }
+  .field-row-dates {
+    margin-top: 6px;
+  }
+  .form-subhead {
+    margin-top: 26px;
+  }
+  /* Guests on its own line, then Package full width. */
+  .field-row-package {
+    grid-template-columns: 1fr;
+    row-gap: 18px;
+  }
+  .field-guests .pill-input {
+    width: 136px;
+  }
+  .form-actions-center .pill-btn {
+    width: 100%;
+    min-width: 0;
+  }
+  /* Inquiry Submit and both "Okay" buttons stay small and centered on
+     phones, as in the inquiry mobile design. */
+  .form-actions-compact .pill-btn,
+  .form-notice .form-actions-center .pill-btn {
+    width: auto;
+    min-width: 128px;
+  }
+  .pill-textarea {
+    padding: 10px 14px;
+  }
+  /* Back stacks above Submit Booking. */
+  .form-actions-split {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .confirm-intro {
+    margin-bottom: 16px;
+  }
+  .confirm-list {
+    padding-left: 22px;
+  }
+  .confirm-dates {
+    gap: 0 14px;
+    margin-top: 26px;
+  }
+  /* The notice card stays compact and centered. */
+  .form-notice {
+    min-height: 0;
+    padding: 32px 22px;
+  }
+  .form-notice h2 {
+    font-size: 1.3rem;
+  }
+}
+
+/* Narrow phones: keep "MM/DD/YYYY" fully visible next to the calendar icon. */
+@media (max-width: 400px) {
+  .form-head h2 {
+    font-size: 1.22rem;
+  }
+  .form-logo {
+    height: 34px;
+  }
+  .date-wrap .pill-input {
+    padding: 0 26px 0 10px;
+    font-size: 14px;
+  }
+  .date-btn {
+    right: 3px;
+    width: 22px;
+    height: 22px;
+    padding: 2px;
+  }
+}
+
+@media (max-width: 360px) {
+  .form-head h2 {
+    font-size: 1.1rem;
+  }
+  .form-card {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+  .confirm-list {
+    padding-left: 8px;
+  }
+}
