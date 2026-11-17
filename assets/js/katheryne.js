@@ -4,13 +4,19 @@
 
    Widget states (data-state on .kath):
      idle   -> just the round icon
-     bubble -> speech bubble to the left of the icon (shown after ~4s)
+     bubble -> speech bubble to the left of the icon, ~4s after arrival,
+               hidden on its own after 5s. Shown on the first page of a
+               visit and again whenever the page is refreshed, but not
+               on every move to another page of the site.
+   Hovering the icon (or tabbing to it) shows a small tooltip.
      menu   -> "Send an inquiry" + "Book a trip" buttons above the icon */
 (function () {
   "use strict";
 
   var ICON_SRC = "assets/img/katheryne-icon.png";
   var BUBBLE_DELAY_MS = 4000;
+  var BUBBLE_SHOW_MS = 5000;
+  var GREETED_KEY = "ph-kath-greeted";
   var NATIONS = ["mondstadt", "liyue", "inazuma", "sumeru", "fontaine", "natlan", "snezhnaya"];
 
   // On a nation page, pass that nation along so the form preselects it.
@@ -32,9 +38,10 @@
       '<a class="kath-action kath-action-inquiry" href="#inquire" data-open-form="inquiry" data-package="' + pageNation + '" data-return-focus=".kath-launcher">Send an inquiry</a>' +
       '<a class="kath-action kath-action-book" href="#book" data-open-form="booking" data-package="' + pageNation + '" data-return-focus=".kath-launcher">Book a trip</a>' +
     "</nav>" +
-    '<button type="button" class="kath-launcher" aria-label="Katheryne: show options" aria-expanded="false" aria-controls="kath-actions">' +
+    '<button type="button" class="kath-launcher" aria-label="Katheryne: show options" aria-expanded="false" aria-controls="kath-actions" aria-describedby="kath-tooltip">' +
       '<img src="' + ICON_SRC + '" alt="" width="88" height="88">' +
-    "</button>";
+    "</button>" +
+    '<span class="kath-tooltip" id="kath-tooltip" role="tooltip">Hi, I\'m Katheryne! Need help planning your trip?</span>';
 
   // Nation pages: anchor to the hero photo (on phones the photo stacks
   // above the title, so this keeps Katheryne off the hero text/buttons).
@@ -88,9 +95,35 @@
   window.addEventListener("resize", onScroll);
   updateDock();
 
-  setTimeout(function () {
-    if (!bubbleDismissed && widget.getAttribute("data-state") === "idle") setState("bubble");
-  }, BUBBLE_DELAY_MS);
+  // The greeting appears once per visit: sessionStorage remembers it was
+  // shown, so moving to another page of the site doesn't show it again.
+  function alreadyGreeted() {
+    try { return sessionStorage.getItem(GREETED_KEY) === "1"; } catch (e) { return false; }
+  }
+  function markGreeted() {
+    try { sessionStorage.setItem(GREETED_KEY, "1"); } catch (e) { /* storage off */ }
+  }
+
+  // A refresh (reload button, F5, pull-to-refresh) counts as a new arrival.
+  function isReload() {
+    try {
+      var nav = performance.getEntriesByType("navigation")[0];
+      if (nav) return nav.type === "reload";
+      return performance.navigation && performance.navigation.type === 1;
+    } catch (e) { return false; }
+  }
+
+  if (!alreadyGreeted() || isReload()) {
+    setTimeout(function () {
+      if (bubbleDismissed || widget.getAttribute("data-state") !== "idle") return;
+      markGreeted();
+      setState("bubble");
+      // Hide it again after a few seconds if the visitor didn't open it.
+      setTimeout(function () {
+        if (widget.getAttribute("data-state") === "bubble") setState("idle");
+      }, BUBBLE_SHOW_MS);
+    }, BUBBLE_DELAY_MS);
+  }
 
   launcher.addEventListener("click", function () {
     setState(widget.getAttribute("data-state") === "menu" ? "idle" : "menu");

@@ -26,63 +26,63 @@
     <form id="inquiry-form-el" class="form-body form-compact" novalidate>
 
       <fieldset class="field-group">
-        <legend class="field-label">Name:</legend>
+        <legend class="field-label">Name:<span class="req" aria-hidden="true">*</span></legend>
         <div class="field-row field-row-2 field-row-tight">
           <div class="field">
             <label class="sr-only" for="inquiry-first-name">First Name</label>
             <input class="pill-input" type="text" id="inquiry-first-name" name="firstName" placeholder="First Name"
-                   autocomplete="given-name" maxlength="60" aria-describedby="inquiry-first-name-error">
+                   autocomplete="given-name" maxlength="60" required aria-describedby="inquiry-first-name-error">
             <p class="field-error" id="inquiry-first-name-error" hidden></p>
           </div>
           <div class="field">
             <label class="sr-only" for="inquiry-last-name">Last Name</label>
             <input class="pill-input" type="text" id="inquiry-last-name" name="lastName" placeholder="Last Name"
-                   autocomplete="family-name" maxlength="60" aria-describedby="inquiry-last-name-error">
+                   autocomplete="family-name" maxlength="60" required aria-describedby="inquiry-last-name-error">
             <p class="field-error" id="inquiry-last-name-error" hidden></p>
           </div>
         </div>
       </fieldset>
 
       <div class="field">
-        <label class="field-label" for="inquiry-email">Email Address:</label>
+        <label class="field-label" for="inquiry-email">Email Address:<span class="req" aria-hidden="true">*</span></label>
         <input class="pill-input" type="email" id="inquiry-email" name="email" placeholder="example@email.com"
-               autocomplete="email" maxlength="120" aria-describedby="inquiry-email-error">
+               autocomplete="email" maxlength="120" required aria-describedby="inquiry-email-error">
         <p class="field-error" id="inquiry-email-error" hidden></p>
       </div>
 
       <div class="field">
-        <label class="field-label" for="inquiry-phone">Phone Number:</label>
+        <label class="field-label" for="inquiry-phone">Phone Number:<span class="req" aria-hidden="true">*</span></label>
         <input class="pill-input" type="tel" id="inquiry-phone" name="phone" placeholder="(+63)9XX-XXX-XXXX"
-               autocomplete="tel" inputmode="tel" maxlength="20" aria-describedby="inquiry-phone-error">
+               autocomplete="tel" inputmode="tel" maxlength="20" required aria-describedby="inquiry-phone-error">
         <p class="field-error" id="inquiry-phone-error" hidden></p>
       </div>
 
       <div class="field">
-        <label class="field-label" for="inquiry-guests">Number of Guests:<span class="req" aria-hidden="true">*</span></label>
+        <label class="field-label" for="inquiry-guests">Number of Guests: <span class="opt">(optional)</span></label>
         <input class="pill-input" type="number" id="inquiry-guests" name="guests" min="1" max="50" step="1"
-               inputmode="numeric" required aria-describedby="inquiry-guests-error">
+               inputmode="numeric" aria-describedby="inquiry-guests-error">
         <p class="field-error" id="inquiry-guests-error" hidden></p>
       </div>
 
       <div class="field">
-        <label class="field-label" for="inquiry-destination">Where would you like to travel?<span class="req" aria-hidden="true">*</span></label>
-        <select class="pill-input pill-select" id="inquiry-destination" name="destination" required aria-describedby="inquiry-destination-error">
-          <option value="" disabled selected>Select a nation</option>
+        <label class="field-label" for="inquiry-destination">Where would you like to travel? <span class="opt">(optional)</span></label>
+        <select class="pill-input pill-select" id="inquiry-destination" name="destination" aria-describedby="inquiry-destination-error">
+          <option value="" selected>Select a nation</option>
           <!-- The 7 nations come from assets/js/packages.js; "Not sure yet" is added last -->
         </select>
         <p class="field-error" id="inquiry-destination-error" hidden></p>
       </div>
 
       <div class="field">
-        <label class="field-label" for="inquiry-budget">What is your budget for this travel?<span class="req" aria-hidden="true">*</span></label>
+        <label class="field-label" for="inquiry-budget">What is your budget for this travel? <span class="opt">(optional)</span></label>
         <input class="pill-input" type="number" id="inquiry-budget" name="budget" min="1" step="1"
-               inputmode="numeric" placeholder="Amount in PHP" required aria-describedby="inquiry-budget-error">
+               inputmode="numeric" placeholder="Amount in PHP" aria-describedby="inquiry-budget-error">
         <p class="field-error" id="inquiry-budget-error" hidden></p>
       </div>
 
       <div class="field">
-        <label class="field-label" for="inquiry-message">Message / Inquiry:</label>
-        <textarea class="pill-input pill-textarea" id="inquiry-message" name="message" rows="5" maxlength="1500"
+        <label class="field-label" for="inquiry-message">Message / Inquiry:<span class="req" aria-hidden="true">*</span></label>
+        <textarea class="pill-input pill-textarea" id="inquiry-message" name="message" rows="4" maxlength="1500" required
                   placeholder="Tell us about your questions, travel preferences, or anything you'd like to know about our packages..."
                   aria-describedby="inquiry-message-error"></textarea>
         <p class="field-error" id="inquiry-message-error" hidden></p>
@@ -163,27 +163,33 @@
       });
     }
 
-    // Guests, destination and budget are required. Name, email, phone and
-    // message are optional, but email and phone must be valid if given.
+    // Name, email, phone and message are required. Guests, destination and
+    // budget are optional, but must make sense when they are filled in.
     function validate(d) {
       var errors = {};
-      var emailMsg = F.emailError(d.email, false);
+      if (!d.firstName) errors.firstName = "Please enter your first name.";
+      if (!d.lastName) errors.lastName = "Please enter your last name.";
+      var emailMsg = F.emailError(d.email, true);
       if (emailMsg) errors.email = emailMsg;
-      var phoneMsg = F.phoneError(d.phone, false);
+      var phoneMsg = F.phoneError(d.phone, true);
       if (phoneMsg) errors.phone = phoneMsg;
 
-      var guests = Number(d.guests);
-      if (!d.guests) errors.guests = "Please enter the number of guests.";
-      else if (!Number.isInteger(guests) || guests < 1) errors.guests = "Number of guests must be a whole number, at least 1.";
-      else if (guests > 50) errors.guests = "For groups over 50, please mention the size in your message and enter 50 here.";
-
-      if (!d.destination || (!isNation(d.destination) && d.destination !== NOT_SURE)) {
-        errors.destination = "Please choose where you'd like to travel, or \"Not sure yet\".";
+      if (d.guests) {
+        var guests = Number(d.guests);
+        if (!Number.isInteger(guests) || guests < 1) errors.guests = "Number of guests must be a whole number, at least 1.";
+        else if (guests > 50) errors.guests = "For groups over 50, please mention the size in your message and enter 50 here.";
       }
 
-      var budget = Number(d.budget);
-      if (!d.budget) errors.budget = "Please enter your budget in PHP.";
-      else if (!isFinite(budget) || budget <= 0) errors.budget = "Your budget must be a positive amount in PHP.";
+      if (d.destination && !isNation(d.destination) && d.destination !== NOT_SURE) {
+        errors.destination = "Please choose one of the listed nations, or \"Not sure yet\".";
+      }
+
+      if (d.budget) {
+        var budget = Number(d.budget);
+        if (!isFinite(budget) || budget <= 0) errors.budget = "Your budget must be a positive amount in PHP.";
+      }
+
+      if (!d.message) errors.message = "Please tell us your question or request.";
 
       return errors;
     }
@@ -245,10 +251,10 @@
         firstName: d.firstName,
         lastName: d.lastName,
         email: d.email,
-        phone: d.phone ? F.formatPhone(d.phone) : "",
-        guests: Number(d.guests),
-        destination: d.destination,             // nation slug, or "not-sure"
-        budget: Number(d.budget),               // PHP
+        phone: F.formatPhone(d.phone),
+        guests: d.guests ? Number(d.guests) : null,     // optional
+        destination: d.destination || null,             // nation slug, "not-sure", or null
+        budget: d.budget ? Number(d.budget) : null,     // PHP, optional
         message: d.message,
         page: location.pathname.split("/").pop() || "index.html",
         submittedAt: new Date().toISOString()

@@ -12,7 +12,7 @@
   --form-field-border: #6b6455;
   --form-field-shadow: 0 3px 4px rgba(43, 38, 32, 0.32);
   --form-error: #b3261e;
-  --form-gap: 16px;
+  --form-gap: 12px;
 }
 
 /* ---------- Pop-up modal ---------- */
@@ -25,7 +25,7 @@
   inset: 0;
   z-index: 200;
   display: flex;
-  padding: 40px 24px;
+  padding: 24px 20px;
   overflow-y: auto;
   overscroll-behavior: contain;
   background: rgba(22, 26, 33, 0.38);
@@ -87,10 +87,10 @@ html.form-modal-open body {
 
 .form-card {
   width: 100%;
-  max-width: 916px;
+  max-width: 600px;
   background: var(--form-card-bg);
-  border-radius: 20px;
-  padding: 30px 40px 48px;
+  border-radius: 18px;
+  padding: 22px 32px 26px;
   position: relative;
   box-shadow: 0 24px 60px -24px rgba(0, 0, 0, 0.55);
 }
@@ -98,10 +98,10 @@ html.form-modal-open body {
 /* Round X in the top-right corner of every form card. */
 .form-close {
   position: absolute;
-  top: 14px;
-  right: 14px;
-  width: 36px;
-  height: 36px;
+  top: 10px;
+  right: 10px;
+  width: 32px;
+  height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -134,8 +134,8 @@ html.form-modal-open body {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
-  margin-bottom: 26px;
+  gap: 10px;
+  margin-bottom: 16px;
 }
 
 .form-head a {
@@ -144,13 +144,13 @@ html.form-modal-open body {
 }
 
 .form-logo {
-  height: 46px;
+  height: 38px;
   width: auto;
 }
 
 .form-head h2 {
   margin: 0;
-  font-size: 1.65rem;
+  font-size: 1.4rem;
   color: var(--ink);
 }
 
@@ -160,13 +160,12 @@ html.form-modal-open body {
 
 /* Centered content column inside the card. */
 .form-body {
-  max-width: 630px;
   margin: 0 auto;
 }
 
 .form-subhead {
-  margin: 34px 0 14px;
-  font-size: 1.15rem;
+  margin: 18px 0 8px;
+  font-size: 1.02rem;
   color: var(--ink);
 }
 
@@ -191,8 +190,8 @@ html.form-modal-open body {
 
 .field-label {
   display: block;
-  padding: 0 0 4px 16px;
-  font-size: 0.95rem;
+  padding: 0 0 3px 14px;
+  font-size: 0.86rem;
   color: var(--ink);
 }
 
@@ -210,6 +209,13 @@ legend.field-label {
   margin-left: 1px;
 }
 
+/* "(optional)" next to a label */
+.opt {
+  font-size: 0.78rem;
+  font-style: italic;
+  color: #8a8170;
+}
+
 .field-row {
   display: grid;
   gap: 0 var(--form-gap);
@@ -217,11 +223,10 @@ legend.field-label {
 
 .field-row-2 {
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  column-gap: 72px;
+  column-gap: 16px;
 }
 
 .field-row-dates {
-  margin-top: 26px;
   margin-bottom: var(--form-gap);
 }
 
@@ -229,10 +234,10 @@ legend.field-label {
 .pill-input {
   display: block;
   width: 100%;
-  height: 38px;
-  padding: 0 18px;
+  height: 34px;
+  padding: 0 16px;
   font: inherit;
-  font-size: 0.92rem;
+  font-size: 0.88rem;
   color: var(--ink);
   background: var(--form-field-bg);
   border: 1px solid var(--form-field-border);
@@ -334,9 +339,9 @@ legend.field-label {
 }
 
 .field-error {
-  margin: 6px 0 0;
-  padding-left: 16px;
-  font-size: 0.8rem;
+  margin: 4px 0 0;
+  padding-left: 14px;
+  font-size: 0.76rem;
   line-height: 1.4;
   color: var(--form-error);
 }
@@ -346,7 +351,7 @@ legend.field-label {
 }
 
 .form-error {
-  margin-top: 18px;
+  margin-top: 12px;
   padding-left: 0;
   text-align: center;
 }
@@ -357,10 +362,10 @@ legend.field-label {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  height: 38px;
-  padding: 0 28px;
+  height: 36px;
+  padding: 0 26px;
   font: inherit;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   color: #2a2210;
   text-decoration: none;
   border: 1px solid var(--form-field-border);
@@ -411,7 +416,7 @@ legend.field-label {
 }
 
 .form-actions {
-  margin-top: 46px;
+  margin-top: 22px;
 }
 
 .form-actions-center {
@@ -420,21 +425,21 @@ legend.field-label {
 }
 
 .form-actions-center .pill-btn {
-  min-width: 258px;
+  min-width: 220px;
 }
 
 /* Back + Submit side by side on desktop. */
 .form-actions-split {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 22px;
+  gap: 14px;
 }
 
 /* Message box: same pale-yellow field, as a rounded rectangle. */
 .pill-textarea {
   height: auto;
-  min-height: 136px;
-  padding: 12px 18px;
+  min-height: 92px;
+  padding: 10px 16px;
   border-radius: 12px;
   line-height: 1.5;
   resize: vertical;
@@ -444,11 +449,7 @@ legend.field-label {
 
 /* Tighter spacing, as in the inquiry design. */
 .form-compact {
-  --form-gap: 12px;
-}
-
-.form-compact .field-label {
-  padding-bottom: 3px;
+  --form-gap: 10px;
 }
 
 /* First/Last Name sit close together. */
@@ -457,14 +458,14 @@ legend.field-label {
 }
 
 .form-compact .form-actions {
-  margin-top: 30px;
+  margin-top: 18px;
 }
 
 /* ---------- Booking form only ---------- */
 
 .field-row-package {
-  grid-template-columns: max-content minmax(0, 260px);
-  column-gap: 42px;
+  grid-template-columns: max-content minmax(0, 1fr);
+  column-gap: 16px;
 }
 
 .field-guests .field-label {
@@ -472,59 +473,95 @@ legend.field-label {
 }
 
 .field-guests .pill-input {
-  width: 134px;
+  width: 130px;
 }
 
-/* Confirmation step */
+/* Confirmation step: a receipt-style summary. */
 .confirm-intro {
-  margin: 0 0 18px -54px;
+  margin: 0 0 12px;
+  font-size: 0.9rem;
+  text-align: center;
+  color: var(--ink-soft);
+}
+
+.receipt {
+  background: #fffdf6;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 14px 20px 6px;
+  box-shadow: 0 6px 18px -12px rgba(43, 38, 32, 0.45);
+}
+
+.receipt-title {
+  margin: 0 0 4px;
+  font-family: "Cinzel", serif;
+  font-size: 0.74rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--brand-dark);
+}
+
+.receipt-rows {
+  margin: 0 0 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px dashed #cdbf9c;
+}
+
+.receipt-rows:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.receipt-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  padding: 3px 0;
+  font-size: 0.88rem;
   color: var(--ink);
 }
 
-.confirm-list {
-  padding-left: 54px;
+.receipt-row dt {
+  font-weight: 700;
+  flex-shrink: 0;
 }
 
-.confirm-row {
-  margin: 0 0 14px;
-  color: var(--ink);
+.receipt-row dd {
+  margin: 0;
+  text-align: right;
+  overflow-wrap: anywhere;
 }
 
-.confirm-label {
-  margin-right: 4px;
+/* Total: set apart with a double rule and a larger figure. */
+.receipt-total {
+  margin-top: 6px;
+  padding-top: 8px;
+  border-top: 3px double #cdbf9c;
+  font-size: 1rem;
 }
 
-.confirm-dates {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0 24px;
-  margin-top: 30px;
-}
-
-.confirm-stack .confirm-label {
-  display: block;
-}
-
-.confirm-list .form-subhead {
-  margin-top: 28px;
+.receipt-total dd {
+  font-weight: 700;
+  color: var(--brand-dark);
 }
 
 /* Submitted notice */
 .form-notice {
-  max-width: 515px;
-  padding: 44px 52px 44px;
+  max-width: 440px;
+  padding: 32px 36px 28px;
 }
 
 .form-notice h2 {
-  margin: 0 0 28px;
+  margin: 0 0 16px;
   text-align: center;
-  font-size: 1.5rem;
+  font-size: 1.35rem;
 }
 
 .form-notice p {
-  font-size: 0.9rem;
+  font-size: 0.88rem;
   color: var(--ink);
-  margin: 0 0 22px;
+  margin: 0 0 12px;
 }
 
 /* Keeps "in 5s...." together on one line. */
@@ -533,7 +570,7 @@ legend.field-label {
 }
 
 .form-notice .form-actions {
-  margin-top: 36px;
+  margin-top: 20px;
 }
 
 .form-notice .form-actions-center .pill-btn {
@@ -543,18 +580,9 @@ legend.field-label {
 
 /* ---------- Tablets and phones ---------- */
 
-@media (max-width: 860px) {
-  .confirm-intro {
-    margin-left: 0;
-  }
-  .confirm-list {
-    padding-left: 22px;
-  }
-}
-
 @media (max-width: 600px) {
   :root {
-    --form-gap: 14px;
+    --form-gap: 10px;
   }
   .form-modal {
     padding: 14px 12px;
@@ -563,8 +591,8 @@ legend.field-label {
   .form-card {
     display: flex;
     flex-direction: column;
-    padding: 40px 20px 32px;
-    border-radius: 22px;
+    padding: 36px 18px 22px;
+    border-radius: 18px;
   }
   .form-close {
     top: 6px;
@@ -578,17 +606,17 @@ legend.field-label {
   }
   .form-card .form-actions {
     margin-top: auto;
-    padding-top: 34px;
+    padding-top: 18px;
   }
   .form-head {
-    margin-bottom: 18px;
+    margin-bottom: 12px;
     gap: 8px;
   }
   .form-logo {
-    height: 40px;
+    height: 34px;
   }
   .form-head h2 {
-    font-size: 1.4rem;
+    font-size: 1.25rem;
   }
   .field-label {
     padding-left: 6px;
@@ -598,10 +626,10 @@ legend.field-label {
   }
   /* First/Last name and the two dates stay side by side. */
   .field-row-2 {
-    column-gap: 14px;
+    column-gap: 10px;
   }
   .pill-input {
-    height: 36px;
+    height: 34px;
     padding: 0 14px;
     font-size: 16px; /* 16px stops iPhones from zooming in on focus */
   }
@@ -614,19 +642,21 @@ legend.field-label {
     width: 26px;
     height: 26px;
   }
-  .field-row-dates {
-    margin-top: 6px;
-  }
   .form-subhead {
-    margin-top: 26px;
+    margin-top: 14px;
   }
-  /* Guests on its own line, then Package full width. */
+  /* Guests stays beside Package, narrower. */
+  /* Guests above Package, both full width, so labels and fields line up. */
   .field-row-package {
-    grid-template-columns: 1fr;
-    row-gap: 18px;
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: var(--form-gap);
   }
   .field-guests .pill-input {
-    width: 136px;
+    width: 100%;
+  }
+  /* Dates keep their two columns; their messages stay short and tidy. */
+  .field-row-dates .field-error {
+    font-size: 0.72rem;
   }
   .form-actions-center .pill-btn {
     width: 100%;
@@ -647,23 +677,19 @@ legend.field-label {
     grid-template-columns: 1fr;
     gap: 14px;
   }
-  .confirm-intro {
-    margin-bottom: 16px;
+  .receipt {
+    padding: 12px 14px 4px;
   }
-  .confirm-list {
-    padding-left: 22px;
-  }
-  .confirm-dates {
-    gap: 0 14px;
-    margin-top: 26px;
+  .receipt-row {
+    font-size: 0.84rem;
   }
   /* The notice card stays compact and centered. */
   .form-notice {
     min-height: 0;
-    padding: 32px 22px;
+    padding: 30px 20px 22px;
   }
   .form-notice h2 {
-    font-size: 1.3rem;
+    font-size: 1.2rem;
   }
 }
 
@@ -695,7 +721,45 @@ legend.field-label {
     padding-left: 14px;
     padding-right: 14px;
   }
-  .confirm-list {
-    padding-left: 8px;
+  .receipt-row {
+    flex-wrap: wrap;
+    gap: 0 12px;
+  }
+}
+
+/* ---------- Motion ---------- */
+
+/* Each step of a form (form, confirmation, notice) eases in when shown. */
+.form-modal .form-card:not([hidden]) {
+  animation: formStepIn 0.28s ease;
+}
+
+@keyframes formStepIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* Closing: the pop-up fades and sinks slightly before it disappears. */
+.form-modal.is-closing {
+  animation: formModalFadeOut 0.18s ease forwards;
+}
+
+.form-modal.is-closing .form-modal-dialog {
+  animation: formModalSink 0.18s ease forwards;
+}
+
+@keyframes formModalFadeOut {
+  to { opacity: 0; }
+}
+
+@keyframes formModalSink {
+  to { opacity: 0; transform: translateY(10px) scale(0.985); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .form-modal .form-card:not([hidden]),
+  .form-modal.is-closing,
+  .form-modal.is-closing .form-modal-dialog {
+    animation: none;
   }
 }

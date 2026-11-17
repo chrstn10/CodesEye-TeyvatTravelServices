@@ -26,6 +26,9 @@ window.PHModal = (function () {
   var lastFocus = null;
   var inerted = [];
   var pushedHistory = false;
+  var closeTimer = null;
+  var CLOSE_MS = 180; // matches the fade-out in forms.css
+  var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   function register(name, def) {
     forms[name] = { def: def, instance: null, container: null };
@@ -130,6 +133,13 @@ window.PHModal = (function () {
       if (forms[key].container) forms[key].container.hidden = key !== name;
     });
 
+    // Reopened while the closing fade is still running: cancel the fade.
+    if (closeTimer) {
+      clearTimeout(closeTimer);
+      closeTimer = null;
+      overlay.classList.remove("is-closing");
+    }
+
     if (!currentName) {
       lastFocus = (options && options.returnFocus) || document.activeElement;
       // Keep the page from shifting when its scrollbar disappears.
@@ -153,7 +163,17 @@ window.PHModal = (function () {
     var entry = forms[currentName];
     currentName = null;
     if (entry.instance && entry.instance.onClose) entry.instance.onClose();
-    overlay.hidden = true;
+    // Short fade-out first, then hide (immediately for reduced motion).
+    if (reduceMotion) {
+      overlay.hidden = true;
+    } else {
+      overlay.classList.add("is-closing");
+      closeTimer = setTimeout(function () {
+        closeTimer = null;
+        overlay.classList.remove("is-closing");
+        overlay.hidden = true;
+      }, CLOSE_MS);
+    }
     setPageInert(false);
     document.documentElement.classList.remove("form-modal-open");
     document.body.style.paddingRight = "";

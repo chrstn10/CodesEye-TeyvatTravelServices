@@ -117,22 +117,32 @@
     </header>
 
     <div class="form-body">
-      <p class="confirm-intro">Please confirm your details.</p>
+      <p class="confirm-intro">Please review your booking summary before submitting.</p>
 
-      <div class="confirm-list">
-        <p class="confirm-row"><span class="confirm-label">Name:</span> <span data-confirm="name"></span></p>
-        <p class="confirm-row"><span class="confirm-label">Email Address:</span> <span data-confirm="email"></span></p>
-        <p class="confirm-row"><span class="confirm-label">Phone Number:</span> <span data-confirm="phone"></span></p>
+      <!-- Receipt-style summary: bold labels on the left, values on the right -->
+      <div class="receipt">
+        <h3 class="receipt-title">Traveler Details</h3>
+        <dl class="receipt-rows">
+          <div class="receipt-row"><dt>Name</dt><dd data-confirm="name"></dd></div>
+          <div class="receipt-row"><dt>Email Address</dt><dd data-confirm="email"></dd></div>
+          <div class="receipt-row"><dt>Phone Number</dt><dd data-confirm="phone"></dd></div>
+        </dl>
 
-        <div class="confirm-dates">
-          <p class="confirm-row confirm-stack"><span class="confirm-label">Check in Date:</span> <span data-confirm="checkIn"></span></p>
-          <p class="confirm-row confirm-stack"><span class="confirm-label">Check out Date:</span> <span data-confirm="checkOut"></span></p>
-        </div>
+        <h3 class="receipt-title">Trip Details</h3>
+        <dl class="receipt-rows">
+          <div class="receipt-row"><dt>Package</dt><dd data-confirm="package"></dd></div>
+          <div class="receipt-row"><dt>Duration</dt><dd data-confirm="duration"></dd></div>
+          <div class="receipt-row"><dt>Check in Date</dt><dd data-confirm="checkIn"></dd></div>
+          <div class="receipt-row"><dt>Check out Date</dt><dd data-confirm="checkOut"></dd></div>
+          <div class="receipt-row"><dt>Number of Guests</dt><dd data-confirm="guests"></dd></div>
+        </dl>
 
-        <h2 class="form-subhead">Select Your Package</h2>
-        <p class="confirm-row"><span class="confirm-label">Number of Guests:</span> <span data-confirm="guests"></span></p>
-        <p class="confirm-row"><span class="confirm-label">Package:</span> <span data-confirm="package"></span></p>
-        <p class="confirm-row"><span class="confirm-label">Total Price:</span> <span data-confirm="total"></span></p>
+        <h3 class="receipt-title">Price Summary</h3>
+        <dl class="receipt-rows">
+          <div class="receipt-row"><dt>Price per Person</dt><dd data-confirm="price"></dd></div>
+          <div class="receipt-row"><dt>Guests</dt><dd data-confirm="guestsTimes"></dd></div>
+          <div class="receipt-row receipt-total"><dt>Total Price</dt><dd data-confirm="total"></dd></div>
+        </dl>
       </div>
 
       <p class="field-error form-error" id="booking-submit-error" role="alert" hidden></p>
@@ -276,6 +286,9 @@
         checkOut: d.checkOut,
         guests: String(guests),
         package: p.label,
+        duration: p.duration,
+        price: F.formatPHP(p.price),
+        guestsTimes: "× " + guests,
         total: F.formatPHP(p.price * guests)
       };
       Object.keys(values).forEach(function (key) {
