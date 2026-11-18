@@ -1,6 +1,4 @@
-/* Primordial Haven — helpers shared by the Booking and Inquiry forms:
-   field validation, inline error messages, date and phone formatting,
-   the MM/DD/YYYY date fields, and the "submitted" countdown + redirect. */
+/* Helpers shared by the Booking and Inquiry forms */
 window.PHForms = (function () {
   "use strict";
 
@@ -23,11 +21,13 @@ window.PHForms = (function () {
     return d;
   }
 
+  // Today's date at midnight (used to block past check-in dates).
   function today() {
     var now = new Date();
     return new Date(now.getFullYear(), now.getMonth(), now.getDate());
   }
 
+  // Formats a number as PHP currency, e.g. PHP 60,000.
   function formatPHP(amount) {
     return "PHP " + amount.toLocaleString("en-PH");
   }
@@ -36,6 +36,7 @@ window.PHForms = (function () {
 
   var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
+  // True if the text looks like name@domain.tld.
   function isEmail(value) {
     return EMAIL_RE.test(String(value).trim());
   }
@@ -46,6 +47,7 @@ window.PHForms = (function () {
     return String(value).replace(/[\s\-().]/g, "");
   }
 
+  // True for a valid Philippine mobile number.
   function isPHMobile(value) {
     return /^(?:\+?63|0)9\d{9}$/.test(phoneDigits(value));
   }
@@ -65,6 +67,7 @@ window.PHForms = (function () {
     return isEmail(value) ? "" : "Please enter a valid email address, like example@email.com.";
   }
 
+  // Same as emailError, for the phone field.
   function phoneError(value, required) {
     if (!value) return required ? "Please enter your phone number." : "";
     return isPHMobile(value) ? "" : "Please enter a valid Philippine mobile number, like 0912 345 6789 or +63 912 345 6789.";
@@ -76,6 +79,7 @@ window.PHForms = (function () {
     return document.getElementById(input.id + "-error");
   }
 
+  // Shows a message under a field and marks it invalid for screen readers.
   function setError(input, message) {
     var el = errorEl(input);
     input.setAttribute("aria-invalid", "true");
@@ -85,6 +89,7 @@ window.PHForms = (function () {
     }
   }
 
+  // Hides a field's message and clears its invalid mark.
   function clearError(input) {
     var el = errorEl(input);
     input.removeAttribute("aria-invalid");
@@ -155,6 +160,7 @@ window.PHForms = (function () {
     var t = today();
     native.min = t.getFullYear() + "-" + pad(t.getMonth() + 1) + "-" + pad(t.getDate());
 
+    // Typing digits adds the slashes automatically (MM/DD/YYYY).
     text.addEventListener("input", function (e) {
       if (e.inputType && e.inputType.indexOf("delete") === 0) return;
       var digits = text.value.replace(/\D/g, "").slice(0, 8);
@@ -165,6 +171,7 @@ window.PHForms = (function () {
       text.value = out;
     });
 
+    // The calendar button opens the browser's date picker.
     btn.addEventListener("click", function () {
       var current = parseDate(text.value);
       if (current) native.value = current.getFullYear() + "-" + pad(current.getMonth() + 1) + "-" + pad(current.getDate());
@@ -174,6 +181,7 @@ window.PHForms = (function () {
       text.focus();
     });
 
+    // A date picked from the calendar is written back as MM/DD/YYYY.
     native.addEventListener("change", function () {
       if (!native.value) return;
       var p = native.value.split("-");
@@ -186,18 +194,22 @@ window.PHForms = (function () {
 
   /* ---------- Saving a form between steps ---------- */
 
+  // Reads a saved draft, or null if there is none.
   function load(key) {
     try { return JSON.parse(sessionStorage.getItem(key)) || null; } catch (e) { return null; }
   }
 
+  // Saves a draft; quietly does nothing if the browser blocks storage.
   function save(key, data) {
     try { sessionStorage.setItem(key, JSON.stringify(data)); } catch (e) { /* storage off: JS variables still work */ }
   }
 
+  // Deletes a draft after a successful submission.
   function remove(key) {
     try { sessionStorage.removeItem(key); } catch (e) { /* ignore */ }
   }
 
+  // Everything the forms can use from this file.
   return {
     formatDate: formatDate,
     parseDate: parseDate,

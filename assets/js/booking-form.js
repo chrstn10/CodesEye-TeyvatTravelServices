@@ -1,12 +1,11 @@
-/* Primordial Haven — Booking Form, shown in the site-wide pop-up.
-   Registered with PHModal (assets/js/form-modal.js), so it opens on top of
-   whatever page the visitor is on. Three steps inside one pop-up:
-     1. fill-up form -> 2. read-only confirmation -> 3. submitted notice
+/* Booking Form - Three steps inside one pop-up:
+   1. fill-up form -> 2. read-only confirmation -> 3. submitted notice
    Entered values are kept in sessionStorage, so closing the pop-up, going
    Back, or reloading the page never wipes what the visitor typed. */
 (function () {
   "use strict";
 
+  // Shared form helpers, the package list, and this form's settings.
   var F = window.PHForms;
   var PACKAGES = window.PH_PACKAGES;
   var DRAFT_KEY = "ph-booking-draft";
@@ -167,15 +166,18 @@
   </section>
 `;
 
+  // Finds a package in the shared list by its key (e.g. "liyue"), or null.
   function pkgBySlug(slug) {
     for (var i = 0; i < PACKAGES.length; i++) if (PACKAGES[i].slug === slug) return PACKAGES[i];
     return null;
   }
 
+  // Builds the form inside the pop-up and wires up its behavior; returns open/onClose for PHModal.
   function mount(container, api) {
     container.innerHTML = TEMPLATE;
 
     var $ = function (id) { return container.querySelector("#booking-" + id); };
+    // The three steps and every field, looked up once.
     var steps = { 1: $("step-1"), 2: $("step-2"), 3: $("step-3") };
     var form = $("form-el");
     var fields = {
@@ -188,10 +190,12 @@
       guests: $("guests"),
       package: $("package-select")
     };
+    // Submit button, its error line, and the countdown number on the notice.
     var submitBtn = $("submit-btn");
     var submitError = $("submit-error");
     var countdownEl = $("countdown");
 
+    // Form state kept between steps.
     var booking = null;    // the checked booking, kept between steps
     var triedNext = false; // after the first "Next", errors update as you type
     var currentStep = 1;
@@ -220,6 +224,7 @@
       };
     }
 
+    // Puts saved values back into the fields (when a draft is reopened).
     function fillForm(data) {
       Object.keys(fields).forEach(function (key) {
         if (data[key] !== undefined && data[key] !== null) fields[key].value = data[key];
@@ -256,10 +261,12 @@
       return errors;
     }
 
+    // Shows or clears the message under every field.
     function showErrors(errors) {
       F.showErrors(fields, errors);
     }
 
+    // Saves what's typed (and the current step) so nothing is lost on close or reload.
     function saveDraft(step) {
       F.save(DRAFT_KEY, { data: readForm(), step: step });
     }
@@ -275,6 +282,7 @@
       heading.focus({ preventScroll: true });
     }
 
+    // Fills the receipt-style summary (step 2) from the checked entries.
     function renderConfirmation(d) {
       var p = pkgBySlug(d.package);
       var guests = Number(d.guests);
@@ -297,6 +305,7 @@
       });
     }
 
+    // Moves to the summary step if every field is valid; returns false otherwise.
     function goToConfirm() {
       var d = readForm();
       if (Object.keys(validate(d)).length) return false;
@@ -308,6 +317,7 @@
       return true;
     }
 
+    // Next button: check every field, focus the first problem, or go to the summary.
     form.addEventListener("submit", function (e) {
       e.preventDefault();
       triedNext = true;
@@ -339,6 +349,7 @@
       });
     });
 
+    // Sets up both MM/DD/YYYY date fields (auto slashes and calendar button).
     Array.prototype.forEach.call(container.querySelectorAll(".date-wrap"), function (wrap) {
       F.setupDateField(wrap, function (input) { input.dispatchEvent(new Event("blur")); });
     });
@@ -367,6 +378,7 @@
       return new Promise(function (resolve) { setTimeout(resolve, 400); });
     }
 
+    // Submit Booking: build the payload, send it, then show the notice (or an error).
     submitBtn.addEventListener("click", function () {
       if (!booking) return;
       var p = pkgBySlug(booking.package);
@@ -410,11 +422,13 @@
 
     var stopCountdown = function () {};
 
+    // Leaves the notice: scroll to the top of Home, or go to the Home page.
     function goHome() {
       stopCountdown();
       F.goHome(api);
     }
 
+    // Starts the 5-second countdown on the submitted notice.
     function startCountdown() {
       stopCountdown();
       stopCountdown = F.startCountdown(countdownEl, REDIRECT_SECONDS, goHome);
@@ -439,6 +453,7 @@
         // Closed on the confirmation step? Reopen there if it's still valid.
         if (!(saved && saved.step === 2 && goToConfirm())) showStep(1);
       },
+      // Called when the pop-up closes: stops the countdown and resets to step 1.
       onClose: function () {
         // Closing on the submitted notice just stops the countdown and
         // leaves the visitor on the page they were on.

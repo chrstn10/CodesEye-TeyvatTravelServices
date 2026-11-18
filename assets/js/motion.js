@@ -1,11 +1,9 @@
-/* Primordial Haven — light page motion, on every page.
+/* Light page motion, on every page.
      1. Page transitions: the page fades in on arrival (CSS, style.css
         section 14) and fades out briefly before going to another page
         of the site.
      2. Scroll reveal: section headings, cards and blocks fade and rise
-        gently into place the first time they scroll into view.
-   Everything is skipped when the visitor's system asks for reduced
-   motion, and content is never hidden if this script doesn't run. */
+        gently into place the first time they scroll into view. */
 (function () {
   "use strict";
 
@@ -23,9 +21,11 @@
     }, 60);
   });
 
+  // Visitors who prefer less motion get no animations (the rest of this file is skipped).
   var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   if (reduceMotion) return;
 
+  // Page-transition settings.
   var root = document.documentElement;
   var LEAVE_MS = 200;
 
@@ -41,6 +41,7 @@
     return a.pathname !== location.pathname;
   }
 
+  // Links to other pages of the site fade the page out first.
   document.addEventListener("click", function (e) {
     var a = e.target.closest ? e.target.closest("a[href]") : null;
     if (!isPageLink(a, e)) return;
@@ -58,6 +59,7 @@
 
   if (!("IntersectionObserver" in window)) return;
 
+  // Blocks that fade and rise into view.
   var TARGETS = [
     "section.block .section-head",
     ".lede-center", ".story-body", ".profile-wrap",
@@ -69,6 +71,7 @@
     ".page-nav"
   ].join(",");
 
+  // Everything to reveal, except what's inside the hero or the form pop-up.
   var items = Array.prototype.filter.call(document.querySelectorAll(TARGETS), function (el) {
     return !el.closest(".hero") && !el.closest(".form-modal");
   });
@@ -83,6 +86,7 @@
     el.classList.add("reveal");
   });
 
+  // Cleans up once an element has finished appearing.
   function finish(el) {
     // Hand the element back to its own hover transitions once it's in place.
     el.classList.remove("reveal", "is-visible");
@@ -100,5 +104,6 @@
     });
   }, { threshold: 0.12, rootMargin: "0px 0px -6% 0px" });
 
+  // Start watching every block.
   items.forEach(function (el) { observer.observe(el); });
 })();
