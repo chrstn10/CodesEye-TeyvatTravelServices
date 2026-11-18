@@ -1,13 +1,8 @@
-/* Primordial Haven — Travel Inquiry Form, shown in the site-wide pop-up.
-   Built the same way as the Booking Form (booking-form.js) and registered
-   with PHModal (form-modal.js), so it opens over whatever page the visitor
-   is on. Two steps inside one pop-up:
-     1. fill-up form -> 2. "Your inquiry has been submitted!" notice
-   The countdown, redirect, validation messages and error display all come
-   from form-utils.js, shared with the Booking Form. */
+/* Travel Inquiry Form, shown in the site-wide pop-up */
 (function () {
   "use strict";
 
+  // Shared form helpers, the package list, and this form's settings.
   var F = window.PHForms;
   var PACKAGES = window.PH_PACKAGES;
   var DRAFT_KEY = "ph-inquiry-draft";
@@ -108,14 +103,17 @@
   </section>
 `;
 
+  // True if the key is one of the seven nations.
   function isNation(slug) {
     return PACKAGES.some(function (p) { return p.slug === slug; });
   }
 
+  // Builds the form inside the pop-up and wires up its behavior; returns open/onClose for PHModal.
   function mount(container, api) {
     container.innerHTML = TEMPLATE;
 
     var $ = function (id) { return container.querySelector("#inquiry-" + id); };
+    // The two steps and every field, looked up once.
     var steps = { 1: $("step-1"), 2: $("step-2") };
     var form = $("form-el");
     var fields = {
@@ -128,10 +126,12 @@
       budget: $("budget"),
       message: $("message")
     };
+    // Submit button, its error line, and the countdown number on the notice.
     var submitBtn = $("submit-btn");
     var submitError = $("submit-error");
     var countdownEl = $("countdown");
 
+    // Form state.
     var triedSubmit = false; // after the first "Submit", errors update as you type
     var currentStep = 1;
     var stopCountdown = function () {};
@@ -144,6 +144,7 @@
       opt.textContent = p.name;
       fields.destination.appendChild(opt);
     });
+    // "Not sure yet" is added as the last choice.
     var notSure = document.createElement("option");
     notSure.value = NOT_SURE;
     notSure.textContent = "Not sure yet";
@@ -157,6 +158,7 @@
       return d;
     }
 
+    // Puts saved values back into the fields (when a draft is reopened).
     function fillForm(data) {
       Object.keys(fields).forEach(function (key) {
         if (data[key] !== undefined && data[key] !== null) fields[key].value = data[key];
@@ -194,6 +196,7 @@
       return errors;
     }
 
+    // Saves what's typed so nothing is lost on close or reload.
     function saveDraft() {
       F.save(DRAFT_KEY, { data: readForm() });
     }
@@ -209,6 +212,7 @@
       heading.focus({ preventScroll: true });
     }
 
+    // Save as they type; after the first Submit, keep the error messages current.
     ["input", "change"].forEach(function (type) {
       form.addEventListener(type, function () {
         saveDraft();
@@ -261,6 +265,7 @@
       };
     }
 
+    // Submit: check the fields, then send the inquiry and show the notice (or an error).
     form.addEventListener("submit", function (e) {
       e.preventDefault();
       triedSubmit = true;
@@ -301,6 +306,7 @@
       F.goHome(api);
     }
 
+    // Starts the 5-second countdown on the submitted notice.
     function startCountdown() {
       stopCountdown();
       stopCountdown = F.startCountdown(countdownEl, REDIRECT_SECONDS, goHome);
@@ -324,6 +330,7 @@
         submitError.hidden = true;
         showStep(1);
       },
+      // Called when the pop-up closes: stops the countdown.
       onClose: function () {
         // Closing on the submitted notice just stops the countdown and
         // leaves the visitor on the page they were on.

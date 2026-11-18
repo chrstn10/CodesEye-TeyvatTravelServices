@@ -1,13 +1,8 @@
-/* Primordial Haven — Tour Packages filter (home page only).
-   Each nation card carries its package data as attributes:
-     data-duration="4 Days, 3 Nights"   (must match a Duration option exactly)
-     data-min-guests="4" data-max-guests="8"   (group size from that nation's page)
-   Guest Count options are ranges such as "3-5". A card matches a range
-   when its group size overlaps it (a 4-8 tour fits a 3-5 group).
-   A card is shown when it matches every filter that isn't set to "All". */
+/* Tour Packages filter */
 (function () {
   "use strict";
 
+  // The two dropdowns, the empty message, its reset button, and the card row.
   var durationSelect = document.getElementById("filter-duration");
   var guestSelect = document.getElementById("filter-guests");
   var emptyMsg = document.getElementById("filter-empty");
@@ -15,8 +10,10 @@
   var track = document.querySelector(".nations-track");
   if (!durationSelect || !guestSelect || !track) return;
 
+  // All seven nation cards.
   var cards = Array.prototype.slice.call(track.querySelectorAll(".nation-slide"));
 
+  // Shows only the cards that match both filters, or the empty message if none do.
   function applyFilters() {
     var duration = durationSelect.value;
     var range = guestSelect.value === "all" ? null : guestSelect.value.split("-").map(Number);
@@ -38,10 +35,12 @@
     track.scrollLeft = 0;
   }
 
+  // Re-filter whenever either dropdown changes.
   durationSelect.addEventListener("change", applyFilters);
   guestSelect.addEventListener("change", applyFilters);
 
   if (resetBtn) {
+    // "show all packages": reset both filters to All.
     resetBtn.addEventListener("click", function () {
       durationSelect.value = "all";
       guestSelect.value = "all";

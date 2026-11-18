@@ -1,30 +1,23 @@
-/* Primordial Haven — Katheryne floating icon (home page + all 7 nations).
-   No chatbot: her two buttons open the site's forms in the pop-up
-   (assets/js/form-modal.js) on top of the current page.
-
-   Widget states (data-state on .kath):
-     idle   -> just the round icon
-     bubble -> speech bubble to the left of the icon, ~4s after arrival,
-               hidden on its own after 5s. Shown on the first page of a
-               visit and again whenever the page is refreshed, but not
-               on every move to another page of the site.
-   Hovering the icon (or tabbing to it) shows a small tooltip.
-     menu   -> "Send an inquiry" + "Book a trip" buttons above the icon */
+/* Katheryne floating icon */
 (function () {
   "use strict";
 
+  // Settings: icon image, greeting timing, and the key that remembers the greeting was shown.
   var ICON_SRC = "assets/img/katheryne-icon.png";
   var BUBBLE_DELAY_MS = 4000;
   var BUBBLE_SHOW_MS = 5000;
   var GREETED_KEY = "ph-kath-greeted";
+  // The seven nation keys, matched against the page's data-theme.
   var NATIONS = ["mondstadt", "liyue", "inazuma", "sumeru", "fontaine", "natlan", "snezhnaya"];
 
   // On a nation page, pass that nation along so the form preselects it.
   var theme = document.body.getAttribute("data-theme") || "";
   var pageNation = NATIONS.indexOf(theme) !== -1 ? theme : "";
+  // Page parts Katheryne positions herself against.
   var hero = document.querySelector(".hero");
   var header = document.querySelector(".site-header");
 
+  // Builds the widget: greeting bubble, two-button menu, round icon, and hover tooltip.
   var widget = document.createElement("div");
   widget.className = "kath";
   widget.setAttribute("data-state", "idle");
@@ -54,8 +47,10 @@
 
   var launcher = widget.querySelector(".kath-launcher");
   var bubble = widget.querySelector(".kath-bubble");
+  // Set once the visitor closes the greeting with its X.
   var bubbleDismissed = false;
 
+  // Switches between idle, bubble, and menu, keeping aria-expanded in sync.
   function setState(state) {
     widget.setAttribute("data-state", state);
     launcher.setAttribute("aria-expanded", state === "menu" ? "true" : "false");
@@ -85,12 +80,14 @@
     }
   }
 
+  // Re-checks the docking at most once per frame while scrolling or resizing.
   var ticking = false;
   function onScroll() {
     if (ticking) return;
     ticking = true;
     requestAnimationFrame(function () { ticking = false; updateDock(); });
   }
+  // Keep Katheryne reachable as the page scrolls or the window resizes.
   window.addEventListener("scroll", onScroll, { passive: true });
   window.addEventListener("resize", onScroll);
   updateDock();
@@ -100,6 +97,7 @@
   function alreadyGreeted() {
     try { return sessionStorage.getItem(GREETED_KEY) === "1"; } catch (e) { return false; }
   }
+  // Remembers for this visit that the greeting was shown.
   function markGreeted() {
     try { sessionStorage.setItem(GREETED_KEY, "1"); } catch (e) { /* storage off */ }
   }
@@ -125,10 +123,12 @@
     }, BUBBLE_DELAY_MS);
   }
 
+  // Clicking the icon opens or closes the two-button menu.
   launcher.addEventListener("click", function () {
     setState(widget.getAttribute("data-state") === "menu" ? "idle" : "menu");
   });
 
+  // Clicking the greeting opens the menu; its X dismisses it.
   bubble.addEventListener("click", function (e) {
     if (e.target.closest(".kath-bubble-close")) {
       bubbleDismissed = true;
@@ -137,6 +137,7 @@
     }
     setState("menu");
   });
+  // Enter or Space on the greeting also opens the menu.
   bubble.addEventListener("keydown", function (e) {
     if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setState("menu"); }
   });
@@ -146,6 +147,7 @@
     a.addEventListener("click", function () { setState("idle"); });
   });
 
+  // Esc closes the greeting or the menu.
   document.addEventListener("keydown", function (e) {
     if (e.key === "Escape" && widget.getAttribute("data-state") !== "idle") setState("idle");
   });

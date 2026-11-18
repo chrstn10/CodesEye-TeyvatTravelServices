@@ -1,5 +1,3 @@
-/* Primordial Haven — shared stylesheet for all 8 pages, numbered sections 1-10 below. */
-
 /* ---------- 1. Colors and basic page setup ---------- */
 
 /* Colors and sizes used everywhere, defined once here as variables. */
@@ -19,10 +17,9 @@
   --charcoal-soft: #c9ccd3;
   --shadow: 0 12px 30px -14px rgba(43, 38, 32, 0.35);
   --radius: 14px;           /* standard rounded-corner size */
-  --maxw: 1120px;           /* max width of page content */
+  --maxw: 1320px;           /* max width of page content (wider, so the left and right margins stay small) */
   /* A few sparse, minimal dots (not an icon or logo) used to keep flat
-     background areas from reading as totally empty. Gold on the
-     homepage; each nation below recolors it with its own accent. */
+     background areas from reading as totally empty. */
   --pattern: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cg fill='%23c9962c' opacity='0.13'%3E%3Ccircle cx='18' cy='22' r='1.4'/%3E%3Ccircle cx='64' cy='10' r='1'/%3E%3Ccircle cx='92' cy='54' r='1.6'/%3E%3Ccircle cx='38' cy='76' r='1.1'/%3E%3Ccircle cx='104' cy='96' r='1.3'/%3E%3Ccircle cx='8' cy='92' r='1'/%3E%3C/g%3E%3C/svg%3E");
 }
 
@@ -1230,7 +1227,8 @@ section.block.alt {
 /* Day-by-day itinerary, styled like a timeline with a "Day N" tag each line. */
 .itinerary {
   list-style: none;
-  padding: 0;
+  /* Room on the left for the "Day N" tags, which sit left of the line. */
+  padding: 0 0 0 64px;
   margin: 0;
   counter-reset: day;
 }
@@ -2637,4 +2635,140 @@ main > section.block.alt:last-of-type,
   .nations-carousel::after {
     animation: none;
   }
+}
+
+/* Phones: tighter itinerary spacing so the timeline text keeps its width. */
+@media (max-width: 560px) {
+  .itinerary {
+    padding-left: 56px;
+  }
+  .itinerary li {
+    margin-left: 6px;
+    padding-left: 26px;
+  }
+}
+
+/* ---------- 24. Package Overview as a postcard (nation pages) ---------- */
+
+/* Left: a featured-stop photo. Middle: the package details, written like a
+   postcard's message. Right, behind a dashed postcard divider: the nation's
+   stamp at the top and Book Now at the bottom. */
+.price-panel.postcard {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.45fr);
+  padding: 0;
+  overflow: hidden;
+}
+
+.postcard-photo {
+  position: relative;
+  margin: 0;
+  min-height: 300px;
+}
+
+.postcard-photo img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* "Greetings from …" label, in the same frosted glass as the Featured Stops. */
+.postcard-photo figcaption {
+  position: absolute;
+  left: 16px;
+  bottom: 16px;
+  padding: 7px 14px;
+  border-radius: 999px;
+  font-family: "Cinzel", serif;
+  font-size: 0.78rem;
+  letter-spacing: 0.03em;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+
+.postcard-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0 28px;
+  padding: 30px 32px;
+}
+
+/* The short note reads like a handwritten line on a postcard. */
+.postcard .price-info > div > p {
+  font-style: italic;
+}
+
+.postcard-side {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 18px;
+  padding-left: 28px;
+  border-left: 1px dashed var(--line);
+}
+
+/* The stamp sits in the corner like postage, slightly tilted. */
+.postcard .nation-stamp {
+  position: static;
+  transform: rotate(-8deg);
+  width: 132px;
+  height: 132px;
+  margin: 0;
+}
+
+.postcard-book {
+  white-space: nowrap;
+}
+
+/* Tablets: the photo becomes a wide strip above the postcard. */
+@media (max-width: 860px) {
+  .price-panel.postcard {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .postcard-photo {
+    min-height: 0;
+    aspect-ratio: 16 / 7;
+  }
+}
+
+/* Phones: the stamp and Book Now move below the details, side by side. */
+@media (max-width: 560px) {
+  .price-panel.postcard {
+    padding: 0;
+  }
+  .postcard-photo {
+    aspect-ratio: 16 / 9;
+  }
+  .postcard-body {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 22px 20px;
+  }
+  .postcard-side {
+    flex-direction: row;
+    align-items: center;
+    padding: 18px 0 0;
+    margin-top: 18px;
+    border-left: 0;
+    border-top: 1px dashed var(--line);
+  }
+  .postcard .nation-stamp {
+    width: 92px;
+    height: 92px;
+  }
+}
+
+/* ---------- 25. Nations menu always fully on screen ---------- */
+
+/* The Nations button sits near the right edge of the header, so its menu
+   opens toward the left (right edges lined up) on every screen size,
+   instead of hanging off the right side of the screen. */
+.nav-dropdown-menu {
+  left: auto;
+  right: 0;
 }
