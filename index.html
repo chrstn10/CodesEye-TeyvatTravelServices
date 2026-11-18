@@ -17,7 +17,7 @@
 <link rel="stylesheet" href="assets/css/style.css">
 <link rel="stylesheet" href="assets/css/forms.css">
 </head>
-<body class="home-page">
+<body id="top" class="home-page">
 
   <!-- Logo + navigation bar, same on every page -->
   <header class="site-header">
@@ -54,6 +54,7 @@
       <div class="btn-row">
         <a href="#nations" class="btn">Explore Teyvat</a>
         <a href="#contact" class="btn btn-outline" data-open-form="inquiry">Contact Us</a>
+        <a href="#book" class="btn btn-book" data-open-form="booking">Book Now</a>
       </div>
     </div>
     <a href="#about" class="scroll-cue" aria-label="Scroll down to learn more">&#9660;</a>
@@ -143,16 +144,10 @@
             <label for="filter-guests">Guest Count:</label>
             <select id="filter-guests">
               <option value="all">All</option>
-              <option value="1">1 Guest</option>
-              <option value="2">2 Guests</option>
-              <option value="3">3 Guests</option>
-              <option value="4">4 Guests</option>
-              <option value="5">5 Guests</option>
-              <option value="6">6 Guests</option>
-              <option value="7">7 Guests</option>
-              <option value="8">8 Guests</option>
-              <option value="9">9 Guests</option>
-              <option value="10">10 Guests</option>
+              <option value="1-2">1&ndash;2 Guests (Solo or Pair)</option>
+              <option value="3-5">3&ndash;5 Guests (Small Group)</option>
+              <option value="6-8">6&ndash;8 Guests (Group)</option>
+              <option value="9-10">9&ndash;10 Guests (Large Group)</option>
             </select>
           </div>
         </div>
@@ -278,9 +273,9 @@
         </div>
         <div class="faq-item">
           <h4>How do I book a tour?</h4>
-          <p>Send us a message through Facebook Messenger, SMS, or email with your preferred nation,
-          travel dates, and group size. We'll reply with availability and next steps, typically
-          within 24 hours.</p>
+          <p>Tap Katheryne in the corner of any page and choose &ldquo;Book a trip&rdquo;, or use the Book This
+          Journey button on a nation&rsquo;s page. Enter your dates, group size, and package, and we&rsquo;ll
+          confirm availability and next steps, typically within 24 hours.</p>
         </div>
         <div class="faq-item">
           <h4>How much would a package cost for a group of 4?</h4>
@@ -291,8 +286,8 @@
         </div>
         <div class="faq-item">
           <h4>Is my preferred date available?</h4>
-          <p>Availability is confirmed per batch and per nation. Send us your preferred travel dates
-          through any of our contact channels and we will personally confirm whether a slot is open.</p>
+          <p>Availability is confirmed per batch and per nation. Send your preferred travel dates through
+          the booking form and we will personally confirm whether a slot is open.</p>
         </div>
         <div class="faq-item">
           <h4>What payment methods do you accept?</h4>
@@ -315,60 +310,59 @@
     </div>
   </section>
 
-  <!-- Contact: how to reach the Director, same plain cards as above -->
+  <!-- Get in Touch: follow and support the agency's social pages -->
   <section class="block alt" id="contact">
     <div class="container">
       <div class="section-head">
         <span class="eyebrow">Get In Touch</span>
-        <h2>Talk to the <span class="accent-gold">Director Directly</span></h2>
+        <h2>Follow Our <span class="accent-gold">Journey Across Teyvat</span></h2>
       </div>
+      <p class="contact-lede">Primordial Haven is a one-traveler agency that grows by word of mouth. Follow our pages
+      for new routes, open travel dates, and stories from the road, and share them with a friend who
+      has been dreaming of Teyvat. Every follow helps the next journey happen.</p>
       <div class="contact-grid">
         <div class="contact-item">
           <div class="contact-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-              <path d="M12 3C7 3 3 6.6 3 11c0 2.5 1.3 4.7 3.4 6.2V21l3-1.7c.8.2 1.7.3 2.6.3 5 0 9-3.6 9-8s-4-8.6-9-8.6Z"/>
-            </svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 8h3V4h-3a4 4 0 0 0-4 4v3H7v4h3v6h4v-6h3l1-4h-4V8a0 0 0 0 1 0 0Z"/></svg>
           </div>
-          <span class="label">Facebook Messenger</span>
-          <p>/PrimordialHaven</p>
-          <span class="hint">Fastest for quick questions</span>
+          <span class="label">Facebook</span>
+          <p>Primordial Haven</p>
+          <span class="hint">Announcements, open dates, and traveler stories</span>
         </div>
         <div class="contact-item">
           <div class="contact-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-              <path d="M6 3h9a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"/>
-              <path d="M10 18h1"/>
-            </svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="0.6" fill="currentColor"/></svg>
           </div>
-          <span class="label">SMS / Viber</span>
-          <p>+63 900 000 0000</p>
-          <span class="hint">Text us anytime, we reply during business hours</span>
+          <span class="label">Instagram</span>
+          <p>@primordialhaven</p>
+          <span class="hint">Photo diaries from all seven nations</span>
         </div>
         <div class="contact-item">
           <div class="contact-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-              <path d="M4 6h16v12H4z"/>
-              <path d="m4 7 8 6 8-6"/>
-            </svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3v11.5a3.5 3.5 0 1 1-3.5-3.5"/><path d="M14 3c.4 2.8 2.3 4.6 5 4.8"/></svg>
           </div>
-          <span class="label">Email</span>
-          <p><a href="mailto:bookings@primordialhaven.example">bookings@primordialhaven.example</a></p>
-          <span class="hint">Best for detailed or written inquiries</span>
+          <span class="label">TikTok</span>
+          <p>@primordialhaven</p>
+          <span class="hint">Short clips from every route we guide</span>
         </div>
         <div class="contact-item">
           <div class="contact-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-              <circle cx="12" cy="12" r="9"/>
-              <path d="M12 7v5l3.5 2"/>
-            </svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
           </div>
           <span class="label">Business Hours</span>
           <p>Monday &ndash; Saturday, 9:00 AM &ndash; 6:00 PM</p>
-          <span class="hint">Philippine Standard Time (GMT+8)</span>
+          <span class="hint">Inquiries and bookings are answered within these hours (GMT+8)</span>
         </div>
       </div>
     </div>
   </section>
+
+  <!-- Bottom of page: back to the top -->
+  <nav class="page-nav-section" aria-label="Page navigation">
+    <div class="container page-nav page-nav-single">
+      <span class="page-nav-home"><a href="#top" class="page-nav-top">&uarr; Back to Top</a></span>
+    </div>
+  </nav>
   </main>
 
   <!-- Footer: same on every page -->
@@ -399,47 +393,32 @@
         <div>
           <h4>Get In Touch</h4>
           <ul>
-            <li>
+            <li><a class="footer-contact-link" href="https://www.facebook.com/PrimordialHaven" target="_blank" rel="noopener noreferrer" aria-label="Facebook: Primordial Haven (opens in a new tab)">
               <span class="footer-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-                  <path d="M12 3C7 3 3 6.6 3 11c0 2.5 1.3 4.7 3.4 6.2V21l3-1.7c.8.2 1.7.3 2.6.3 5 0 9-3.6 9-8s-4-8.6-9-8.6Z"/>
-                </svg>
-              </span>Facebook Messenger: /PrimordialHaven</li>
-            <li>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 8h3V4h-3a4 4 0 0 0-4 4v3H7v4h3v6h4v-6h3l1-4h-4V8a0 0 0 0 1 0 0Z"/></svg>
+              </span><span>Facebook: Primordial Haven</span></a></li>
+            <li><a class="footer-contact-link" href="https://www.instagram.com/primordialhaven/" target="_blank" rel="noopener noreferrer" aria-label="Instagram: @primordialhaven (opens in a new tab)">
               <span class="footer-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-                  <path d="M6 3h9a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"/>
-                  <path d="M10 18h1"/>
-                </svg>
-              </span>SMS / Viber: +63 900 000 0000</li>
-            <li>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="0.6" fill="currentColor"/></svg>
+              </span><span>Instagram: @primordialhaven</span></a></li>
+            <li><a class="footer-contact-link" href="https://www.tiktok.com/@primordialhaven" target="_blank" rel="noopener noreferrer" aria-label="TikTok: @primordialhaven (opens in a new tab)">
               <span class="footer-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-                  <path d="M4 6h16v12H4z"/>
-                  <path d="m4 7 8 6 8-6"/>
-                </svg>
-              </span>Email: bookings@primordialhaven.example</li>
-            <li>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3v11.5a3.5 3.5 0 1 1-3.5-3.5"/><path d="M14 3c.4 2.8 2.3 4.6 5 4.8"/></svg>
+              </span><span>TikTok: @primordialhaven</span></a></li>
+            <li><a class="footer-contact-link" href="index.html#contact">
               <span class="footer-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-                  <path d="M12 21s7-7.5 7-12a7 7 0 1 0-14 0c0 4.5 7 12 7 12Z"/>
-                  <circle cx="12" cy="9" r="2.5"/>
-                </svg>
-              </span>Address: Mondstadt Office<br>Springvale Road, near the City Gates, Mondstadt, Teyvat</li>
-            <li>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s7-7.5 7-12a7 7 0 1 0-14 0c0 4.5 7 12 7 12Z"/><circle cx="12" cy="9" r="2.5"/></svg>
+              </span><span>Address: Mondstadt Office<br>Springvale Road, near the City Gates, Mondstadt, Teyvat</span></a></li>
+            <li><a class="footer-contact-link" href="index.html#contact">
               <span class="footer-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-                  <circle cx="12" cy="12" r="9"/>
-                  <path d="M12 7v5l3.5 2"/>
-                </svg>
-              </span>Office Hours: Monday &ndash; Saturday, 9:00 AM &ndash; 6:00 PM</li>
-            <li><a href="index.html#contact">View full contact details &rarr;</a></li>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
+              </span><span>Office Hours: Monday &ndash; Saturday, 9:00 AM &ndash; 6:00 PM</span></a></li>
+            <li><a href="#inquire" data-open-form="inquiry">Send us an inquiry &rarr;</a></li>
           </ul>
         </div>
       </div>
       <div class="footer-note">
         <span>&copy; 2026 Primordial Haven. Concept project for academic purposes only, not an active commercial booking site.</span>
-        <span>Built with HTML, CSS, and JavaScript. Tranche 1 Deliverable.</span>
       </div>
       <p class="disclosure" style="margin-top:14px;">
         Imagery disclosure: nation photos are in-game screenshots used for educational and local
@@ -455,5 +434,6 @@
 <script src="assets/js/booking-form.js" defer></script>
 <script src="assets/js/inquiry-form.js" defer></script>
 <script src="assets/js/katheryne.js" defer></script>
+<script src="assets/js/motion.js" defer></script>
 </body>
 </html>

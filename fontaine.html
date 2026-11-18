@@ -17,7 +17,7 @@
 <link rel="stylesheet" href="assets/css/style.css">
 <link rel="stylesheet" href="assets/css/forms.css">
 </head>
-<body data-theme="fontaine">
+<body id="top" data-theme="fontaine">
   <header class="site-header">
     <div class="nav-wrap">
       <a href="index.html" class="logo" title="Return to Home">
@@ -58,6 +58,7 @@
       <div class="btn-row">
         <a href="#package" class="btn">View Package Details</a>
         <a href="index.html#contact" class="btn btn-outline" data-open-form="inquiry" data-package="fontaine">Inquire Now</a>
+        <a href="#book" class="btn btn-outline btn-book" data-open-form="booking" data-package="fontaine">Book Now</a>
       </div>
     </div>
     <div class="hero-media">
@@ -153,19 +154,30 @@
           <span class="nation-title-b">Included</span>
         </h2>
       </div>
-      <div class="price-panel">
-        <div class="price-info">
-          <div>
-            <div class="amount">&#8369;20,000 <span>per person</span></div>
-            <p>Designed for travelers seeking a longer, more immersive getaway; groups of 2&ndash;6.</p>
+      <!-- Postcard: a featured-stop photo on the left, the package details as the
+           message, and the nation's stamp with Book Now on the right -->
+      <div class="price-panel postcard">
+        <figure class="postcard-photo">
+          <img src="assets/img/stops/opera-epiclese.jpg" alt="Opera Epiclese, Fontaine, Teyvat" loading="lazy">
+          <figcaption>Greetings from Opera Epiclese</figcaption>
+        </figure>
+        <div class="postcard-body">
+          <div class="price-info">
+            <div>
+              <div class="amount">&#8369;20,000 <span>per person</span></div>
+              <p>Designed for travelers seeking a longer, more immersive getaway; groups of 2&ndash;6.</p>
+            </div>
+            <ul class="spec-list">
+              <li><strong>Duration:</strong> 5 Days / 4 Nights</li>
+              <li><strong>Covers:</strong> Guided stops, local transfers, reserved opera viewing, canal walking tour</li>
+              <li><strong>Not Included:</strong> Airfare, personal expenses, travel insurance</li>
+            </ul>
           </div>
-          <ul class="spec-list">
-            <li><strong>Duration:</strong> 5 Days / 4 Nights</li>
-            <li><strong>Covers:</strong> Guided stops, local transfers, reserved opera viewing, canal walking tour</li>
-            <li><strong>Not Included:</strong> Airfare, personal expenses, travel insurance</li>
-          </ul>
+          <div class="postcard-side">
+            <svg class="nation-stamp" viewBox="0 0 100 100" fill="none" stroke="currentColor" aria-hidden="true"><circle cx="50" cy="50" r="46" stroke-width="2" stroke-dasharray="3.5 3.5"/><circle cx="50" cy="50" r="37" stroke-width="1.2"/><g transform="translate(26,26) scale(2)" stroke-width="0.9"><path d="M12 3s7 8 7 13a7 7 0 0 1-14 0c0-5 7-13 7-13Z"/></g></svg>
+            <a href="#book=fontaine" class="btn postcard-book" data-open-form="booking" data-package="fontaine">Book Now</a>
+          </div>
         </div>
-        <svg class="nation-stamp" viewBox="0 0 100 100" fill="none" stroke="currentColor" aria-hidden="true"><circle cx="50" cy="50" r="46" stroke-width="2" stroke-dasharray="3.5 3.5"/><circle cx="50" cy="50" r="37" stroke-width="1.2"/><g transform="translate(26,26) scale(2)" stroke-width="0.9"><path d="M12 3s7 8 7 13a7 7 0 0 1-14 0c0-5 7-13 7-13Z"/></g></svg>
       </div>
     </div>
   </section>
@@ -268,10 +280,11 @@
         <span class="nation-title-b">Fontaine?</span>
       </h2>
       <p style="max-width:52ch;margin:0 auto 20px;">
-        Send us your preferred dates and group size through Messenger, SMS, or email, and we'll
-        confirm availability within 24 hours.
+        Your Fontaine route is already planned. Choose your dates, group size, and package in our
+        booking form and we&rsquo;ll confirm availability within 24 hours. Have a question first? Katheryne
+        is waiting in the corner of the page.
       </p>
-      <a href="index.html#contact" class="btn" data-open-form="inquiry" data-package="fontaine">Contact Primordial Haven</a>
+      <a href="#book=fontaine" class="btn" data-open-form="booking" data-package="fontaine">Book This Journey</a>
     </div>
   </section>
 
@@ -279,7 +292,7 @@
   <nav class="page-nav-section" aria-label="Nation pages">
     <div class="container page-nav">
       <span class="page-nav-prev"><a href="sumeru.html" class="page-nav-link">&larr; Sumeru</a></span>
-      <a href="index.html" class="page-nav-home">&larr; Back to Home</a>
+      <span class="page-nav-home"><a href="index.html">&larr; Back to Home</a><a href="#top" class="page-nav-top">&uarr; Back to Top</a></span>
       <span class="page-nav-next"><a href="natlan.html" class="page-nav-link">Natlan &rarr;</a></span>
     </div>
   </nav>
@@ -312,47 +325,32 @@
         <div>
           <h4>Get In Touch</h4>
           <ul>
-            <li>
+            <li><a class="footer-contact-link" href="https://www.facebook.com/PrimordialHaven" target="_blank" rel="noopener noreferrer" aria-label="Facebook: Primordial Haven (opens in a new tab)">
               <span class="footer-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-                  <path d="M12 3C7 3 3 6.6 3 11c0 2.5 1.3 4.7 3.4 6.2V21l3-1.7c.8.2 1.7.3 2.6.3 5 0 9-3.6 9-8s-4-8.6-9-8.6Z"/>
-                </svg>
-              </span>Facebook Messenger: /PrimordialHaven</li>
-            <li>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 8h3V4h-3a4 4 0 0 0-4 4v3H7v4h3v6h4v-6h3l1-4h-4V8a0 0 0 0 1 0 0Z"/></svg>
+              </span><span>Facebook: Primordial Haven</span></a></li>
+            <li><a class="footer-contact-link" href="https://www.instagram.com/primordialhaven/" target="_blank" rel="noopener noreferrer" aria-label="Instagram: @primordialhaven (opens in a new tab)">
               <span class="footer-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-                  <path d="M6 3h9a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"/>
-                  <path d="M10 18h1"/>
-                </svg>
-              </span>SMS / Viber: +63 900 000 0000</li>
-            <li>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="0.6" fill="currentColor"/></svg>
+              </span><span>Instagram: @primordialhaven</span></a></li>
+            <li><a class="footer-contact-link" href="https://www.tiktok.com/@primordialhaven" target="_blank" rel="noopener noreferrer" aria-label="TikTok: @primordialhaven (opens in a new tab)">
               <span class="footer-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-                  <path d="M4 6h16v12H4z"/>
-                  <path d="m4 7 8 6 8-6"/>
-                </svg>
-              </span>Email: bookings@primordialhaven.example</li>
-            <li>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3v11.5a3.5 3.5 0 1 1-3.5-3.5"/><path d="M14 3c.4 2.8 2.3 4.6 5 4.8"/></svg>
+              </span><span>TikTok: @primordialhaven</span></a></li>
+            <li><a class="footer-contact-link" href="index.html#contact">
               <span class="footer-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-                  <path d="M12 21s7-7.5 7-12a7 7 0 1 0-14 0c0 4.5 7 12 7 12Z"/>
-                  <circle cx="12" cy="9" r="2.5"/>
-                </svg>
-              </span>Address: Mondstadt Office<br>Springvale Road, near the City Gates, Mondstadt, Teyvat</li>
-            <li>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s7-7.5 7-12a7 7 0 1 0-14 0c0 4.5 7 12 7 12Z"/><circle cx="12" cy="9" r="2.5"/></svg>
+              </span><span>Address: Mondstadt Office<br>Springvale Road, near the City Gates, Mondstadt, Teyvat</span></a></li>
+            <li><a class="footer-contact-link" href="index.html#contact">
               <span class="footer-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-                  <circle cx="12" cy="12" r="9"/>
-                  <path d="M12 7v5l3.5 2"/>
-                </svg>
-              </span>Office Hours: Monday &ndash; Saturday, 9:00 AM &ndash; 6:00 PM</li>
-            <li><a href="index.html#contact">View full contact details &rarr;</a></li>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
+              </span><span>Office Hours: Monday &ndash; Saturday, 9:00 AM &ndash; 6:00 PM</span></a></li>
+            <li><a href="#inquire" data-open-form="inquiry">Send us an inquiry &rarr;</a></li>
           </ul>
         </div>
       </div>
       <div class="footer-note">
         <span>&copy; 2026 Primordial Haven. Concept project for academic purposes only, not an active commercial booking site.</span>
-        <span>Built with HTML, CSS, and JavaScript. Tranche 1 Deliverable.</span>
       </div>
       <p class="disclosure" style="margin-top:14px;">
         Imagery disclosure: nation photos are in-game screenshots used for educational and local
@@ -368,5 +366,6 @@
 <script src="assets/js/booking-form.js" defer></script>
 <script src="assets/js/inquiry-form.js" defer></script>
 <script src="assets/js/katheryne.js" defer></script>
+<script src="assets/js/motion.js" defer></script>
 </body>
 </html>

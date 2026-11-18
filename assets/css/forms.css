@@ -1,18 +1,10 @@
-/* Primordial Haven — shared form styles (Booking form now, Inquiry form next).
-   Loaded after style.css, so it reuses the site's fonts and color variables.
-   Every form opens inside the same pop-up (.form-modal, from
-   assets/js/form-modal.js) over a blurred view of the current page.
-   Building the Inquiry form: reuse .form-card, .form-head, .form-close,
-   .form-body, .field*, .pill-input, .pill-btn* and .form-actions*; only
-   form-specific layout (like .field-row-package) is unique to a form. */
-
 :root {
   --form-card-bg: #f0f0f0;        /* light gray card, from the design */
   --form-field-bg: #fff8c2;       /* pale yellow pill fields, from the design */
   --form-field-border: #6b6455;
   --form-field-shadow: 0 3px 4px rgba(43, 38, 32, 0.32);
   --form-error: #b3261e;
-  --form-gap: 16px;
+  --form-gap: 12px;
 }
 
 /* ---------- Pop-up modal ---------- */
@@ -25,7 +17,7 @@
   inset: 0;
   z-index: 200;
   display: flex;
-  padding: 40px 24px;
+  padding: 24px 20px;
   overflow-y: auto;
   overscroll-behavior: contain;
   background: rgba(22, 26, 33, 0.38);
@@ -34,6 +26,7 @@
   animation: formModalFade 0.2s ease;
 }
 
+/* Closed pop-up is removed from view. */
 .form-modal[hidden] {
   display: none;
 }
@@ -52,10 +45,12 @@
   display: contents;
 }
 
+/* Hides the form that isn't open. */
 .form-modal-content[hidden] {
   display: none;
 }
 
+/* No focus outline on the dialog box itself (its fields show focus). */
 .form-modal-dialog:focus {
   outline: none;
 }
@@ -70,6 +65,7 @@
   to   { opacity: 1; transform: none; }
 }
 
+/* No pop-up animation for visitors who prefer less motion. */
 @media (prefers-reduced-motion: reduce) {
   .form-modal,
   .form-modal-dialog {
@@ -87,10 +83,10 @@ html.form-modal-open body {
 
 .form-card {
   width: 100%;
-  max-width: 916px;
+  max-width: 600px;
   background: var(--form-card-bg);
-  border-radius: 20px;
-  padding: 30px 40px 48px;
+  border-radius: 18px;
+  padding: 22px 32px 26px;
   position: relative;
   box-shadow: 0 24px 60px -24px rgba(0, 0, 0, 0.55);
 }
@@ -98,10 +94,10 @@ html.form-modal-open body {
 /* Round X in the top-right corner of every form card. */
 .form-close {
   position: absolute;
-  top: 14px;
-  right: 14px;
-  width: 36px;
-  height: 36px;
+  top: 10px;
+  right: 10px;
+  width: 32px;
+  height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -116,6 +112,7 @@ html.form-modal-open body {
   transition: background-color 0.15s, color 0.15s;
 }
 
+/* X button hover and keyboard-focus states. */
 .form-close:hover {
   background: rgba(43, 38, 32, 0.08);
   color: var(--ink);
@@ -126,16 +123,18 @@ html.form-modal-open body {
   outline-offset: 2px;
 }
 
+/* Hides the form steps that aren't showing. */
 .form-card[hidden] {
   display: none;
 }
 
+/* Form title row: logo and heading, centered. */
 .form-head {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
-  margin-bottom: 26px;
+  gap: 10px;
+  margin-bottom: 16px;
 }
 
 .form-head a {
@@ -143,30 +142,33 @@ html.form-modal-open body {
   flex-shrink: 0;
 }
 
+/* Logo next to the form title. */
 .form-logo {
-  height: 46px;
+  height: 38px;
   width: auto;
 }
 
+/* Form title. */
 .form-head h2 {
   margin: 0;
-  font-size: 1.65rem;
+  font-size: 1.4rem;
   color: var(--ink);
 }
 
+/* Titles get focus when a step opens (for screen readers) but show no outline. */
 .form-card h2:focus {
   outline: none;
 }
 
 /* Centered content column inside the card. */
 .form-body {
-  max-width: 630px;
   margin: 0 auto;
 }
 
+/* Smaller heading inside a form, e.g. "Select Your Package". */
 .form-subhead {
-  margin: 34px 0 14px;
-  font-size: 1.15rem;
+  margin: 18px 0 8px;
+  font-size: 1.02rem;
   color: var(--ink);
 }
 
@@ -180,48 +182,63 @@ html.form-modal-open body {
 }
 
 .field,
+/* A group of related fields (first and last name) with no fieldset border. */
 .field-group {
   margin-bottom: var(--form-gap);
   min-width: 0;
 }
 
+/* Fields side by side share the row's spacing instead of their own. */
 .field-row .field {
   margin-bottom: 0;
 }
 
+/* Label above each field. */
 .field-label {
   display: block;
-  padding: 0 0 4px 16px;
-  font-size: 0.95rem;
+  padding: 0 0 3px 14px;
+  font-size: 0.86rem;
   color: var(--ink);
 }
 
+/* The Name legend lines up like an ordinary label. */
 legend.field-label {
   float: left;      /* lets the legend sit like a normal label */
   width: 100%;
 }
 
+/* Starts the name fields below the floated legend. */
 .field-group .field-row {
   clear: both;
 }
 
+/* Red asterisk on required fields. */
 .req {
   color: #d93025;
   margin-left: 1px;
 }
 
+/* "(optional)" next to a label */
+.opt {
+  font-size: 0.78rem;
+  font-style: italic;
+  color: #8a8170;
+}
+
+/* Grid row for fields placed side by side. */
 .field-row {
   display: grid;
   gap: 0 var(--form-gap);
 }
 
+/* Two equal columns (first/last name, check-in/check-out). */
 .field-row-2 {
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  column-gap: 72px;
+  column-gap: 16px;
 }
 
+/* Space below the date row. */
 .field-row-dates {
-  margin-top: 26px;
   margin-bottom: var(--form-gap);
 }
 
@@ -229,10 +246,10 @@ legend.field-label {
 .pill-input {
   display: block;
   width: 100%;
-  height: 38px;
-  padding: 0 18px;
+  height: 34px;
+  padding: 0 16px;
   font: inherit;
-  font-size: 0.92rem;
+  font-size: 0.88rem;
   color: var(--ink);
   background: var(--form-field-bg);
   border: 1px solid var(--form-field-border);
@@ -241,22 +258,26 @@ legend.field-label {
   transition: border-color 0.15s, box-shadow 0.15s;
 }
 
+/* Placeholder text in a soft brown. */
 .pill-input::placeholder {
   color: #9a8f6e;
   opacity: 1;
 }
 
+/* Gold glow on the field being typed in. */
 .pill-input:focus {
   outline: none;
   border-color: var(--brand-dark);
   box-shadow: var(--form-field-shadow), 0 0 0 3px rgba(240, 180, 41, 0.45);
 }
 
+/* Red outline on a field with an error. */
 .pill-input[aria-invalid="true"] {
   border-color: var(--form-error);
   box-shadow: var(--form-field-shadow), 0 0 0 2px rgba(179, 38, 30, 0.2);
 }
 
+/* Dropdowns: same pill shape, with a custom chevron. */
 .pill-select {
   -webkit-appearance: none;
   appearance: none;
@@ -269,6 +290,7 @@ legend.field-label {
   background-size: 18px;
 }
 
+/* Number fields leave room for the browser's arrows. */
 .pill-input[type="number"] {
   padding-right: 10px;
 }
@@ -278,10 +300,12 @@ legend.field-label {
   position: relative;
 }
 
+/* Room on the right for the calendar button. */
 .date-wrap .pill-input {
   padding-right: 40px;
 }
 
+/* Round calendar button inside the date field. */
 .date-btn {
   position: absolute;
   top: 50%;
@@ -297,11 +321,13 @@ legend.field-label {
   cursor: pointer;
 }
 
+/* Calendar button hover. */
 .date-btn:hover {
   background: rgba(43, 38, 32, 0.08);
   color: var(--ink);
 }
 
+/* Calendar icon fills its button. */
 .date-btn svg {
   width: 100%;
   height: 100%;
@@ -333,20 +359,23 @@ legend.field-label {
   border: 0;
 }
 
+/* Red message under a field. */
 .field-error {
-  margin: 6px 0 0;
-  padding-left: 16px;
-  font-size: 0.8rem;
+  margin: 4px 0 0;
+  padding-left: 14px;
+  font-size: 0.76rem;
   line-height: 1.4;
   color: var(--form-error);
 }
 
+/* Messages stay hidden until there's an error. */
 .field-error[hidden] {
   display: none;
 }
 
+/* Centered message for a failed send, above the buttons. */
 .form-error {
-  margin-top: 18px;
+  margin-top: 12px;
   padding-left: 0;
   text-align: center;
 }
@@ -357,10 +386,10 @@ legend.field-label {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  height: 38px;
-  padding: 0 28px;
+  height: 36px;
+  padding: 0 26px;
   font: inherit;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   color: #2a2210;
   text-decoration: none;
   border: 1px solid var(--form-field-border);
@@ -370,15 +399,18 @@ legend.field-label {
   transition: background-color 0.15s, transform 0.15s;
 }
 
+/* Buttons lift slightly on hover. */
 .pill-btn:hover {
   transform: translateY(-1px);
 }
 
+/* Clear outline for keyboard users. */
 .pill-btn:focus-visible {
   outline: 3px solid var(--ink);
   outline-offset: 3px;
 }
 
+/* While sending, the button fades and shows a waiting cursor. */
 .pill-btn:disabled {
   opacity: 0.65;
   cursor: wait;
@@ -390,10 +422,12 @@ legend.field-label {
   background: var(--brand);
 }
 
+/* Darker gold on hover. */
 .pill-btn-gold:hover {
   background: var(--brand-dark);
 }
 
+/* Cream button (Back). */
 .pill-btn-cream {
   background: var(--paper-alt);
 }
@@ -402,6 +436,7 @@ legend.field-label {
   background: #e7dcc3;
 }
 
+/* Pale yellow button (Okay on the notice). */
 .pill-btn-light {
   background: var(--form-field-bg);
 }
@@ -410,31 +445,34 @@ legend.field-label {
   background: #fbefa0;
 }
 
+/* Button row at the bottom of a form. */
 .form-actions {
-  margin-top: 46px;
+  margin-top: 22px;
 }
 
+/* A single button, centered. */
 .form-actions-center {
   display: flex;
   justify-content: center;
 }
 
+/* Centered buttons get a comfortable minimum width. */
 .form-actions-center .pill-btn {
-  min-width: 258px;
+  min-width: 220px;
 }
 
 /* Back + Submit side by side on desktop. */
 .form-actions-split {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 22px;
+  gap: 14px;
 }
 
 /* Message box: same pale-yellow field, as a rounded rectangle. */
 .pill-textarea {
   height: auto;
-  min-height: 136px;
-  padding: 12px 18px;
+  min-height: 92px;
+  padding: 10px 16px;
   border-radius: 12px;
   line-height: 1.5;
   resize: vertical;
@@ -444,11 +482,7 @@ legend.field-label {
 
 /* Tighter spacing, as in the inquiry design. */
 .form-compact {
-  --form-gap: 12px;
-}
-
-.form-compact .field-label {
-  padding-bottom: 3px;
+  --form-gap: 10px;
 }
 
 /* First/Last Name sit close together. */
@@ -456,75 +490,124 @@ legend.field-label {
   column-gap: 12px;
 }
 
+/* Inquiry form: less space above Submit. */
 .form-compact .form-actions {
-  margin-top: 30px;
+  margin-top: 18px;
 }
 
 /* ---------- Booking form only ---------- */
 
 .field-row-package {
-  grid-template-columns: max-content minmax(0, 260px);
-  column-gap: 42px;
+  grid-template-columns: max-content minmax(0, 1fr);
+  column-gap: 16px;
 }
 
+/* "Number of Guests" stays on one line. */
 .field-guests .field-label {
   white-space: nowrap;
 }
 
+/* Narrow guests field. */
 .field-guests .pill-input {
-  width: 134px;
+  width: 130px;
 }
 
-/* Confirmation step */
+/* Confirmation step: a receipt-style summary. */
 .confirm-intro {
-  margin: 0 0 18px -54px;
+  margin: 0 0 12px;
+  font-size: 0.9rem;
+  text-align: center;
+  color: var(--ink-soft);
+}
+
+/* Summary card on a warm off-white, like a paper receipt. */
+.receipt {
+  background: #fffdf6;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 14px 20px 6px;
+  box-shadow: 0 6px 18px -12px rgba(43, 38, 32, 0.45);
+}
+
+/* Small gold heading for each part (Traveler, Trip, Price). */
+.receipt-title {
+  margin: 0 0 4px;
+  font-family: "Cinzel", serif;
+  font-size: 0.74rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--brand-dark);
+}
+
+/* Each part ends with a dashed tear line. */
+.receipt-rows {
+  margin: 0 0 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px dashed #cdbf9c;
+}
+
+/* No tear line after the last part. */
+.receipt-rows:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+/* One line of the receipt: label left, value right. */
+.receipt-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  padding: 3px 0;
+  font-size: 0.88rem;
   color: var(--ink);
 }
 
-.confirm-list {
-  padding-left: 54px;
+/* Field names in bold. */
+.receipt-row dt {
+  font-weight: 700;
+  flex-shrink: 0;
 }
 
-.confirm-row {
-  margin: 0 0 14px;
-  color: var(--ink);
+/* Values right-aligned; long emails wrap instead of overflowing. */
+.receipt-row dd {
+  margin: 0;
+  text-align: right;
+  overflow-wrap: anywhere;
 }
 
-.confirm-label {
-  margin-right: 4px;
+/* Total: set apart with a double rule and a larger figure. */
+.receipt-total {
+  margin-top: 6px;
+  padding-top: 8px;
+  border-top: 3px double #cdbf9c;
+  font-size: 1rem;
 }
 
-.confirm-dates {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0 24px;
-  margin-top: 30px;
-}
-
-.confirm-stack .confirm-label {
-  display: block;
-}
-
-.confirm-list .form-subhead {
-  margin-top: 28px;
+/* Total in bold dark gold. */
+.receipt-total dd {
+  font-weight: 700;
+  color: var(--brand-dark);
 }
 
 /* Submitted notice */
 .form-notice {
-  max-width: 515px;
-  padding: 44px 52px 44px;
+  max-width: 440px;
+  padding: 32px 36px 28px;
 }
 
+/* "Submitted!" heading. */
 .form-notice h2 {
-  margin: 0 0 28px;
+  margin: 0 0 16px;
   text-align: center;
-  font-size: 1.5rem;
+  font-size: 1.35rem;
 }
 
+/* Notice text. */
 .form-notice p {
-  font-size: 0.9rem;
+  font-size: 0.88rem;
   color: var(--ink);
-  margin: 0 0 22px;
+  margin: 0 0 12px;
 }
 
 /* Keeps "in 5s...." together on one line. */
@@ -532,10 +615,12 @@ legend.field-label {
   white-space: nowrap;
 }
 
+/* Space above the Okay button. */
 .form-notice .form-actions {
-  margin-top: 36px;
+  margin-top: 20px;
 }
 
+/* Okay button: small and centered. */
 .form-notice .form-actions-center .pill-btn {
   min-width: 156px;
   height: 34px;
@@ -543,18 +628,9 @@ legend.field-label {
 
 /* ---------- Tablets and phones ---------- */
 
-@media (max-width: 860px) {
-  .confirm-intro {
-    margin-left: 0;
-  }
-  .confirm-list {
-    padding-left: 22px;
-  }
-}
-
 @media (max-width: 600px) {
   :root {
-    --form-gap: 14px;
+    --form-gap: 10px;
   }
   .form-modal {
     padding: 14px 12px;
@@ -563,8 +639,8 @@ legend.field-label {
   .form-card {
     display: flex;
     flex-direction: column;
-    padding: 40px 20px 32px;
-    border-radius: 22px;
+    padding: 36px 18px 22px;
+    border-radius: 18px;
   }
   .form-close {
     top: 6px;
@@ -578,17 +654,17 @@ legend.field-label {
   }
   .form-card .form-actions {
     margin-top: auto;
-    padding-top: 34px;
+    padding-top: 18px;
   }
   .form-head {
-    margin-bottom: 18px;
+    margin-bottom: 12px;
     gap: 8px;
   }
   .form-logo {
-    height: 40px;
+    height: 34px;
   }
   .form-head h2 {
-    font-size: 1.4rem;
+    font-size: 1.25rem;
   }
   .field-label {
     padding-left: 6px;
@@ -598,10 +674,10 @@ legend.field-label {
   }
   /* First/Last name and the two dates stay side by side. */
   .field-row-2 {
-    column-gap: 14px;
+    column-gap: 10px;
   }
   .pill-input {
-    height: 36px;
+    height: 34px;
     padding: 0 14px;
     font-size: 16px; /* 16px stops iPhones from zooming in on focus */
   }
@@ -614,19 +690,21 @@ legend.field-label {
     width: 26px;
     height: 26px;
   }
-  .field-row-dates {
-    margin-top: 6px;
-  }
   .form-subhead {
-    margin-top: 26px;
+    margin-top: 14px;
   }
-  /* Guests on its own line, then Package full width. */
+  /* Guests stays beside Package, narrower. */
+  /* Guests above Package, both full width, so labels and fields line up. */
   .field-row-package {
-    grid-template-columns: 1fr;
-    row-gap: 18px;
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: var(--form-gap);
   }
   .field-guests .pill-input {
-    width: 136px;
+    width: 100%;
+  }
+  /* Dates keep their two columns; their messages stay short and tidy. */
+  .field-row-dates .field-error {
+    font-size: 0.72rem;
   }
   .form-actions-center .pill-btn {
     width: 100%;
@@ -647,23 +725,19 @@ legend.field-label {
     grid-template-columns: 1fr;
     gap: 14px;
   }
-  .confirm-intro {
-    margin-bottom: 16px;
+  .receipt {
+    padding: 12px 14px 4px;
   }
-  .confirm-list {
-    padding-left: 22px;
-  }
-  .confirm-dates {
-    gap: 0 14px;
-    margin-top: 26px;
+  .receipt-row {
+    font-size: 0.84rem;
   }
   /* The notice card stays compact and centered. */
   .form-notice {
     min-height: 0;
-    padding: 32px 22px;
+    padding: 30px 20px 22px;
   }
   .form-notice h2 {
-    font-size: 1.3rem;
+    font-size: 1.2rem;
   }
 }
 
@@ -687,6 +761,7 @@ legend.field-label {
   }
 }
 
+/* Very narrow phones: smaller title and padding. */
 @media (max-width: 360px) {
   .form-head h2 {
     font-size: 1.1rem;
@@ -695,7 +770,47 @@ legend.field-label {
     padding-left: 14px;
     padding-right: 14px;
   }
-  .confirm-list {
-    padding-left: 8px;
+  .receipt-row {
+    flex-wrap: wrap;
+    gap: 0 12px;
+  }
+}
+
+/* ---------- Motion ---------- */
+
+/* Each step of a form (form, confirmation, notice) eases in when shown. */
+.form-modal .form-card:not([hidden]) {
+  animation: formStepIn 0.28s ease;
+}
+
+@keyframes formStepIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* Closing: the pop-up fades and sinks slightly before it disappears. */
+.form-modal.is-closing {
+  animation: formModalFadeOut 0.18s ease forwards;
+}
+
+/* The card sinks slightly as it fades. */
+.form-modal.is-closing .form-modal-dialog {
+  animation: formModalSink 0.18s ease forwards;
+}
+
+@keyframes formModalFadeOut {
+  to { opacity: 0; }
+}
+
+@keyframes formModalSink {
+  to { opacity: 0; transform: translateY(10px) scale(0.985); }
+}
+
+/* No step or closing animation for visitors who prefer less motion. */
+@media (prefers-reduced-motion: reduce) {
+  .form-modal .form-card:not([hidden]),
+  .form-modal.is-closing,
+  .form-modal.is-closing .form-modal-dialog {
+    animation: none;
   }
 }
