@@ -47,7 +47,7 @@
 
       <div class="field">
         <label class="field-label" for="inquiry-phone">Phone Number:<span class="req" aria-hidden="true">*</span></label>
-        <input class="pill-input" type="tel" id="inquiry-phone" name="phone" placeholder="(+63)9XX-XXX-XXXX"
+        <input class="pill-input" type="tel" id="inquiry-phone" name="phone" placeholder="(+63) 9XX-XXX-XXXX"
                autocomplete="tel" inputmode="tel" maxlength="20" required aria-describedby="inquiry-phone-error">
         <p class="field-error" id="inquiry-phone-error" hidden></p>
       </div>
@@ -70,8 +70,8 @@
 
       <div class="field">
         <label class="field-label" for="inquiry-budget">What is your budget for this travel? <span class="opt">(optional)</span></label>
-        <input class="pill-input" type="number" id="inquiry-budget" name="budget" min="1" step="1"
-               inputmode="numeric" placeholder="Amount in PHP" aria-describedby="inquiry-budget-error">
+        <input class="pill-input" type="text" id="inquiry-budget" name="budget"
+               inputmode="decimal" placeholder="Amount in PHP" aria-describedby="inquiry-budget-error">
         <p class="field-error" id="inquiry-budget-error" hidden></p>
       </div>
 
@@ -150,6 +150,8 @@
     notSure.textContent = "Not sure yet";
     fields.destination.appendChild(notSure);
 
+    F.setupPhoneField(fields.phone);
+
     /* ---------- Reading and checking the form ---------- */
 
     function readForm() {
@@ -163,6 +165,7 @@
       Object.keys(fields).forEach(function (key) {
         if (data[key] !== undefined && data[key] !== null) fields[key].value = data[key];
       });
+      F.fixPhone(fields.phone);
     }
 
     // Name, email, phone and message are required. Guests, destination and
@@ -187,7 +190,7 @@
       }
 
       if (d.budget) {
-        var budget = Number(d.budget);
+        var budget = Number(d.budget.replace(/,/g, ""));
         if (!isFinite(budget) || budget <= 0) errors.budget = "Your budget must be a positive amount in PHP.";
       }
 
@@ -223,7 +226,8 @@
     // Check a field as soon as the visitor leaves it (only if they typed something).
     Object.keys(fields).forEach(function (key) {
       fields[key].addEventListener("blur", function () {
-        if (!fields[key].value.trim() && !triedSubmit) return;
+        var v = fields[key].value.trim();
+        if ((!v || v === "(+63) 9") && !triedSubmit) return;
         var errors = validate(readForm());
         if (errors[key]) F.setError(fields[key], errors[key]);
         else F.clearError(fields[key]);
@@ -258,7 +262,7 @@
         phone: F.formatPhone(d.phone),
         guests: d.guests ? Number(d.guests) : null,     // optional
         destination: d.destination || null,             // nation slug, "not-sure", or null
-        budget: d.budget ? Number(d.budget) : null,     // PHP, optional
+        budget: d.budget ? Number(d.budget.replace(/,/g, "")) : null,     // PHP, optional
         message: d.message,
         page: location.pathname.split("/").pop() || "index.html",
         submittedAt: new Date().toISOString()
