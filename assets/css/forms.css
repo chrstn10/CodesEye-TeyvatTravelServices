@@ -500,6 +500,7 @@ legend.field-label {
 .field-row-package {
   grid-template-columns: max-content minmax(0, 1fr);
   column-gap: 16px;
+  margin-bottom: var(--form-gap);
 }
 
 /* "Number of Guests" stays on one line. */

@@ -50,9 +50,28 @@
 
       <div class="field">
         <label class="field-label" for="booking-phone">Phone Number:<span class="req" aria-hidden="true">*</span></label>
-        <input class="pill-input" type="tel" id="booking-phone" name="phone" placeholder="(+63)9XX-XXX-XXXX"
+        <input class="pill-input" type="tel" id="booking-phone" name="phone" placeholder="(+63) 9XX-XXX-XXXX"
                autocomplete="tel" inputmode="tel" maxlength="20" required aria-describedby="booking-phone-error">
         <p class="field-error" id="booking-phone-error" hidden></p>
+      </div>
+
+      <h2 class="form-subhead">Select Your Package</h2>
+
+      <div class="field-row field-row-package">
+        <div class="field field-guests">
+          <label class="field-label" for="booking-guests">Number of Guests:<span class="req" aria-hidden="true">*</span></label>
+          <input class="pill-input" type="number" id="booking-guests" name="guests" min="1" max="50" step="1" value="1"
+                 inputmode="numeric" required aria-describedby="booking-guests-error">
+          <p class="field-error" id="booking-guests-error" hidden></p>
+        </div>
+        <div class="field field-package">
+          <label class="field-label" for="booking-package-select">Package:<span class="req" aria-hidden="true">*</span></label>
+          <select class="pill-input pill-select" id="booking-package-select" name="package" required aria-describedby="booking-package-select-error">
+            <option value="" disabled selected>Select a package</option>
+            <!-- Options are filled in from assets/js/packages.js -->
+          </select>
+          <p class="field-error" id="booking-package-select-error" hidden></p>
+        </div>
       </div>
 
       <div class="field-row field-row-2 field-row-dates">
@@ -79,25 +98,6 @@
             <input class="date-native" type="date" tabindex="-1" aria-hidden="true">
           </div>
           <p class="field-error" id="booking-check-out-error" hidden></p>
-        </div>
-      </div>
-
-      <h2 class="form-subhead">Select Your Package</h2>
-
-      <div class="field-row field-row-package">
-        <div class="field field-guests">
-          <label class="field-label" for="booking-guests">Number of Guests:<span class="req" aria-hidden="true">*</span></label>
-          <input class="pill-input" type="number" id="booking-guests" name="guests" min="1" max="50" step="1" value="1"
-                 inputmode="numeric" required aria-describedby="booking-guests-error">
-          <p class="field-error" id="booking-guests-error" hidden></p>
-        </div>
-        <div class="field field-package">
-          <label class="field-label" for="booking-package-select">Package:<span class="req" aria-hidden="true">*</span></label>
-          <select class="pill-input pill-select" id="booking-package-select" name="package" required aria-describedby="booking-package-select-error">
-            <option value="" disabled selected>Select a package</option>
-            <!-- Options are filled in from assets/js/packages.js -->
-          </select>
-          <p class="field-error" id="booking-package-select-error" hidden></p>
         </div>
       </div>
 
@@ -185,10 +185,10 @@
       lastName: $("last-name"),
       email: $("email"),
       phone: $("phone"),
-      checkIn: $("check-in"),
-      checkOut: $("check-out"),
       guests: $("guests"),
-      package: $("package-select")
+      package: $("package-select"),
+      checkIn: $("check-in"),
+      checkOut: $("check-out")
     };
     // Submit button, its error line, and the countdown number on the notice.
     var submitBtn = $("submit-btn");
@@ -208,6 +208,8 @@
       opt.textContent = p.label;
       fields.package.appendChild(opt);
     });
+
+    F.setupPhoneField(fields.phone);
 
     /* ---------- Reading and checking the form ---------- */
 
@@ -229,6 +231,7 @@
       Object.keys(fields).forEach(function (key) {
         if (data[key] !== undefined && data[key] !== null) fields[key].value = data[key];
       });
+      F.fixPhone(fields.phone);
     }
 
     // Returns { fieldKey: "message" } for every problem found.
@@ -342,7 +345,8 @@
     // Check a field as soon as the visitor leaves it (only if they typed something).
     Object.keys(fields).forEach(function (key) {
       fields[key].addEventListener("blur", function () {
-        if (!fields[key].value.trim() && !triedNext) return;
+        var v = fields[key].value.trim();
+        if ((!v || v === "(+63) 9") && !triedNext) return;
         var errors = validate(readForm());
         if (errors[key]) F.setError(fields[key], errors[key]);
         else F.clearError(fields[key]);
@@ -353,6 +357,20 @@
     Array.prototype.forEach.call(container.querySelectorAll(".date-wrap"), function (wrap) {
       F.setupDateField(wrap, function (input) { input.dispatchEvent(new Event("blur")); });
     });
+
+    // Fills in check-out from check-in plus the package's nights (e.g. 3 Days, 2 Nights -> +2).
+    function predictCheckOut() {
+      var p = pkgBySlug(fields.package.value);
+      var inDate = F.parseDate(fields.checkIn.value);
+      var nights = p && /(\d+)\s*Nights?/i.exec(p.duration);
+      if (!inDate || !nights) return;
+      var out = new Date(inDate.getFullYear(), inDate.getMonth(), inDate.getDate() + Number(nights[1]));
+      fields.checkOut.value = F.formatDate(out);
+      if (triedNext) showErrors(validate(readForm()));
+      else F.clearError(fields.checkOut);
+    }
+    fields.checkIn.addEventListener("input", predictCheckOut);
+    fields.package.addEventListener("change", predictCheckOut);
 
     $("back-btn").addEventListener("click", function () {
       saveDraft(1);
