@@ -760,21 +760,19 @@ section.block.alt {
 
 /* Centers this one intro paragraph instead of following the left edge. */
 .lede-center {
-  max-width: 68ch;
-  margin: -10px auto 36px;
-  text-align: center;
-  font-size: 1.25rem;
-  font-weight: 700;
-  font-style: italic;
-  color: var(--ink);
+    max-width: 68ch;
+    margin: -10px 0 36px;
+    text-align: justify;
+    font-size: 1.25rem;
+    font-weight: 700;
+    font-style: italic;
+    color: var(--ink);
 }
 
-/* Centered single column of body text, used instead of the old two-column
-   layout so it reads as one continuous story rather than a grid. */
 .story-body {
-  max-width: 70ch;
-  margin: 0 auto;
-  text-align: center;
+    max-width: 70ch;
+    margin: 0;
+    text-align: justify; /* Changed from center */
 }
 
 /* Keeps this one heading on a single line at every screen size. */
@@ -2636,5 +2634,88 @@ main > section.block.alt:last-of-type,
   .nations-carousel::before,
   .nations-carousel::after {
     animation: none;
+  }
+}
+
+/* ---------- 24. Our Story: text left, photo right (homepage) ---------- */
+
+.story-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  gap: 56px;
+  align-items: center;
+}
+
+/* Text follows the left edge here instead of being centered. */
+.story-layout .lede-center,
+.story-layout .story-body {
+  text-align: left;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.story-layout .lede-center {
+  margin-bottom: 24px;
+  font-size: 1.15rem;
+}
+
+/* Cropped from the left so Lumine and the sun stay in frame. */
+.story-photo .photo-frame {
+  aspect-ratio: 5 / 4;
+}
+
+.story-photo .photo-frame img {
+  object-position: 80% center;
+  transform-origin: 80% 100%; /* hover zoom never cuts off her feet */
+}
+
+@media (max-width: 860px) {
+  .story-layout {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+  /* Full, uncropped photo below the text. */
+  .story-photo {
+    max-width: 560px;
+    margin: 0 auto;
+    width: 100%;
+  }
+  .story-photo .photo-frame {
+    aspect-ratio: 869 / 527;
+  }
+}
+
+/* ---------- 25. FAQ: soft depth + Lumine shadow (homepage) ---------- */
+
+.home-page .faq-section {
+  overflow: hidden; /* keeps the silhouette from widening the page */
+  box-shadow:
+    inset 0 28px 40px -34px rgba(43, 38, 32, 0.28),
+    inset 0 -28px 40px -34px rgba(43, 38, 32, 0.28);
+}
+
+/* lumine-bg.png as a full-height gold silhouette on the right, like the
+   windmill behind the nation itineraries. */
+.home-page .faq-section::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: -40px; /* bleeds slightly off the right edge */
+  aspect-ratio: 586 / 777;
+  background: url("../img/lumine-bg.png") no-repeat right bottom / contain;
+  /* Turns the image into a flat silhouette in --accent-dark (#a5761c). */
+  filter: brightness(0) invert(94%) sepia(14%) saturate(5123%) hue-rotate(327deg) brightness(63%) contrast(109%);
+  opacity: 0.11;
+  pointer-events: none;
+  z-index: -1;
+}
+
+@media (max-width: 760px) {
+  .home-page .faq-section::after {
+    top: auto;
+    right: 0;
+    width: 90%;
+    opacity: 0.08;
   }
 }
