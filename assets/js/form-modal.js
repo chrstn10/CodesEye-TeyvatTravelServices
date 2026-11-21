@@ -1,4 +1,4 @@
-/* Primordial Haven — reusable pop-up for every form on the site.
+/* Reusable pop-up for every form on the site.
    One modal per page, created the first time a form is opened. Each form
    (Booking now, Inquiry later) registers itself once:
 
@@ -21,6 +21,7 @@
 window.PHModal = (function () {
   "use strict";
 
+  // State of the shared pop-up: registered forms, its elements, and what is open.
   var forms = {};        // name -> { def, instance, container }
   var overlay = null;
   var dialog = null;
@@ -34,10 +35,12 @@ window.PHModal = (function () {
   var CLOSE_MS = 180; // matches the fade-out in forms.css
   var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+  // Adds a form (booking or inquiry) so it can be opened by name.
   function register(name, def) {
     forms[name] = { def: def, instance: null, container: null };
   }
 
+  // Creates the pop-up's overlay and dialog the first time any form opens.
   function build() {
     if (overlay) return;
     overlay = document.createElement("div");
@@ -71,6 +74,7 @@ window.PHModal = (function () {
       }
     });
 
+    // Esc closes the pop-up; Tab keeps focus inside it.
     overlay.addEventListener("keydown", function (e) {
       if (e.key === "Escape") {
         e.preventDefault();
@@ -184,6 +188,7 @@ window.PHModal = (function () {
     }
   }
 
+  // The controls each form gets: close, label the dialog, scroll back to the top.
   function api(name) {
     return {
       close: close,
@@ -194,6 +199,7 @@ window.PHModal = (function () {
     };
   }
 
+  // Opens a form by name: builds it once, shows it, locks the page behind, and adds a Back-button entry.
   function open(name, options) {
     var entry = forms[name];
     if (!entry) return false;
@@ -235,6 +241,7 @@ window.PHModal = (function () {
     return true;
   }
 
+  // Closes the pop-up with a short fade, unlocks the page, and returns keyboard focus.
   function close(fromHistory) {
     if (!currentName) return;
     var entry = forms[currentName];
@@ -263,6 +270,7 @@ window.PHModal = (function () {
     if (lastFocus && document.contains(lastFocus)) lastFocus.focus({ preventScroll: true });
   }
 
+  // The browser's Back button closes an open pop-up.
   window.addEventListener("popstate", function () {
     if (currentName) {
       pushedHistory = false;
@@ -289,12 +297,14 @@ window.PHModal = (function () {
   // A page address ending in #book / #book=liyue opens the Booking form,
   // and #inquire / #inquire=liyue opens the Inquiry form, on arrival.
   var HASH_FORMS = { book: "booking", inquire: "inquiry" };
+  // Opens a form when the address ends in #book or #inquire (optionally =nation).
   function openFromHash() {
     var m = /^#(book|inquire)(?:=([a-z]+))?$/.exec(location.hash);
     if (!m) return;
     history.replaceState(null, "", location.pathname + location.search);
     open(HASH_FORMS[m[1]], { package: m[2] || "" });
   }
+  // Run on arrival and whenever the # part of the address changes.
   window.addEventListener("hashchange", openFromHash);
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", openFromHash);
@@ -302,5 +312,6 @@ window.PHModal = (function () {
     setTimeout(openFromHash, 0);
   }
 
+  // Public controls used by the forms and by Katheryne.
   return { register: register, open: open, close: close };
 })();

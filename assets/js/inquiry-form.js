@@ -1,13 +1,8 @@
-/* Primordial Haven — Travel Inquiry Form, shown in the site-wide pop-up.
-   Built the same way as the Booking Form (booking-form.js) and registered
-   with PHModal (form-modal.js), so it opens over whatever page the visitor
-   is on. Two steps inside one pop-up:
-     1. fill-up form -> 2. "Your inquiry has been submitted!" notice
-   The countdown, redirect, validation messages and error display all come
-   from form-utils.js, shared with the Booking Form. */
+/* Travel Inquiry Form, shown in the site-wide pop-up */
 (function () {
   "use strict";
 
+  // Shared form helpers, the package list, and this form's settings.
   var F = window.PHForms;
   var PACKAGES = window.PH_PACKAGES;
   var DRAFT_KEY = "ph-inquiry-draft";
@@ -52,7 +47,7 @@
 
       <div class="field">
         <label class="field-label" for="inquiry-phone">Phone Number:<span class="req" aria-hidden="true">*</span></label>
-        <input class="pill-input" type="tel" id="inquiry-phone" name="phone" placeholder="(+63)9XX-XXX-XXXX"
+        <input class="pill-input" type="tel" id="inquiry-phone" name="phone" placeholder="(+63) 9XX-XXX-XXXX"
                autocomplete="tel" inputmode="tel" maxlength="20" required aria-describedby="inquiry-phone-error">
         <p class="field-error" id="inquiry-phone-error" hidden></p>
       </div>
@@ -75,8 +70,8 @@
 
       <div class="field">
         <label class="field-label" for="inquiry-budget">What is your budget for this travel? <span class="opt">(optional)</span></label>
-        <input class="pill-input" type="number" id="inquiry-budget" name="budget" min="1" step="1"
-               inputmode="numeric" placeholder="Amount in PHP" aria-describedby="inquiry-budget-error">
+        <input class="pill-input" type="text" id="inquiry-budget" name="budget"
+               inputmode="decimal" placeholder="Amount in PHP" aria-describedby="inquiry-budget-error">
         <p class="field-error" id="inquiry-budget-error" hidden></p>
       </div>
 
@@ -108,14 +103,17 @@
   </section>
 `;
 
+  // True if the key is one of the seven nations.
   function isNation(slug) {
     return PACKAGES.some(function (p) { return p.slug === slug; });
   }
 
+  // Builds the form inside the pop-up and wires up its behavior; returns open/onClose for PHModal.
   function mount(container, api) {
     container.innerHTML = TEMPLATE;
 
     var $ = function (id) { return container.querySelector("#inquiry-" + id); };
+    // The two steps and every field, looked up once.
     var steps = { 1: $("step-1"), 2: $("step-2") };
     var form = $("form-el");
     var fields = {
@@ -128,10 +126,12 @@
       budget: $("budget"),
       message: $("message")
     };
+    // Submit button, its error line, and the countdown number on the notice.
     var submitBtn = $("submit-btn");
     var submitError = $("submit-error");
     var countdownEl = $("countdown");
 
+    // Form state.
     var triedSubmit = false; // after the first "Submit", errors update as you type
     var currentStep = 1;
     var stopCountdown = function () {};
@@ -149,6 +149,8 @@
     others.textContent = "Others";
     fields.destination.appendChild(others);
 
+    F.setupPhoneField(fields.phone);
+
     /* ---------- Reading and checking the form ---------- */
 
     function readForm() {
@@ -157,10 +159,12 @@
       return d;
     }
 
+    // Puts saved values back into the fields (when a draft is reopened).
     function fillForm(data) {
       Object.keys(fields).forEach(function (key) {
         if (data[key] !== undefined && data[key] !== null) fields[key].value = data[key];
       });
+      F.fixPhone(fields.phone);
     }
 
     // Name, email, phone and message are required. Guests, destination and
@@ -185,7 +189,7 @@
       }
 
       if (d.budget) {
-        var budget = Number(d.budget);
+        var budget = Number(d.budget.replace(/,/g, ""));
         if (!isFinite(budget) || budget <= 0) errors.budget = "Your budget must be a positive amount in PHP.";
       }
 
@@ -194,6 +198,7 @@
       return errors;
     }
 
+    // Saves what's typed so nothing is lost on close or reload.
     function saveDraft() {
       F.save(DRAFT_KEY, { data: readForm() });
     }
@@ -209,6 +214,7 @@
       heading.focus({ preventScroll: true });
     }
 
+    // Save as they type; after the first Submit, keep the error messages current.
     ["input", "change"].forEach(function (type) {
       form.addEventListener(type, function () {
         saveDraft();
@@ -219,7 +225,8 @@
     // Check a field as soon as the visitor leaves it (only if they typed something).
     Object.keys(fields).forEach(function (key) {
       fields[key].addEventListener("blur", function () {
-        if (!fields[key].value.trim() && !triedSubmit) return;
+        var v = fields[key].value.trim();
+        if ((!v || v === "(+63) 9") && !triedSubmit) return;
         var errors = validate(readForm());
         if (errors[key]) F.setError(fields[key], errors[key]);
         else F.clearError(fields[key]);
@@ -254,13 +261,14 @@
         phone: F.formatPhone(d.phone),
         guests: d.guests ? Number(d.guests) : null,     // optional
         destination: d.destination || null,             // nation slug, "others", or null
-        budget: d.budget ? Number(d.budget) : null,     // PHP, optional
+        budget: d.budget ? Number(d.budget.replace(/,/g, "")) : null, // PHP, optional
         message: d.message,
         page: location.pathname.split("/").pop() || "index.html",
         submittedAt: new Date().toISOString()
       };
     }
 
+    // Submit: check the fields, then send the inquiry and show the notice (or an error).
     form.addEventListener("submit", function (e) {
       e.preventDefault();
       triedSubmit = true;
@@ -301,6 +309,7 @@
       F.goHome(api);
     }
 
+    // Starts the 5-second countdown on the submitted notice.
     function startCountdown() {
       stopCountdown();
       stopCountdown = F.startCountdown(countdownEl, REDIRECT_SECONDS, goHome);
@@ -324,6 +333,7 @@
         submitError.hidden = true;
         showStep(1);
       },
+      // Called when the pop-up closes: stops the countdown.
       onClose: function () {
         // Closing on the submitted notice just stops the countdown and
         // leaves the visitor on the page they were on.

@@ -1,6 +1,4 @@
-/* Primordial Haven — helpers shared by the Booking and Inquiry forms:
-   field validation, inline error messages, date and phone formatting,
-   the MM/DD/YYYY date fields, and the "submitted" countdown + redirect. */
+/* Helpers shared by the Booking and Inquiry forms */
 window.PHForms = (function () {
   "use strict";
 
@@ -23,11 +21,13 @@ window.PHForms = (function () {
     return d;
   }
 
+  // Today's date at midnight (used to block past check-in dates).
   function today() {
     var now = new Date();
     return new Date(now.getFullYear(), now.getMonth(), now.getDate());
   }
 
+  // Formats a number as PHP currency, e.g. PHP 60,000.
   function formatPHP(amount) {
     return "PHP " + amount.toLocaleString("en-PH");
   }
@@ -36,6 +36,7 @@ window.PHForms = (function () {
 
   var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
+  // True if the text looks like name@domain.tld.
   function isEmail(value) {
     return EMAIL_RE.test(String(value).trim());
   }
@@ -46,6 +47,7 @@ window.PHForms = (function () {
     return String(value).replace(/[\s\-().]/g, "");
   }
 
+  // True for a valid Philippine mobile number.
   function isPHMobile(value) {
     return /^(?:\+?63|0)9\d{9}$/.test(phoneDigits(value));
   }
@@ -65,9 +67,58 @@ window.PHForms = (function () {
     return isEmail(value) ? "" : "Please enter a valid email address, like example@email.com.";
   }
 
+  // Same as emailError, for the phone field.
   function phoneError(value, required) {
-    if (!value) return required ? "Please enter your phone number." : "";
-    return isPHMobile(value) ? "" : "Please enter a valid Philippine mobile number, like 0912 345 6789 or +63 912 345 6789.";
+    if (!value || /^\+639?$/.test(phoneDigits(value))) return required ? "Please enter your phone number." : "";
+    return isPHMobile(value) ? "" : "Please enter a valid Philippine mobile number, like (+63) 912-345-6789.";
+  }
+
+  // Phone fields read "(+63) 9XX-XXX-XXXX": "(+63) 9" is fixed, hyphens are added while typing.
+  var PHONE_PREFIX = "(+63) 9";
+
+  // The 9 digits typed after "(+63) 9" (a pasted 09…, 639… or +639… number works too).
+  function phoneRest(text) {
+    var s = String(text);
+    if (s.indexOf(PHONE_PREFIX) === 0) return s.slice(PHONE_PREFIX.length).replace(/\D/g, "");
+    return s.replace(/\D/g, "").replace(/^63/, "").replace(/^0/, "").replace(/^9/, "");
+  }
+
+  function fixPhone(input, e) {
+    var caret = input.selectionStart == null ? input.value.length : input.selectionStart;
+    var d = phoneRest(input.value).slice(0, 9);
+    var n = Math.min(phoneRest(input.value.slice(0, caret)).length, d.length);
+    // An edit inside "(+63) 9" itself: keep it, put typed digits at the start.
+    var typed = e && e.inputType === "insertText" ? String(e.data || "").replace(/\D/g, "") : "";
+    if (e && input.value.indexOf(PHONE_PREFIX) !== 0 && typeof input.phDigits === "string" &&
+        (e.inputType === "insertText" || e.inputType.indexOf("delete") === 0) && input.value.replace(/\D/g, "") !== typed) {
+      d = (typed + input.phDigits).slice(0, 9);
+      n = typed.length;
+    }
+    // Backspace on a hyphen removes the digit before it.
+    if (e && e.inputType === "deleteContentBackward" && d === input.phDigits && n > 0) {
+      d = d.slice(0, n - 1) + d.slice(n);
+      n -= 1;
+    }
+    var all = "9" + d;
+    // Empty and not in use: leave it blank so the placeholder shows.
+    var v = !d && document.activeElement !== input ? "" : "(+63) " + all.slice(0, 3) + (all.length > 3 ? "-" + all.slice(3, 6) : "") + (all.length > 6 ? "-" + all.slice(6) : "");
+    input.phDigits = d;
+    if (input.value !== v) input.value = v;
+    if (document.activeElement === input) {
+      var pos = PHONE_PREFIX.length, seen = 0;
+      while (seen < n && pos < v.length) { if (/\d/.test(v[pos])) seen++; pos++; }
+      input.setSelectionRange(pos, pos);
+    }
+  }
+
+  function setupPhoneField(input) {
+    fixPhone(input);
+    input.addEventListener("input", function (e) { fixPhone(input, e); });
+    input.addEventListener("focus", function () { fixPhone(input); });
+    input.addEventListener("blur", function () { fixPhone(input); });
+    input.addEventListener("click", function () {
+      if (input.selectionStart < PHONE_PREFIX.length) input.setSelectionRange(PHONE_PREFIX.length, PHONE_PREFIX.length);
+    });
   }
 
   /* ---------- Inline errors ---------- */
@@ -76,6 +127,7 @@ window.PHForms = (function () {
     return document.getElementById(input.id + "-error");
   }
 
+  // Shows a message under a field and marks it invalid for screen readers.
   function setError(input, message) {
     var el = errorEl(input);
     input.setAttribute("aria-invalid", "true");
@@ -85,6 +137,7 @@ window.PHForms = (function () {
     }
   }
 
+  // Hides a field's message and clears its invalid mark.
   function clearError(input) {
     var el = errorEl(input);
     input.removeAttribute("aria-invalid");
@@ -172,6 +225,7 @@ window.PHForms = (function () {
     var t = today();
     native.min = t.getFullYear() + "-" + pad(t.getMonth() + 1) + "-" + pad(t.getDate());
 
+    // Typing digits adds the slashes automatically (MM/DD/YYYY).
     text.addEventListener("input", function (e) {
       if (e.inputType && e.inputType.indexOf("delete") === 0) return;
       var digits = text.value.replace(/\D/g, "").slice(0, 8);
@@ -182,6 +236,7 @@ window.PHForms = (function () {
       text.value = out;
     });
 
+    // The calendar button opens the browser's date picker.
     btn.addEventListener("click", function () {
       var current = parseDate(text.value);
       if (current) native.value = current.getFullYear() + "-" + pad(current.getMonth() + 1) + "-" + pad(current.getDate());
@@ -191,6 +246,7 @@ window.PHForms = (function () {
       text.focus();
     });
 
+    // A date picked from the calendar is written back as MM/DD/YYYY.
     native.addEventListener("change", function () {
       if (!native.value) return;
       var p = native.value.split("-");
@@ -203,18 +259,22 @@ window.PHForms = (function () {
 
   /* ---------- Saving a form between steps ---------- */
 
+  // Reads a saved draft, or null if there is none.
   function load(key) {
     try { return JSON.parse(sessionStorage.getItem(key)) || null; } catch (e) { return null; }
   }
 
+  // Saves a draft; quietly does nothing if the browser blocks storage.
   function save(key, data) {
     try { sessionStorage.setItem(key, JSON.stringify(data)); } catch (e) { /* storage off: JS variables still work */ }
   }
 
+  // Deletes a draft after a successful submission.
   function remove(key) {
     try { sessionStorage.removeItem(key); } catch (e) { /* ignore */ }
   }
 
+  // Everything the forms can use from this file.
   return {
     formatDate: formatDate,
     parseDate: parseDate,
@@ -225,6 +285,8 @@ window.PHForms = (function () {
     formatPhone: formatPhone,
     emailError: emailError,
     phoneError: phoneError,
+    fixPhone: fixPhone,
+    setupPhoneField: setupPhoneField,
     setError: setError,
     clearError: clearError,
     showErrors: showErrors,
