@@ -2,8 +2,8 @@
    Registered with PHModal (assets/js/form-modal.js), so it opens on top of
    whatever page the visitor is on. Three steps inside one pop-up:
      1. fill-up form -> 2. read-only confirmation -> 3. submitted notice
-   Entered values are kept in sessionStorage, so closing the pop-up, going
-   Back, or reloading the page never wipes what the visitor typed. */
+   Entered values are kept in sessionStorage, so going Back or reloading
+   the page never wipes what the visitor typed. */
 (function () {
   "use strict";
 
@@ -62,6 +62,9 @@
           <div class="date-wrap">
             <input class="pill-input" type="text" id="booking-check-in" name="checkIn" placeholder="MM/DD/YYYY"
                    inputmode="numeric" maxlength="10" required aria-describedby="booking-check-in-error">
+            <button type="button" class="date-btn date-clear" aria-label="Clear check-in date">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M7 7l10 10M17 7 7 17"/></svg>
+            </button>
             <button type="button" class="date-btn" aria-label="Choose check-in date from a calendar">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>
             </button>
@@ -71,14 +74,17 @@
         </div>
         <div class="field">
           <label class="field-label" for="booking-check-out">Check out Date:<span class="req" aria-hidden="true">*</span></label>
-          <div class="date-wrap">
+          <!-- Read-only: auto-filled from check-in + package -->
+          <div class="date-wrap date-wrap-auto">
             <input class="pill-input" type="text" id="booking-check-out" name="checkOut" placeholder="MM/DD/YYYY"
-                   inputmode="numeric" maxlength="10" required aria-describedby="booking-check-out-error">
-            <button type="button" class="date-btn" aria-label="Choose check-out date from a calendar">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>
+                   maxlength="10" readonly required autocomplete="off"
+                   title="Filled in automatically from your check-in date and package"
+                   aria-describedby="booking-check-out-hint booking-check-out-error">
+            <button type="button" class="date-btn date-clear" aria-label="Clear check-out date">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M7 7l10 10M17 7 7 17"/></svg>
             </button>
-            <input class="date-native" type="date" tabindex="-1" aria-hidden="true">
           </div>
+          <span class="sr-only" id="booking-check-out-hint">Filled in automatically from your check-in date and package.</span>
           <p class="field-error" id="booking-check-out-error" hidden></p>
         </div>
       </div>
@@ -172,6 +178,17 @@
     return null;
   }
 
+  // Package nights: `nights` if set, else read from duration ("4 Nights" / "5 Days").
+  function nightsFor(p) {
+    if (typeof p.nights === "number" && p.nights > 0) return p.nights;
+    var text = String(p.duration || "");
+    var m = /(\d+)\s*nights?/i.exec(text);
+    if (m && +m[1] > 0) return +m[1];
+    m = /(\d+)\s*days?/i.exec(text);
+    if (m && +m[1] > 1) return +m[1] - 1;
+    return 1;
+  }
+
   function mount(container, api) {
     container.innerHTML = TEMPLATE;
 
@@ -243,7 +260,11 @@
       else if (!inDate) errors.checkIn = "Please use the format MM/DD/YYYY with a real date.";
       else if (inDate < F.today()) errors.checkIn = "Check-in can't be in the past.";
 
-      if (!d.checkOut) errors.checkOut = "Please enter your check-out date.";
+      // Check-out is auto-filled, so only flag it once check-in is valid.
+      if (!d.checkOut) {
+        if (inDate && !pkgBySlug(d.package)) errors.checkOut = "Fills in once you choose a package.";
+        else if (inDate) errors.checkOut = "Choose your check-in date again to fill this in.";
+      }
       else if (!outDate) errors.checkOut = "Please use the format MM/DD/YYYY with a real date.";
       else if (inDate && outDate <= inDate) errors.checkOut = "Check-out must be after your check-in date.";
 
@@ -258,6 +279,20 @@
 
     function showErrors(errors) {
       F.showErrors(fields, errors);
+    }
+
+    // Check-out = check-in + package nights; empty if either is missing.
+    function updateCheckOut() {
+      var inDate = F.parseDate(fields.checkIn.value);
+      var p = pkgBySlug(fields.package.value);
+      var next = "";
+      if (inDate && p) {
+        next = F.formatDate(new Date(inDate.getFullYear(), inDate.getMonth(), inDate.getDate() + nightsFor(p)));
+      }
+      if (fields.checkOut.value !== next) {
+        fields.checkOut.value = next;
+        if (!triedNext) F.clearError(fields.checkOut);
+      }
     }
 
     function saveDraft(step) {
@@ -323,7 +358,8 @@
 
     // Save as they type; once they've pressed Next, keep the errors current.
     ["input", "change"].forEach(function (type) {
-      form.addEventListener(type, function () {
+      form.addEventListener(type, function (e) {
+        if (e.target === fields.checkIn || e.target === fields.package) updateCheckOut();
         saveDraft(1);
         if (triedNext) showErrors(validate(readForm()));
       });
@@ -435,6 +471,7 @@
         var theme = document.body.getAttribute("data-theme") || "";
         var preselect = pkgBySlug(options.package || "") ? options.package : (pkgBySlug(theme) ? theme : "");
         if (preselect) fields.package.value = preselect;
+        updateCheckOut();
 
         // Closed on the confirmation step? Reopen there if it's still valid.
         if (!(saved && saved.step === 2 && goToConfirm())) showStep(1);
@@ -444,6 +481,22 @@
         // leaves the visitor on the page they were on.
         stopCountdown();
         if (currentStep === 3) currentStep = 1;
+      },
+      // Close confirmation (form-modal.js); skipped on the submitted notice.
+      askBeforeClose: function () {
+        return currentStep !== 3;
+      },
+      save: function () {
+        saveDraft(currentStep === 2 ? 2 : 1);
+      },
+      discard: function () {
+        F.remove(DRAFT_KEY);
+        booking = null;
+        triedNext = false;
+        form.reset();
+        showErrors({});
+        submitError.hidden = true;
+        currentStep = 1;
       }
     };
   }

@@ -143,15 +143,32 @@ window.PHForms = (function () {
      Markup (one per date):
        <div class="date-wrap">
          <input type="text" class="pill-input" id="check-in" placeholder="MM/DD/YYYY">
+         <button type="button" class="date-btn date-clear" aria-label="Clear ...">...</button>
          <button type="button" class="date-btn" aria-label="...">...</button>
          <input type="date" class="date-native" tabindex="-1" aria-hidden="true">
        </div>
      Typing auto-inserts the slashes; the calendar button opens the
-     browser's own date picker and writes the result back as MM/DD/YYYY. */
+     browser's own date picker and writes the result back as MM/DD/YYYY.
+     The x clears the field. Read-only dates get only the x. */
   function setupDateField(wrap, onChange) {
     var text = wrap.querySelector('input[type="text"]');
     var native = wrap.querySelector(".date-native");
-    var btn = wrap.querySelector(".date-btn");
+    var btn = wrap.querySelector(".date-btn:not(.date-clear)");
+    var clearBtn = wrap.querySelector(".date-clear");
+
+    // "input" lets the form react (save the draft, reset check-out, etc.).
+    if (clearBtn) {
+      clearBtn.addEventListener("click", function () {
+        text.value = "";
+        if (native) native.value = "";
+        clearError(text);
+        text.dispatchEvent(new Event("input", { bubbles: true }));
+        text.focus();
+      });
+    }
+
+    if (text.readOnly || !native || !btn) return;
+
     var t = today();
     native.min = t.getFullYear() + "-" + pad(t.getMonth() + 1) + "-" + pad(t.getDate());
 
