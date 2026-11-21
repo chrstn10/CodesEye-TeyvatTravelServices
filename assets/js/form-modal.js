@@ -1,6 +1,23 @@
 /* Reusable pop-up for every form on the site.
    One modal per page, created the first time a form is opened. Each form
-   (Booking now, Inquiry later) registers itself once.*/
+   (Booking now, Inquiry later) registers itself once:
+
+     PHModal.register("booking", { mount: function (container, api) { ... } });
+
+   mount() builds the form inside `container` the first time it opens and
+   returns an object with:
+     open(options)     called every time the form is shown
+     onClose()         optional, called when the pop-up closes
+     askBeforeClose()  optional, true = confirm before X / background / Esc closes
+     save(), discard() optional, run by the confirmation's Save / Discard
+   `api` gives the form: close() (no confirmation), setLabel(headingId), scrollTop().
+
+   Opening a form:
+     - any link or button with data-open-form="booking" (optional
+       data-package="liyue" to preselect a package), or
+     - a page address ending in #book / #book=liyue (Booking) or
+       #inquire / #inquire=liyue (Inquiry), or
+     - PHModal.open("booking", { package: "liyue" }) from code. */
 window.PHModal = (function () {
   "use strict";
 
@@ -13,6 +30,8 @@ window.PHModal = (function () {
   var inerted = [];
   var pushedHistory = false;
   var closeTimer = null;
+  var confirmLayer = null;    // "Save your inputs?" box
+  var confirmReturnFocus = null;
   var CLOSE_MS = 180; // matches the fade-out in forms.css
   var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -34,23 +53,24 @@ window.PHModal = (function () {
     dialog.tabIndex = -1;
     overlay.appendChild(dialog);
     document.body.appendChild(overlay);
+    buildConfirm();
 
-    // Clicking the blurred area around the card closes the pop-up. (The
+    // Clicking the blurred area around the card asks before closing. (The
     // press has to start there too, so dragging out of an input doesn't.)
     var downOnBackdrop = false;
     overlay.addEventListener("mousedown", function (e) {
       downOnBackdrop = e.target === overlay || e.target === dialog;
     });
     overlay.addEventListener("click", function (e) {
-      if (downOnBackdrop && (e.target === overlay || e.target === dialog)) close();
+      if (downOnBackdrop && (e.target === overlay || e.target === dialog)) requestClose();
       downOnBackdrop = false;
     });
 
-    // Any element marked data-modal-close (like the X) closes it.
+    // Any element marked data-modal-close (like the X) asks before closing.
     overlay.addEventListener("click", function (e) {
       if (e.target.closest("[data-modal-close]")) {
         e.preventDefault();
-        close();
+        requestClose();
       }
     });
 
@@ -58,23 +78,95 @@ window.PHModal = (function () {
     overlay.addEventListener("keydown", function (e) {
       if (e.key === "Escape") {
         e.preventDefault();
-        close();
+        requestClose();
       } else if (e.key === "Tab") {
         trapTab(e);
       }
     });
   }
 
+  /* ---------- Close confirmation: Save / Discard / Cancel ---------- */
+  function buildConfirm() {
+    confirmLayer = document.createElement("div");
+    confirmLayer.className = "form-confirm";
+    confirmLayer.hidden = true;
+    confirmLayer.innerHTML =
+      '<section class="form-card form-confirm-card" role="alertdialog" aria-modal="true"' +
+      ' aria-labelledby="form-confirm-title" aria-describedby="form-confirm-text">' +
+      '<button type="button" class="form-close" data-confirm-choice="cancel" aria-label="Cancel">&times;</button>' +
+      '<h2 id="form-confirm-title">Save your inputs?</h2>' +
+      '<p id="form-confirm-text">Your inputs will be lost if you don\u2019t save them.</p>' +
+      '<div class="form-actions form-actions-confirm">' +
+      '<button type="button" class="pill-btn pill-btn-light" data-confirm-choice="cancel">Cancel</button>' +
+      '<button type="button" class="pill-btn pill-btn-cream" data-confirm-choice="discard">Discard</button>' +
+      '<button type="button" class="pill-btn pill-btn-gold" data-confirm-choice="save">Save</button>' +
+      '</div></section>';
+    document.body.appendChild(confirmLayer);
+
+    // Clicking outside the box = Cancel.
+    confirmLayer.addEventListener("click", function (e) {
+      var btn = e.target.closest("[data-confirm-choice]");
+      if (btn) choose(btn.getAttribute("data-confirm-choice"));
+      else if (e.target === confirmLayer) choose("cancel");
+    });
+
+    confirmLayer.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        choose("cancel");
+      } else if (e.key === "Tab") {
+        trapTab(e, confirmLayer);
+      }
+    });
+  }
+
+  // X, background click or Esc.
+  function requestClose() {
+    if (!currentName) return;
+    var inst = forms[currentName].instance;
+    if (inst && inst.askBeforeClose && inst.askBeforeClose()) showConfirm();
+    else close();
+  }
+
+  function showConfirm() {
+    if (!confirmLayer.hidden) return;
+    confirmReturnFocus = document.activeElement;
+    dialog.inert = true;
+    confirmLayer.hidden = false;
+    confirmLayer.querySelector('[data-confirm-choice="save"]').focus();
+  }
+
+  function hideConfirm(restoreFocus) {
+    if (!confirmLayer || confirmLayer.hidden) return;
+    confirmLayer.hidden = true;
+    dialog.inert = false;
+    if (restoreFocus && confirmReturnFocus && document.contains(confirmReturnFocus)) {
+      confirmReturnFocus.focus({ preventScroll: true });
+    }
+    confirmReturnFocus = null;
+  }
+
+  function choose(choice) {
+    var entry = currentName ? forms[currentName] : null;
+    hideConfirm(choice === "cancel");
+    if (!entry || choice === "cancel") return;
+    var inst = entry.instance;
+    if (choice === "save" && inst.save) inst.save();
+    if (choice === "discard" && inst.discard) inst.discard();
+    close();
+  }
+
   // Keeps keyboard focus inside the pop-up.
-  function trapTab(e) {
+  function trapTab(e, scope) {
+    scope = scope || dialog;
     var items = Array.prototype.filter.call(
-      dialog.querySelectorAll('a[href], button:not([disabled]), input:not([disabled]):not([tabindex="-1"]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'),
+      scope.querySelectorAll('a[href], button:not([disabled]), input:not([disabled]):not([tabindex="-1"]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'),
       function (el) { return el.offsetParent !== null; }
     );
     if (!items.length) return;
     var first = items[0];
     var last = items[items.length - 1];
-    if (e.shiftKey && (document.activeElement === first || document.activeElement === dialog)) {
+    if (e.shiftKey && (document.activeElement === first || document.activeElement === scope)) {
       e.preventDefault();
       last.focus();
     } else if (!e.shiftKey && document.activeElement === last) {
@@ -87,7 +179,7 @@ window.PHModal = (function () {
   function setPageInert(on) {
     if (on) {
       inerted = Array.prototype.filter.call(document.body.children, function (el) {
-        return el !== overlay && el.tagName !== "SCRIPT" && !el.inert;
+        return el !== overlay && el !== confirmLayer && el.tagName !== "SCRIPT" && !el.inert;
       });
       inerted.forEach(function (el) { el.inert = true; });
     } else {
@@ -153,6 +245,7 @@ window.PHModal = (function () {
   function close(fromHistory) {
     if (!currentName) return;
     var entry = forms[currentName];
+    hideConfirm(false);
     currentName = null;
     if (entry.instance && entry.instance.onClose) entry.instance.onClose();
     // Short fade-out first, then hide (immediately for reduced motion).

@@ -7,7 +7,7 @@
   var PACKAGES = window.PH_PACKAGES;
   var DRAFT_KEY = "ph-inquiry-draft";
   var REDIRECT_SECONDS = 5;
-  var NOT_SURE = "not-sure";
+  var OTHERS = "others";
 
   var TEMPLATE = `
   <!-- Step 1: fill-up form -->
@@ -63,7 +63,7 @@
         <label class="field-label" for="inquiry-destination">Where would you like to travel? <span class="opt">(optional)</span></label>
         <select class="pill-input pill-select" id="inquiry-destination" name="destination" aria-describedby="inquiry-destination-error">
           <option value="" selected>Select a nation</option>
-          <!-- The 7 nations come from assets/js/packages.js; "Not sure yet" is added last -->
+          <!-- The 7 nations come from assets/js/packages.js; "Others" is added last -->
         </select>
         <p class="field-error" id="inquiry-destination-error" hidden></p>
       </div>
@@ -136,7 +136,7 @@
     var currentStep = 1;
     var stopCountdown = function () {};
 
-    /* ---------- Destination dropdown: 7 nations + "Not sure yet" ---------- */
+    /* ---------- Destination dropdown: 7 nations + "Others" ---------- */
 
     PACKAGES.forEach(function (p) {
       var opt = document.createElement("option");
@@ -144,11 +144,10 @@
       opt.textContent = p.name;
       fields.destination.appendChild(opt);
     });
-    // "Not sure yet" is added as the last choice.
-    var notSure = document.createElement("option");
-    notSure.value = NOT_SURE;
-    notSure.textContent = "Not sure yet";
-    fields.destination.appendChild(notSure);
+    var others = document.createElement("option");
+    others.value = OTHERS;
+    others.textContent = "Others";
+    fields.destination.appendChild(others);
 
     F.setupPhoneField(fields.phone);
 
@@ -185,8 +184,8 @@
         else if (guests > 50) errors.guests = "For groups over 50, please mention the size in your message and enter 50 here.";
       }
 
-      if (d.destination && !isNation(d.destination) && d.destination !== NOT_SURE) {
-        errors.destination = "Please choose one of the listed nations, or \"Not sure yet\".";
+      if (d.destination && !isNation(d.destination) && d.destination !== OTHERS) {
+        errors.destination = "Please choose one of the listed nations, or \"Others\".";
       }
 
       if (d.budget) {
@@ -261,8 +260,8 @@
         email: d.email,
         phone: F.formatPhone(d.phone),
         guests: d.guests ? Number(d.guests) : null,     // optional
-        destination: d.destination || null,             // nation slug, "not-sure", or null
-        budget: d.budget ? Number(d.budget.replace(/,/g, "")) : null,     // PHP, optional
+        destination: d.destination || null,             // nation slug, "others", or null
+        budget: d.budget ? Number(d.budget.replace(/,/g, "")) : null, // PHP, optional
         message: d.message,
         page: location.pathname.split("/").pop() || "index.html",
         submittedAt: new Date().toISOString()
@@ -340,6 +339,20 @@
         // leaves the visitor on the page they were on.
         stopCountdown();
         currentStep = 1;
+      },
+      // Close confirmation (form-modal.js); skipped on the submitted notice.
+      askBeforeClose: function () {
+        return currentStep !== 2;
+      },
+      save: function () {
+        saveDraft();
+      },
+      discard: function () {
+        F.remove(DRAFT_KEY);
+        triedSubmit = false;
+        form.reset();
+        F.showErrors(fields, {});
+        submitError.hidden = true;
       }
     };
   }

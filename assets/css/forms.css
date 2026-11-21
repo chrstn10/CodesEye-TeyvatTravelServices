@@ -271,6 +271,24 @@ legend.field-label {
   box-shadow: var(--form-field-shadow), 0 0 0 3px rgba(240, 180, 41, 0.45);
 }
 
+/* Read-only (auto-filled) fields are grayed out. */
+.pill-input[readonly] {
+  background: #e3e1dc;
+  color: #6f685b;
+  border-color: #b8b2a6;
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+.pill-input[readonly]::placeholder {
+  color: #a19b8f;
+}
+
+.pill-input[readonly]:focus {
+  border-color: #8f887a;
+  box-shadow: 0 0 0 3px rgba(240, 180, 41, 0.35);
+}
+
 /* Red outline on a field with an error. */
 .pill-input[aria-invalid="true"] {
   border-color: var(--form-error);
@@ -331,6 +349,29 @@ legend.field-label {
 .date-btn svg {
   width: 100%;
   height: 100%;
+}
+
+/* Clear (x) button: only shown while the field has a date. */
+.date-clear {
+  right: 36px;
+  padding: 6px;
+}
+
+.date-wrap .pill-input:placeholder-shown ~ .date-clear {
+  display: none;
+}
+
+.date-wrap .pill-input:not(:placeholder-shown) {
+  padding-right: 68px;
+}
+
+/* Read-only date: the x takes the calendar's spot. */
+.date-wrap-auto .date-clear {
+  right: 8px;
+}
+
+.date-wrap-auto .pill-input:not(:placeholder-shown) {
+  padding-right: 40px;
 }
 
 /* The browser's own date picker, kept invisible under the button. */
@@ -476,6 +517,64 @@ legend.field-label {
   border-radius: 12px;
   line-height: 1.5;
   resize: vertical;
+}
+
+/* ---------- Close confirmation box (form-modal.js) ---------- */
+.form-confirm {
+  position: fixed;
+  inset: 0;
+  z-index: 210;
+  display: flex;
+  padding: 24px 20px;
+  overflow-y: auto;
+  background: rgba(22, 26, 33, 0.32);
+  animation: formModalFade 0.15s ease;
+}
+
+.form-confirm[hidden] {
+  display: none;
+}
+
+/* Title left with the X top-right; Cancel left, Discard + Save right. */
+.form-confirm-card {
+  max-width: 460px;
+  margin: auto;
+  padding: 26px 28px 24px;
+  animation: formModalRise 0.2s ease;
+}
+
+.form-confirm-card h2 {
+  margin: 0 40px 10px 0;
+  font-size: 1.3rem;
+  color: var(--ink);
+}
+
+.form-confirm-card p {
+  margin: 0;
+  font-size: 0.92rem;
+  color: var(--ink-soft);
+}
+
+.form-actions-confirm {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 28px;
+}
+
+.form-actions-confirm .pill-btn {
+  height: 40px;
+  min-width: 100px;
+  padding: 0 22px;
+}
+
+.form-actions-confirm .pill-btn:first-child {
+  margin-right: auto;
+}
+
+/* Save is the widest, as the main action. */
+.form-actions-confirm [data-confirm-choice="save"] {
+  min-width: 140px;
 }
 
 /* ---------- Inquiry form only ---------- */
@@ -691,6 +790,19 @@ legend.field-label {
     width: 26px;
     height: 26px;
   }
+  .date-clear {
+    right: 30px;
+    padding: 5px;
+  }
+  .date-wrap .pill-input:not(:placeholder-shown) {
+    padding-right: 58px;
+  }
+  .date-wrap-auto .date-clear {
+    right: 4px;
+  }
+  .date-wrap-auto .pill-input:not(:placeholder-shown) {
+    padding-right: 30px;
+  }
   .form-subhead {
     margin-top: 14px;
   }
@@ -740,6 +852,22 @@ legend.field-label {
   .form-notice h2 {
     font-size: 1.2rem;
   }
+  .form-confirm {
+    padding: 14px 12px;
+  }
+  .form-confirm-card {
+    padding: 22px 18px 20px;
+  }
+  .form-confirm-card h2 {
+    font-size: 1.15rem;
+  }
+  .form-actions-confirm .pill-btn {
+    min-width: 0;
+    padding: 0 16px;
+  }
+  .form-actions-confirm [data-confirm-choice="save"] {
+    min-width: 104px;
+  }
 }
 
 /* Narrow phones: keep "MM/DD/YYYY" fully visible next to the calendar icon. */
@@ -759,6 +887,19 @@ legend.field-label {
     width: 22px;
     height: 22px;
     padding: 2px;
+  }
+  .date-clear {
+    right: 25px;
+    padding: 4px;
+  }
+  .date-wrap .pill-input:not(:placeholder-shown) {
+    padding-right: 49px;
+  }
+  .date-wrap-auto .date-clear {
+    right: 3px;
+  }
+  .date-wrap-auto .pill-input:not(:placeholder-shown) {
+    padding-right: 26px;
   }
 }
 
@@ -810,6 +951,8 @@ legend.field-label {
 /* No step or closing animation for visitors who prefer less motion. */
 @media (prefers-reduced-motion: reduce) {
   .form-modal .form-card:not([hidden]),
+  .form-confirm,
+  .form-confirm-card,
   .form-modal.is-closing,
   .form-modal.is-closing .form-modal-dialog {
     animation: none;
