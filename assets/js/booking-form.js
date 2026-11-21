@@ -7,7 +7,6 @@
 (function () {
   "use strict";
 
-  // Shared form helpers, the package list, and this form's settings.
   var F = window.PHForms;
   var PACKAGES = window.PH_PACKAGES;
   var DRAFT_KEY = "ph-booking-draft";
@@ -52,28 +51,9 @@
 
       <div class="field">
         <label class="field-label" for="booking-phone">Phone Number:<span class="req" aria-hidden="true">*</span></label>
-        <input class="pill-input" type="tel" id="booking-phone" name="phone" placeholder="(+63) 9XX-XXX-XXXX"
+        <input class="pill-input" type="tel" id="booking-phone" name="phone" placeholder="(+63)9XX-XXX-XXXX"
                autocomplete="tel" inputmode="tel" maxlength="20" required aria-describedby="booking-phone-error">
         <p class="field-error" id="booking-phone-error" hidden></p>
-      </div>
-
-      <h2 class="form-subhead">Select Your Package</h2>
-
-      <div class="field-row field-row-package">
-        <div class="field field-guests">
-          <label class="field-label" for="booking-guests">Number of Guests:<span class="req" aria-hidden="true">*</span></label>
-          <input class="pill-input" type="number" id="booking-guests" name="guests" min="1" max="50" step="1" value="1"
-                 inputmode="numeric" required aria-describedby="booking-guests-error">
-          <p class="field-error" id="booking-guests-error" hidden></p>
-        </div>
-        <div class="field field-package">
-          <label class="field-label" for="booking-package-select">Package:<span class="req" aria-hidden="true">*</span></label>
-          <select class="pill-input pill-select" id="booking-package-select" name="package" required aria-describedby="booking-package-select-error">
-            <option value="" disabled selected>Select a package</option>
-            <!-- Options are filled in from assets/js/packages.js -->
-          </select>
-          <p class="field-error" id="booking-package-select-error" hidden></p>
-        </div>
       </div>
 
       <div class="field-row field-row-2 field-row-dates">
@@ -95,17 +75,31 @@
         <div class="field">
           <label class="field-label" for="booking-check-out">Check out Date:<span class="req" aria-hidden="true">*</span></label>
           <!-- Read-only: auto-filled from check-in + package -->
-          <div class="date-wrap date-wrap-auto">
-            <input class="pill-input" type="text" id="booking-check-out" name="checkOut" placeholder="MM/DD/YYYY"
-                   maxlength="10" readonly required autocomplete="off"
-                   title="Filled in automatically from your check-in date and package"
-                   aria-describedby="booking-check-out-hint booking-check-out-error">
-            <button type="button" class="date-btn date-clear" aria-label="Clear check-out date">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M7 7l10 10M17 7 7 17"/></svg>
-            </button>
-          </div>
+          <input class="pill-input" type="text" id="booking-check-out" name="checkOut" placeholder="MM/DD/YYYY"
+                 maxlength="10" readonly required autocomplete="off"
+                 title="Filled in automatically from your check-in date and package"
+                 aria-describedby="booking-check-out-hint booking-check-out-error">
           <span class="sr-only" id="booking-check-out-hint">Filled in automatically from your check-in date and package.</span>
           <p class="field-error" id="booking-check-out-error" hidden></p>
+        </div>
+      </div>
+
+      <h2 class="form-subhead">Select Your Package</h2>
+
+      <div class="field-row field-row-package">
+        <div class="field field-guests">
+          <label class="field-label" for="booking-guests">Number of Guests:<span class="req" aria-hidden="true">*</span></label>
+          <input class="pill-input" type="number" id="booking-guests" name="guests" min="1" max="50" step="1" value="1"
+                 inputmode="numeric" required aria-describedby="booking-guests-error">
+          <p class="field-error" id="booking-guests-error" hidden></p>
+        </div>
+        <div class="field field-package">
+          <label class="field-label" for="booking-package-select">Package:<span class="req" aria-hidden="true">*</span></label>
+          <select class="pill-input pill-select" id="booking-package-select" name="package" required aria-describedby="booking-package-select-error">
+            <option value="" disabled selected>Select a package</option>
+            <!-- Options are filled in from assets/js/packages.js -->
+          </select>
+          <p class="field-error" id="booking-package-select-error" hidden></p>
         </div>
       </div>
 
@@ -174,7 +168,6 @@
   </section>
 `;
 
-  // Finds a package in the shared list by its key (e.g. "liyue"), or null.
   function pkgBySlug(slug) {
     for (var i = 0; i < PACKAGES.length; i++) if (PACKAGES[i].slug === slug) return PACKAGES[i];
     return null;
@@ -191,12 +184,10 @@
     return 1;
   }
 
-  // Builds the form inside the pop-up and wires up its behavior; returns open/onClose for PHModal.
   function mount(container, api) {
     container.innerHTML = TEMPLATE;
 
     var $ = function (id) { return container.querySelector("#booking-" + id); };
-    // The three steps and every field, looked up once.
     var steps = { 1: $("step-1"), 2: $("step-2"), 3: $("step-3") };
     var form = $("form-el");
     var fields = {
@@ -204,17 +195,15 @@
       lastName: $("last-name"),
       email: $("email"),
       phone: $("phone"),
-      guests: $("guests"),
-      package: $("package-select"),
       checkIn: $("check-in"),
-      checkOut: $("check-out")
+      checkOut: $("check-out"),
+      guests: $("guests"),
+      package: $("package-select")
     };
-    // Submit button, its error line, and the countdown number on the notice.
     var submitBtn = $("submit-btn");
     var submitError = $("submit-error");
     var countdownEl = $("countdown");
 
-    // Form state kept between steps.
     var booking = null;    // the checked booking, kept between steps
     var triedNext = false; // after the first "Next", errors update as you type
     var currentStep = 1;
@@ -227,8 +216,6 @@
       opt.textContent = p.label;
       fields.package.appendChild(opt);
     });
-
-    F.setupPhoneField(fields.phone);
 
     /* ---------- Reading and checking the form ---------- */
 
@@ -245,12 +232,10 @@
       };
     }
 
-    // Puts saved values back into the fields (when a draft is reopened).
     function fillForm(data) {
       Object.keys(fields).forEach(function (key) {
         if (data[key] !== undefined && data[key] !== null) fields[key].value = data[key];
       });
-      F.fixPhone(fields.phone);
     }
 
     // Returns { fieldKey: "message" } for every problem found.
@@ -273,7 +258,6 @@
       // Check-out is auto-filled, so only flag it once check-in is valid.
       if (!d.checkOut) {
         if (inDate && !pkgBySlug(d.package)) errors.checkOut = "Fills in once you choose a package.";
-        else if (inDate) errors.checkOut = "Choose your check-in date again to fill this in.";
       }
       else if (!outDate) errors.checkOut = "Please use the format MM/DD/YYYY with a real date.";
       else if (inDate && outDate <= inDate) errors.checkOut = "Check-out must be after your check-in date.";
@@ -287,7 +271,6 @@
       return errors;
     }
 
-    // Shows or clears the message under every field.
     function showErrors(errors) {
       F.showErrors(fields, errors);
     }
@@ -306,7 +289,6 @@
       }
     }
 
-    // Saves what's typed (and the current step) so nothing is lost on close or reload.
     function saveDraft(step) {
       F.save(DRAFT_KEY, { data: readForm(), step: step });
     }
@@ -322,7 +304,6 @@
       heading.focus({ preventScroll: true });
     }
 
-    // Fills the receipt-style summary (step 2) from the checked entries.
     function renderConfirmation(d) {
       var p = pkgBySlug(d.package);
       var guests = Number(d.guests);
@@ -345,7 +326,6 @@
       });
     }
 
-    // Moves to the summary step if every field is valid; returns false otherwise.
     function goToConfirm() {
       var d = readForm();
       if (Object.keys(validate(d)).length) return false;
@@ -357,7 +337,6 @@
       return true;
     }
 
-    // Next button: check every field, focus the first problem, or go to the summary.
     form.addEventListener("submit", function (e) {
       e.preventDefault();
       triedNext = true;
@@ -383,32 +362,16 @@
     // Check a field as soon as the visitor leaves it (only if they typed something).
     Object.keys(fields).forEach(function (key) {
       fields[key].addEventListener("blur", function () {
-        var v = fields[key].value.trim();
-        if ((!v || v === "(+63) 9") && !triedNext) return;
+        if (!fields[key].value.trim() && !triedNext) return;
         var errors = validate(readForm());
         if (errors[key]) F.setError(fields[key], errors[key]);
         else F.clearError(fields[key]);
       });
     });
 
-    // Sets up both MM/DD/YYYY date fields (auto slashes and calendar button).
     Array.prototype.forEach.call(container.querySelectorAll(".date-wrap"), function (wrap) {
       F.setupDateField(wrap, function (input) { input.dispatchEvent(new Event("blur")); });
     });
-
-    // Fills in check-out from check-in plus the package's nights (e.g. 3 Days, 2 Nights -> +2).
-    function predictCheckOut() {
-      var p = pkgBySlug(fields.package.value);
-      var inDate = F.parseDate(fields.checkIn.value);
-      var nights = p && /(\d+)\s*Nights?/i.exec(p.duration);
-      if (!inDate || !nights) return;
-      var out = new Date(inDate.getFullYear(), inDate.getMonth(), inDate.getDate() + Number(nights[1]));
-      fields.checkOut.value = F.formatDate(out);
-      if (triedNext) showErrors(validate(readForm()));
-      else F.clearError(fields.checkOut);
-    }
-    fields.checkIn.addEventListener("input", predictCheckOut);
-    fields.package.addEventListener("change", predictCheckOut);
 
     $("back-btn").addEventListener("click", function () {
       saveDraft(1);
@@ -434,7 +397,6 @@
       return new Promise(function (resolve) { setTimeout(resolve, 400); });
     }
 
-    // Submit Booking: build the payload, send it, then show the notice (or an error).
     submitBtn.addEventListener("click", function () {
       if (!booking) return;
       var p = pkgBySlug(booking.package);
@@ -478,13 +440,11 @@
 
     var stopCountdown = function () {};
 
-    // Leaves the notice: scroll to the top of Home, or go to the Home page.
     function goHome() {
       stopCountdown();
       F.goHome(api);
     }
 
-    // Starts the 5-second countdown on the submitted notice.
     function startCountdown() {
       stopCountdown();
       stopCountdown = F.startCountdown(countdownEl, REDIRECT_SECONDS, goHome);
@@ -510,7 +470,6 @@
         // Closed on the confirmation step? Reopen there if it's still valid.
         if (!(saved && saved.step === 2 && goToConfirm())) showStep(1);
       },
-      // Called when the pop-up closes: stops the countdown and resets to step 1.
       onClose: function () {
         // Closing on the submitted notice just stops the countdown and
         // leaves the visitor on the page they were on.
