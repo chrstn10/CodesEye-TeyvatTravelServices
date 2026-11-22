@@ -7,7 +7,7 @@
   var PACKAGES = window.PH_PACKAGES;
   var DRAFT_KEY = "ph-inquiry-draft";
   var REDIRECT_SECONDS = 5;
-  var NOT_SURE = "not-sure";
+  var OTHERS = "others";
 
   var TEMPLATE = `
   <!-- Step 1: fill-up form -->
@@ -47,7 +47,7 @@
 
       <div class="field">
         <label class="field-label" for="inquiry-phone">Phone Number:<span class="req" aria-hidden="true">*</span></label>
-        <input class="pill-input" type="tel" id="inquiry-phone" name="phone" placeholder="(+63)9XX-XXX-XXXX"
+        <input class="pill-input" type="tel" id="inquiry-phone" name="phone" placeholder="(+63) 9XX-XXX-XXXX"
                autocomplete="tel" inputmode="tel" maxlength="20" required aria-describedby="inquiry-phone-error">
         <p class="field-error" id="inquiry-phone-error" hidden></p>
       </div>
@@ -63,15 +63,15 @@
         <label class="field-label" for="inquiry-destination">Where would you like to travel? <span class="opt">(optional)</span></label>
         <select class="pill-input pill-select" id="inquiry-destination" name="destination" aria-describedby="inquiry-destination-error">
           <option value="" selected>Select a nation</option>
-          <!-- The 7 nations come from assets/js/packages.js; "Not sure yet" is added last -->
+          <!-- The 7 nations come from assets/js/packages.js; "Others" is added last -->
         </select>
         <p class="field-error" id="inquiry-destination-error" hidden></p>
       </div>
 
       <div class="field">
         <label class="field-label" for="inquiry-budget">What is your budget for this travel? <span class="opt">(optional)</span></label>
-        <input class="pill-input" type="number" id="inquiry-budget" name="budget" min="1" step="1"
-               inputmode="numeric" placeholder="Amount in PHP" aria-describedby="inquiry-budget-error">
+        <input class="pill-input" type="text" id="inquiry-budget" name="budget"
+               inputmode="decimal" placeholder="Amount in PHP" aria-describedby="inquiry-budget-error">
         <p class="field-error" id="inquiry-budget-error" hidden></p>
       </div>
 
@@ -136,7 +136,7 @@
     var currentStep = 1;
     var stopCountdown = function () {};
 
-    /* ---------- Destination dropdown: 7 nations + "Not sure yet" ---------- */
+    /* ---------- Destination dropdown: 7 nations + "Others" ---------- */
 
     PACKAGES.forEach(function (p) {
       var opt = document.createElement("option");
@@ -144,11 +144,12 @@
       opt.textContent = p.name;
       fields.destination.appendChild(opt);
     });
-    // "Not sure yet" is added as the last choice.
-    var notSure = document.createElement("option");
-    notSure.value = NOT_SURE;
-    notSure.textContent = "Not sure yet";
-    fields.destination.appendChild(notSure);
+    var others = document.createElement("option");
+    others.value = OTHERS;
+    others.textContent = "Others";
+    fields.destination.appendChild(others);
+
+    F.setupPhoneField(fields.phone);
 
     /* ---------- Reading and checking the form ---------- */
 
@@ -163,6 +164,7 @@
       Object.keys(fields).forEach(function (key) {
         if (data[key] !== undefined && data[key] !== null) fields[key].value = data[key];
       });
+      F.fixPhone(fields.phone);
     }
 
     // Name, email, phone and message are required. Guests, destination and
@@ -182,12 +184,12 @@
         else if (guests > 50) errors.guests = "For groups over 50, please mention the size in your message and enter 50 here.";
       }
 
-      if (d.destination && !isNation(d.destination) && d.destination !== NOT_SURE) {
-        errors.destination = "Please choose one of the listed nations, or \"Not sure yet\".";
+      if (d.destination && !isNation(d.destination) && d.destination !== OTHERS) {
+        errors.destination = "Please choose one of the listed nations, or \"Others\".";
       }
 
       if (d.budget) {
-        var budget = Number(d.budget);
+        var budget = Number(d.budget.replace(/,/g, ""));
         if (!isFinite(budget) || budget <= 0) errors.budget = "Your budget must be a positive amount in PHP.";
       }
 
@@ -223,7 +225,8 @@
     // Check a field as soon as the visitor leaves it (only if they typed something).
     Object.keys(fields).forEach(function (key) {
       fields[key].addEventListener("blur", function () {
-        if (!fields[key].value.trim() && !triedSubmit) return;
+        var v = fields[key].value.trim();
+        if ((!v || v === "(+63) 9") && !triedSubmit) return;
         var errors = validate(readForm());
         if (errors[key]) F.setError(fields[key], errors[key]);
         else F.clearError(fields[key]);
@@ -257,8 +260,8 @@
         email: d.email,
         phone: F.formatPhone(d.phone),
         guests: d.guests ? Number(d.guests) : null,     // optional
-        destination: d.destination || null,             // nation slug, "not-sure", or null
-        budget: d.budget ? Number(d.budget) : null,     // PHP, optional
+        destination: d.destination || null,             // nation slug, "others", or null
+        budget: d.budget ? Number(d.budget.replace(/,/g, "")) : null, // PHP, optional
         message: d.message,
         page: location.pathname.split("/").pop() || "index.html",
         submittedAt: new Date().toISOString()
@@ -336,6 +339,20 @@
         // leaves the visitor on the page they were on.
         stopCountdown();
         currentStep = 1;
+      },
+      // Close confirmation (form-modal.js); skipped on the submitted notice.
+      askBeforeClose: function () {
+        return currentStep !== 2;
+      },
+      save: function () {
+        saveDraft();
+      },
+      discard: function () {
+        F.remove(DRAFT_KEY);
+        triedSubmit = false;
+        form.reset();
+        F.showErrors(fields, {});
+        submitError.hidden = true;
       }
     };
   }
